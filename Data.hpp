@@ -50,6 +50,9 @@ class Mesh {
 		void newCell(Cell * theCell);
 		void setName(string newName);
 		int getSize();
+		void setRowsCols(int r, int c);
+		int getRows();
+		int getCols();
 		string getName();
 		bool isNull();
 		void prettyPrint();
@@ -83,6 +86,8 @@ class Mesh {
 	    string threatStatus; // 'CR', 'EN', or 'VU'
 	    vector<int> threatSubcriteriaA; // 1, 2, 3, or 4
 		vector<Cell*> cellColl;
+		int rows;
+		int cols;
 		float means[2];
 		float stadevs[2];
 

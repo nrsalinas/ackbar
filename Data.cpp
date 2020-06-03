@@ -57,6 +57,8 @@ Mesh::Mesh(int size, string inname, float mean0, float mean1, float stadev0,
 		cellColl[i] = new Cell(0.0);
 		}
 
+	rows = 0;
+	cols = 0;
 	neighborhood.resize(size);
 	
 	name = inname;
@@ -87,15 +89,46 @@ float Mesh::getValue(int index){
 	return cellColl[index]->getValue();
 	}
 
+void Mesh::setRowsCols(int r, int c){
+	rows = r;
+	cols = c;
+	}
+
+int Mesh::getRows(){
+	return rows;
+	}
+
+int Mesh::getCols(){
+	return cols;
+	}
+
 void Mesh::prettyPrint(){
-	for (int i = 0; i < cellColl.size(); i++){
-		if (cellColl[i]->getValue() > 0){
-			cout << 1;
-			} else {
-				cout << 0;
+	
+	if ((rows > 0) & (cols > 0)) {
+		int ci;
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				ci = (r * cols) + c;
+				if (cellColl[ci]->getValue() > 0){
+					cout << 1;
+					} else {
+						cout << 0;
+						}
 				}
-		}
-	cout << endl;
+			cout << endl;
+			}
+
+		} else {
+
+			for (int i = 0; i < cellColl.size(); i++){
+				if (cellColl[i]->getValue() > 0){
+					cout << 1;
+					} else {
+						cout << 0;
+						}
+				}
+			cout << endl;
+			}
 	}
 
 void Mesh::resetNeighborhood(){

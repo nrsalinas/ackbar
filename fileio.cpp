@@ -123,13 +123,14 @@ vector<Mesh*> togrid(map<string, map<float, map<float, int>>> &indata, float cel
 
 	cout << originLat << ", " << originLon << endl;
 	cout << spanLat << ", " << spanLon << endl;
-	cout << totRows << ", " << totCols << endl;
+	cout << "Rows: " << totRows << ", Cols: " << totCols << endl;
 
 	// encode
 
 	for (itspp = indata.begin(); itspp != indata.end(); itspp++) {
 
 		Mesh * amesh = new Mesh( (totCols * totRows), itspp->first );
+		amesh->setRowsCols(totRows, totCols);
 
 		for (itlat = indata[itspp->first].begin(); itlat != indata[itspp->first].end(); itlat++) {
 	
@@ -146,6 +147,7 @@ vector<Mesh*> togrid(map<string, map<float, map<float, int>>> &indata, float cel
 					tRow = 1;
 					}
 
+				cellIdx = ((tRow-1) * totCols) + (tCol-1);
 				amesh->setValue(cellIdx, 1);
 
 				}
@@ -187,9 +189,11 @@ int main(){
 
 	cout << nspp << " species." << endl;
 
-	mytiles = togrid(indata, 5, 5);
+	mytiles = togrid(indata, 7, 5);
 
 	for (int i = 0; i < mytiles.size(); i++) {
+		cout << mytiles[i]->getName() << endl;
+		mytiles[i]->prettyPrint();
 		delete mytiles[i];
 		}
 
