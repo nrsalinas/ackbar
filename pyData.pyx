@@ -1,6 +1,9 @@
 # distutils: language = c++
 
-from libcpp.string cimport string
+#from libcpp.string cimport string
+#from libcpp.map cimport map as mapcpp
+#from libcpp.vector cimport vector
+#from cython.operator import dereference, postincrement
 
 from pyData cimport Mesh
 
@@ -21,7 +24,10 @@ cdef class pyMesh:
 		self.thismesh.setValue(index, theVal)
 		
 	def getValue(self, int index):
-		return self.thismesh.getValue(index)
+		if index < 0 or index >= self.thismesh.getSize():
+			raise IndexError("Index {0} out of range".format(index))
+		else:
+			return self.thismesh.getValue(index)
 
 	def getSize(self):
 		return self.thismesh.getSize()
@@ -93,7 +99,37 @@ cdef class pySolution:
 	def score(self, newScore):
 		self.thissol.score = newScore
 
+
+	@property
+	def spp2crit(self):
+		"""
+		out = {}
+		cdef mapcpp[int,vector[int]] mymap = self.thissol.spp2crit
+		cdef mapcpp[int,vector[int]].iterator it = mymap.begin()
+		while(it != mymap.end()):
+			out[dereference(it).first] = dereference(it).second
+			postincrement(it)
+		return out
+		"""
+		return self.thissol.spp2crit
 #	map<int, vector<int>> spp2crit;
+
+	def setValue(self, int index, float theVal):
+		self.thissol.setValue(index, theVal)
+		
+	def getValue(self, int index):
+		return self.thissol.getValue(index)
+
+	def getSize(self):
+		return self.thissol.getSize()
+
+	def isNull(self):
+		return self.thissol.isNull()
+
+	def randomize(self):
+		self.thissol.randomize()
+
+
 
 
 def evalFit(pySolution mySol, list myObs, double overPenalty, bool updateAll):

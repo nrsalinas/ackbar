@@ -1,5 +1,6 @@
 from libcpp.vector cimport vector
 from libcpp.string cimport string
+from libcpp.map cimport map as cppmap
 from libcpp cimport bool
 
 cdef extern from "Data4py.cpp":
@@ -14,8 +15,8 @@ cdef extern from "Data4py.hpp":
 		Mesh() except +
 		Mesh(int size, string inname, string threatCat) except +
 
-		void setValue(int index, float value)
-		float getValue(int index)
+		void setValue(int index, double value)
+		double getValue(int index)
 		void setName(string newName)
 		int getSize()
 		string getName()
@@ -32,10 +33,10 @@ cdef extern from "Data4py.hpp":
 		void newThreatSubcriteriaA(int subcri)
 		vector[int] getThreatSubcriteriaA()
 		
-		void setMean(int indx, float value)
-		void setStadev(int indx, float value)
-		float getMean(int indx)
-		float getStadev(int indx)
+		void setMean(int indx, double value)
+		void setStadev(int indx, double value)
+		double getMean(int indx)
+		double getStadev(int indx)
 		void randomize()
 
 
@@ -45,6 +46,12 @@ cdef extern from "Data4py.hpp":
 		SolutionB(int size) except +
 		SolutionB(Mesh * mother) except +
 		int critA, critB, score
+		void setValue(int index, double value)
+		double getValue(int index)
+		int getSize()
+		bool isNull()
+		void randomize()
+		cppmap[int, vector[int]] spp2crit
 
 cdef extern from "search4py.cpp":
 	pass

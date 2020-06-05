@@ -13,29 +13,29 @@ class Cell {
 
 	public:
 
-		Cell(float invalue = -1, int ingeometry = 0, float inxCentroid = 0.0, float inyCentroid = 0.0);
+		Cell(double invalue = -1, int ingeometry = 0, double inxCentroid = 0.0, double inyCentroid = 0.0);
 	    ~Cell();
-		void setValue(float theVal);
-		float getValue();
+		void setValue(double theVal);
+		double getValue();
 
 		void newNeigh(Cell * theNei);
 		Cell * getNeigh(int index);
 		int neighSize();
 
-		float storedCorners();
-		void addCorner(float lon, float lat);
-		float getCorner(int index);
+		double storedCorners();
+		void addCorner(double lon, double lat);
+		double getCorner(int index);
 
 
 	private:
 
-	    float value;
+	    double value;
 	    unsigned neighs; // number of neighbors
 	    int geometry; // 0 = square, 1 = hexagonal, 2 = triangular
-	    float xCentroid;
-	    float yCentroid;
+	    double xCentroid;
+	    double yCentroid;
 	    Cell * neiPoints[6]; // array of neighbors' pointers
-	    vector<float> corners; // corner coordinates. For each corner, first figure given is longitude, then latitude.
+	    vector<double> corners; // corner coordinates. For each corner, first figure given is longitude, then latitude.
 
   	};
 
@@ -54,8 +54,8 @@ class Mesh {
 		string getName();
 		bool isNull();
 
-		void setValue(int index, float value);
-		float getValue(int index);
+		void setValue(int index, double value);
+		double getValue(int index);
 
 		void resetNeighborhood();
 		void linkNeighs(int indexA, int indexB);
@@ -68,10 +68,10 @@ class Mesh {
 		void newThreatSubcriteriaA(int subcri);
 		vector<int> getThreatSubcriteriaA();
 		
-		void setMean(int indx, float value);
-		void setStadev(int indx, float value);
-		float getMean(int indx);
-		float getStadev(int indx);
+		void setMean(int indx, double value);
+		void setStadev(int indx, double value);
+		double getMean(int indx);
+		double getStadev(int indx);
 		Mesh * copy();
 		void randomize();
 
@@ -83,8 +83,8 @@ class Mesh {
 	    string threatStatus; // 'CR', 'EN', or 'VU'
 	    vector<int> threatSubcriteriaA; // 1, 2, 3, or 4
 		vector<Cell*> cellColl;
-		float means[2];
-		float stadevs[2];
+		double means[2];
+		double stadevs[2];
 
 	};
 

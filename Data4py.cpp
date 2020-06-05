@@ -1,6 +1,6 @@
 #include "Data4py.hpp"
 
-Cell::Cell(float invalue, int ingeometry, float inxCentroid, float inyCentroid){
+Cell::Cell(double invalue, int ingeometry, double inxCentroid, double inyCentroid){
 	value = invalue;
 	neighs = 0;
 	geometry = ingeometry;
@@ -11,11 +11,11 @@ Cell::Cell(float invalue, int ingeometry, float inxCentroid, float inyCentroid){
 Cell::~Cell(){
 	}
 
-void Cell::setValue(float theVal){
+void Cell::setValue(double theVal){
 	value = theVal;
 	}
 
-float Cell::getValue(){
+double Cell::getValue(){
 	return value;
 	}
 
@@ -33,17 +33,17 @@ Cell * Cell::getNeigh(int index){
 	return neiPoints[index];
 	}
 
-float Cell::storedCorners(){
-	float out = (float) corners.size() / 2.0;
+double Cell::storedCorners(){
+	double out = (double) corners.size() / 2.0;
 	return out;
 	}
 
-void Cell::addCorner(float lon, float lat){
+void Cell::addCorner(double lon, double lat){
 	corners.push_back(lon);
 	corners.push_back(lat);
 	}
 
-float Cell::getCorner(int index){
+double Cell::getCorner(int index){
 	return corners[index];
 	}
 
@@ -76,11 +76,11 @@ void Mesh::newCell(Cell * theCell){
 	cellColl.push_back(theCell);
 	}
 
-void Mesh::setValue(int index, float value){
+void Mesh::setValue(int index, double value){
 	cellColl[index]->setValue(value);
 	}
 
-float Mesh::getValue(int index){
+double Mesh::getValue(int index){
 	return cellColl[index]->getValue();
 	}
 
@@ -186,23 +186,23 @@ bool Mesh::isNull(){
 
 void Mesh::randomize(){
 	for (int i = 0; i < cellColl.size(); i++){
-		cellColl[i]->setValue( (float) (rand() % 2) );
+		cellColl[i]->setValue( (double) (rand() % 2) );
 		}
 	}
 
-void Mesh::setMean(int indx, float value){
+void Mesh::setMean(int indx, double value){
 	means[indx] = value;
 	}
 	
-void Mesh::setStadev(int indx, float value){
+void Mesh::setStadev(int indx, double value){
 	stadevs[indx] = value;
 	}
 
-float Mesh::getMean(int indx){
+double Mesh::getMean(int indx){
 	return means[indx];
 	}
 	
-float Mesh::getStadev(int indx){
+double Mesh::getStadev(int indx){
 	return stadevs[indx];
 	}
 

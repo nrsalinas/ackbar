@@ -22,6 +22,8 @@ class InputData(object):
 		self.cols = None
 		self.geometry = None
 		self.csvfile = infile
+		self.presence_grid = []
+		self.index_reg = {}
 		lineCounter = 0
 		latCol = int()
 		lonCol = int()
@@ -109,9 +111,9 @@ class InputData(object):
 						if re.search("subcriter",row[ic],flags=re.I):
 							subcritACol = ic
 							continue
-					print(nameCol)
-					print(categCol)
-					print(subcritACol)
+					#print(nameCol)
+					#print(categCol)
+					#print(subcritACol)
 					if nameCol is None or categCol is None or subcritACol is None:
 						raise IOError("Input file `{0}`: column labels do not follow the required format (`Taxon`, `Category`, `SubcriteriaA`).".format(filename))
 				
@@ -247,7 +249,7 @@ class InputData(object):
 		# Select cells that are spatially excluded
 		############################################
 
-		presence_grid = [[0 for x in range(totCols)] for x in range(totRows)]
+		self.presence_grid = [[0 for x in range(totCols)] for x in range(totRows)]
 		grid_coll = []
 
 		for taxon in self.points:
@@ -270,24 +272,26 @@ class InputData(object):
 				else:
 					y = int(apprindy - 1)
 
-				th = self.points[taxon][lon,lat] / totPops
-								
+				th = self.points[taxon][lon,lat] / totPops								
 				grid[y][x] += th
-				grid_coll.append(grid)
+				self.presence_grid[y][x] += th
+				
+			#for row in grid:
+			#	print(row)
+			grid_coll.append(grid)
 
-				presence_grid[y][x] += th
 
-		index_reg = {}
+		self.index_reg = {}
 
 		act_size = 0
-		for ir, row in enumerate(presence_grid):
+		for ir, row in enumerate(self.presence_grid):
 			for ic, cel in enumerate(row):
 				if cel > 0:
-					index_reg[(ir, ic)] = act_size
+					self.index_reg[(ir, ic)] = act_size
 					act_size += 1
 
 		for it, taxon in enumerate(self.points):
-
+			#print(taxon)
 			# instanciate pyMesh
 			cat = self.iucn[taxon]['category']
 			#tile = pyData.pyMesh(self.rows * self.cols, taxon, cat)
@@ -297,14 +301,14 @@ class InputData(object):
 			#print('Rows: {0}, Cols: {1}'.format(self.rows, self.cols))
 			for r in range(self.rows):
 				for c in range(self.cols):
-					if presence_grid[r][c] > 0:
+					if self.presence_grid[r][c] > 0:
 						#print('{0}, {1}: {2}'.format(r, c, grid_coll[it][r][c]))
-						ia = (self.cols * r) + c
 						rowNeighs = [r]
 						colNeighs = [c]
 						
-						if grid_coll[it][r][c] > 1:
-							tile.setValue(index_reg[(r, c)], grid_coll[it][r][c])
+						if grid_coll[it][r][c] > 0:
+							#print("Index: {0}, row: {1}, col: {2}".format(self.index_reg[(r, c)], r, c))
+							tile.setValue(self.index_reg[(r, c)], grid_coll[it][r][c])
 
 						if r > 0:
 							rowNeighs.append(r-1)
@@ -319,16 +323,14 @@ class InputData(object):
 							colNeighs.append(c+1)
 
 						for nr in rowNeighs:
-							if r != nr and presence_grid[nr][c] > 0:
+							if r != nr and self.presence_grid[nr][c] > 0:
 								#print('\t{0}, {1}'.format(nr, c))
-								ib = (self.cols * nr) + c
-								tile.linkNeighs(index_reg[(r, c)], index_reg[(nr, c)])
+								tile.linkNeighs(self.index_reg[(r, c)], self.index_reg[(nr, c)])
 
 						for nc in colNeighs:
-							if c != nc and presence_grid[r][nc] > 0:
+							if c != nc and self.presence_grid[r][nc] > 0:
 								#print('\t{0}, {1}'.format(r, nc))
-								ib = (self.cols * r) + nc
-								tile.linkNeighs(index_reg[(r, c)], index_reg[(r, nc)])
+								tile.linkNeighs(self.index_reg[(r, c)], self.index_reg[(r, nc)])
 
 						#print("{0},{1}. Neighs: {2}".format(r, c, neighs))
 
@@ -336,4 +338,32 @@ class InputData(object):
 			tileStack.append(tile)
 
 		return tileStack
+
+
+	def tile2str(self, tile):
+		"""
+		Get string of Tile given a encodification scheme. Only for testing.
+		"""
+		if tile.getSize() == len(self.index_reg):		
+			ms = ''
+
+			for r in range(self.rows):
+
+				for c in range(self.cols):
+
+					if self.presence_grid[r][c] > 0:
+						val = tile.getValue(self.index_reg[(r, c)])
+
+						if val > 0:
+							ms += '1 '
+
+						else:
+							ms += '0 '
+
+					else:
+						ms += '- '
+
+				ms += '\n'
+
+			return ms
 
