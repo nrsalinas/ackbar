@@ -99,20 +99,17 @@ cdef class pySolution:
 	def score(self, newScore):
 		self.thissol.score = newScore
 
+	@property
+	def ndmScore(self):
+		return self.thissol.ndmScore
+
+	@property
+	def extent(self):
+		return self.thissol.extent
 
 	@property
 	def spp2crit(self):
-		"""
-		out = {}
-		cdef mapcpp[int,vector[int]] mymap = self.thissol.spp2crit
-		cdef mapcpp[int,vector[int]].iterator it = mymap.begin()
-		while(it != mymap.end()):
-			out[dereference(it).first] = dereference(it).second
-			postincrement(it)
-		return out
-		"""
 		return self.thissol.spp2crit
-#	map<int, vector<int>> spp2crit;
 
 	def setValue(self, int index, float theVal):
 		self.thissol.setValue(index, theVal)

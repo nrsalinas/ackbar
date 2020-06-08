@@ -45,7 +45,8 @@ cdef extern from "Data4py.hpp":
 		SolutionB() except +
 		SolutionB(int size) except +
 		SolutionB(Mesh * mother) except +
-		int critA, critB, score
+		int critA, critB, score, extent
+		double ndmScore
 		void setValue(int index, double value)
 		double getValue(int index)
 		int getSize()

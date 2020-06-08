@@ -225,12 +225,16 @@ SolutionB::SolutionB(int size): Mesh(size){
 	critA = 0;
 	critB = 0;
 	score = 0;
+	ndmScore = 0.0;
+	extent = 0;
 	}
 
 SolutionB::SolutionB(Mesh * mother): Mesh(mother->getSize()) {
 	critA = 0;
 	critB = 0;
 	score = 0;
+	ndmScore = 0.0;
+	extent = 0;
 	this->neighsFromList(mother->getNeighborhood());
 
 	for (int i = 0; i < mother->getSize(); i++){

@@ -100,12 +100,14 @@ class SolutionB : public Mesh {
 	int critA;
 	int critB;
 	int score;
+	double ndmScore;
+	int extent;
 	map<int, vector<int>> spp2crit;
 	/* keys are indexes in observations vector. Values are vectors integers that 
 	associates to KBA criteria. Code options are:
 		0 = A1a
 		1 = A1b
-		2 = Aic
+		2 = A1c
 		3 = A1d
 		4 = A1e
 		5 = B1

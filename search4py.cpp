@@ -5,16 +5,26 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPe
 	rsearchSol->score = 0;
 	rsearchSol->critA = 0;
 	rsearchSol->critB = 0;
+	rsearchSol->ndmScore = 0.0;
+	rsearchSol->extent = 0;
+	
+	double outerFactor = 0.25;
+
 	if (updateAll){
 		rsearchSol->spp2crit.clear();
 		}
 
 	for(int i = 0; i < observations.size(); i++){
+		double innerPresences = 0;
+		double outerPresences = 0;
 		double popIncluded = 0.0; 
 		double thisScore = 0.0;
 		string status = observations[i]->getThreatStatus();
 		vector <int> subcritA = observations[i]->getThreatSubcriteriaA();
 		bool properA = false;
+		int suppA = 0;
+		int suppB = 0;
+
 		for (int a = 0; a < subcritA.size(); a++){
 			if ((subcritA[a] == 1) || (subcritA[a] == 2) || (subcritA[a] == 4)) {
 				properA = true;
@@ -24,26 +34,43 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPe
 
 		for(int c = 0; c < rsearchSol->getSize(); c++){
 			if (rsearchSol->getValue(c) > 0){
-				popIncluded += (double) observations[i]->getValue(c);
+				rsearchSol->extent += 1;
 				}
 			}
 
+		for(int c = 0; c < rsearchSol->getSize(); c++){
+			if (rsearchSol->getValue(c) > 0){
+				popIncluded += observations[i]->getValue(c);
+				if (observations[i]->getValue(c) > 0) {
+					innerPresences += 1;
+					}
+				} else {
+					if (observations[i]->getValue(c) > 0) {
+						outerPresences += 1;
+						}
+					}
+			}
+
+		rsearchSol->ndmScore += (innerPresences / ((double)rsearchSol->extent + outerPresences * outerFactor));
 
 		if ((status == "CR") || (status == "EN")) {
 			if (popIncluded >= 0.005){
-				rsearchSol->critA += 1;
+				//rsearchSol->critA += 1;
+				suppA = 1;
 				if (updateAll){
 					rsearchSol->spp2crit[i].push_back(0);
 					}
 				}
 			if ((popIncluded >= 0.01) & (properA)) {
-				rsearchSol->critA += 1;
+				//rsearchSol->critA += 1;
+				suppA = 1;
 				if (updateAll){
 					rsearchSol->spp2crit[i].push_back(2);
 					}
 				}
 			if (popIncluded >= 0.95) {
-				rsearchSol->critA += 1;
+				//rsearchSol->critA += 1;
+				suppA = 1;
 				if (updateAll){
 					rsearchSol->spp2crit[i].push_back(4);
 					}
@@ -52,13 +79,15 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPe
 
 			} else if (status == "VU") {
 				if (popIncluded >= 0.01){
-					rsearchSol->critA += 1;
+					//rsearchSol->critA += 1;
+					suppA = 1;
 					if (updateAll){
 						rsearchSol->spp2crit[i].push_back(1);
 						}
 					}
 				if ((popIncluded >= 0.02) & (properA)) {
-					rsearchSol->critA += 1;
+					//rsearchSol->critA += 1;
+					suppA = 1;
 					if (updateAll){
 						rsearchSol->spp2crit[i].push_back(3);
 						}
@@ -67,21 +96,25 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPe
 
 
 		if (popIncluded >= 0.1) {
-			rsearchSol->critB += 1;
+			//rsearchSol->critB += 1;
+			suppB = 1;
 			if (updateAll){
 				rsearchSol->spp2crit[i].push_back(5);
 				}
 			}
 
 		if (popIncluded >= 0.01) {
-			rsearchSol->critB += 1;
+			//rsearchSol->critB += 1;
+			suppB = 1;
 			if (updateAll){
 				rsearchSol->spp2crit[i].push_back(6);
 				}
 			}
 
-
+		rsearchSol->critA += suppA;
+		rsearchSol->critB += suppB;
 		}
+		
 	rsearchSol->score = rsearchSol->critA + rsearchSol->critB;
 	}
 
