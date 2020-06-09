@@ -435,3 +435,50 @@ vector<SolutionB*> interCompl (SolutionB * solA, SolutionB * solB) {
 
 	return out;
 	}
+
+
+void expand(vector<Mesh*> &observations, map<int, vector<int>> &clusters, map<int, int> &visited, int label, int border, double eps) {
+
+	for (int i = 0; i < observations.size(); i++) {
+
+		if ((visited[i] == 0) && (i != border)) {
+
+			if (eps > kulczynski(observations[border], observations[i])) {
+
+				clusters[label].push_back(i);
+				visited[i] = 1;
+				expand(observations, clusters, visited, label, i, eps);
+
+				}
+
+			}
+
+		}
+
+	}
+
+map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
+
+	map<int, vector<int>> out;
+	map<int, int> visited;
+	int label = -1;
+
+	for (int i = 0; i < observations.size(); i++) {
+		visited[i] = 0;
+		}
+
+	for (int i = 0; i < observations.size(); i++) {
+		
+		if (visited[i] == 0) {
+
+			label += 1;
+			out[label].push_back(i);
+			visited[i] = 1;
+			expand(observations, out, visited, label, i, eps);
+
+			}
+		}
+
+	return out;
+
+	}

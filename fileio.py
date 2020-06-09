@@ -180,6 +180,7 @@ class InputData(object):
 				clusters[pivot] = [pivot]
 				self.expand(taxon, clusters, pivot, pivot, visited, eps)
 
+		# I don think the following loop will be necessary
 		for q in self.points[taxon]:
 			qIsAlone = 1
 			for key in clusters:

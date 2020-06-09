@@ -32,4 +32,8 @@ bool equal (Mesh * meshA, Mesh * meshB);
 
 vector<SolutionB*> interCompl (SolutionB * solA, SolutionB * solB);
 
+void expand(vector<Mesh*> &observations, map<int, vector<int>> &clusters, map<int, int> &visited, int label, int border, double eps);
+
+map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps);
+
 #endif

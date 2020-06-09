@@ -190,21 +190,6 @@ void Mesh::randomize(){
 		}
 	}
 
-void Mesh::setMean(int indx, double value){
-	means[indx] = value;
-	}
-	
-void Mesh::setStadev(int indx, double value){
-	stadevs[indx] = value;
-	}
-
-double Mesh::getMean(int indx){
-	return means[indx];
-	}
-	
-double Mesh::getStadev(int indx){
-	return stadevs[indx];
-	}
 
 Mesh * Mesh::copy(){
 	Mesh * thisCopy = new Mesh(this->cellColl.size());

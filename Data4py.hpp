@@ -68,10 +68,7 @@ class Mesh {
 		void newThreatSubcriteriaA(int subcri);
 		vector<int> getThreatSubcriteriaA();
 		
-		void setMean(int indx, double value);
-		void setStadev(int indx, double value);
-		double getMean(int indx);
-		double getStadev(int indx);
+	
 		Mesh * copy();
 		void randomize();
 
