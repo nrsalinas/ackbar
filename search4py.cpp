@@ -7,7 +7,7 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPe
 	rsearchSol->critB = 0;
 	rsearchSol->ndmScore = 0.0;
 	rsearchSol->extent = 0;
-	
+
 	double outerFactor = 0.25;
 
 	if (updateAll){
@@ -17,7 +17,7 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPe
 	for(int i = 0; i < observations.size(); i++){
 		double innerPresences = 0;
 		double outerPresences = 0;
-		double popIncluded = 0.0; 
+		double popIncluded = 0.0;
 		double thisScore = 0.0;
 		string status = observations[i]->getThreatStatus();
 		vector <int> subcritA = observations[i]->getThreatSubcriteriaA();
@@ -114,7 +114,7 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPe
 		rsearchSol->critA += suppA;
 		rsearchSol->critB += suppB;
 		}
-		
+
 	rsearchSol->score = rsearchSol->critA + rsearchSol->critB;
 	}
 
@@ -219,15 +219,15 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		thisObs = rand() % clusters[thisClus].size();
 		thisObs = clusters[thisClus][thisObs];
 		thisCell = rand() % observations[thisObs]->getSize();
-		
+
 		while (observations[thisObs]->getValue(thisCell) <= 0) {
 			thisCell = rand() % observations[thisObs]->getSize();
 			}
-		
+
 		exclMap[thisCell] = 1;
 		island.push_back(thisCell);
 
-		borderExpansion(observations[thisObs], thisCell, exclMap, island);	
+		borderExpansion(observations[thisObs], thisCell, exclMap, island);
 
 		SolutionB * aSol = new SolutionB(observations[thisObs]->getSize());
 		aSol->neighsFromList(observations[thisObs]->getNeighborhood());
@@ -242,15 +242,15 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 
 		fitness(aSol, observations, 0.3, false);
 
-/*	Assess competitors to aSol already in mySols
-	Don't add to mySols Solution with the exact same 
+	/*	Assess competitors to aSol already in mySols
+	Don't add to mySols Solution with the exact same
 	shape is in the vector                            */
 
 		for (int i = 0; i < mySols.size(); i++){
 			if (equal(aSol, mySols[i])) {
 				breakOuter = true;
 				break;
-				}	
+				}
 			}
 
 		if(breakOuter) {
@@ -262,10 +262,10 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		}
 
 	/*##############################################
- 	Get intersection and complements of solutions that partially overlap. 
+ 	Get intersection and complements of solutions that partially overlap.
  	However, intersections and complements could be not continuous!
 	Thus, move this code to the steady state perturbation routine
-		
+
 	bool addme = false;
 	for (int i = 0; i < mySols.size(); i++) {
 		for (int j = i + 1; j < mySols.size(); j++) {
@@ -274,7 +274,7 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 				vector <SolutionB *> newCand = interCompl(mySols[i], mySols[j]);
 				for (int c = 0; c < newCand.size(); c++) {
 					addme = false;
-					
+
 					for (int k = 0; k < mySols.size(); k++) {
 						if (equal(newCand[c], mySols[k])) {
 							break;
@@ -382,16 +382,16 @@ bool equal (Mesh * meshA, Mesh * meshB) {
 vector<SolutionB*> interCompl (SolutionB * solA, SolutionB * solB) {
 //	cout << "In interCompl function. Initial Solution objects:" << endl;
 	vector<SolutionB*> out;
-	// a = A not B, b = B not A, ab = A and B
+// a = A not B, b = B not A, ab = A and B
 	SolutionB * a = new SolutionB(solA->getSize());
 	a->neighsFromList(solA->getNeighborhood());
 	SolutionB * b = new SolutionB(solA->getSize());
 	b->neighsFromList(solA->getNeighborhood());
 	SolutionB * ab = new SolutionB(solA->getSize());
 	ab->neighsFromList(solA->getNeighborhood());
-//	a->prettyPrint();
-//	b->prettyPrint();
-//	ab->prettyPrint();
+	//	a->prettyPrint();
+	//	b->prettyPrint();
+	//	ab->prettyPrint();
 
 
 
@@ -407,31 +407,31 @@ vector<SolutionB*> interCompl (SolutionB * solA, SolutionB * solB) {
 				}
 		}
 
-//	cout << "\nSolution objects prefiltering:" << endl;
-//	a->prettyPrint();
-//	b->prettyPrint();
-//	ab->prettyPrint();
+	//	cout << "\nSolution objects prefiltering:" << endl;
+	//	a->prettyPrint();
+	//	b->prettyPrint();
+	//	ab->prettyPrint();
 
 	if (a->isNull() || equal(a, solA)) {
-//		cout << "Deleting a." << endl;
+	//		cout << "Deleting a." << endl;
 		delete a;
 		} else {
 			out.push_back(a);
 			}
 
 	if (b->isNull() || equal(b, solB)) {
-//		cout << "Deleting b." << endl;
+	//		cout << "Deleting b." << endl;
 		} else {
 			out.push_back(b);
 			}
 
 	if (ab->isNull()) {
-//		cout << "Deleting ab." << endl;
+	//		cout << "Deleting ab." << endl;
 		} else {
 			out.push_back(ab);
 			}
 
-//		cout << "Leaving interCompl function." << endl;
+	//		cout << "Leaving interCompl function." << endl;
 
 	return out;
 	}
@@ -468,7 +468,7 @@ map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
 		}
 
 	for (int i = 0; i < observations.size(); i++) {
-		
+
 		if (visited[i] == 0) {
 
 			label += 1;
