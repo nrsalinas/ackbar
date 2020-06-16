@@ -1,7 +1,6 @@
 #include "search4py.hpp"
 
-void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPenalty,
-	bool updateAll){
+void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPenalty, bool updateAll){
 	rsearchSol->score = 0;
 	rsearchSol->critA = 0;
 	rsearchSol->critB = 0;
@@ -116,6 +115,8 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPe
 		}
 
 	rsearchSol->score = rsearchSol->critA + rsearchSol->critB;
+	rsearchSol->aggrScore = (double) rsearchSol->score * rsearchSol->ndmScore;
+	
 	}
 
 
@@ -148,43 +149,58 @@ void perturbDiff(SolutionB * searchMesh, double variance) {
 		}
 	}
 
-void mergeSols(vector<SolutionB*> &population, int lower, int middle, int upper){
+void mergeSols(vector<SolutionB*> &population, int lower, int middle, int upper, string scoreType){
 	vector<SolutionB*> temp;
 	int lowerish = lower;
 	int middlish = middle + 1;
+	double scorel, scorem;
 
 	while ((middlish <= upper) && (lowerish <= middle)) {
-		if(population[lowerish]->score >= population[middlish]->score) {
+		
+		if (scoreType == "iucn") {
+			scorel = (double) population[lowerish]->score;
+			scorem = (double) population[middlish]->score;
+		} else if (scoreType == "ndm") {
+			scorel = population[lowerish]->ndmScore;
+			scorem = population[middlish]->ndmScore;
+		} else if (scoreType == "aggregated") {
+			scorel = population[lowerish]->aggrScore;
+			scorem = population[middlish]->aggrScore;
+		}
+
+		if(scorel >= scorem) {
 			temp.push_back(population[lowerish]);
 			lowerish++;
-			} else {
-				temp.push_back(population[middlish]);
-				middlish++;
-				}
+		} else {
+			temp.push_back(population[middlish]);
+			middlish++;
 		}
+	
+	}
 
 	while (middlish <= upper) {
 		temp.push_back(population[middlish]);
 		middlish++;
-		}
+	}
 
 	while (lowerish <= middle) {
 		temp.push_back(population[lowerish]);
 		lowerish++;
-		}
+	}
 
 	for (int i = lower; i <= upper; i++) {
 		population[i] = temp[i-lower];
-		}
-
 	}
 
-void sortSols(vector<SolutionB*> &population, int lower, int upper){
+}
+
+
+void sortSols(vector<SolutionB*> &population, int lower, int upper, string scoreType){
 	if (lower < upper) {
 		int middle = ((lower + upper) / 2);
-		sortSols(population, lower, middle);
-		sortSols(population, (middle + 1), upper);
-		mergeSols(population, lower, middle, upper);
+		sortSols(population, lower, middle, scoreType);
+		sortSols(population, (middle + 1), upper, scoreType);
+		mergeSols(population, lower, middle, upper, scoreType);
 		}
 	}
 
@@ -214,6 +230,8 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 
 
 	for (int t = 0; t < iters; t++) {
+		exclMap.clear();
+		island.clear();
 		breakOuter = false;
 		thisClus = rand() % clusNum;
 		thisObs = rand() % clusters[thisClus].size();
@@ -224,6 +242,8 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 			thisCell = rand() % observations[thisObs]->getSize();
 			}
 
+		// cout << thisClus << ", " << thisObs << ", " << thisCell << endl;
+
 		exclMap[thisCell] = 1;
 		island.push_back(thisCell);
 
@@ -232,9 +252,9 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		SolutionB * aSol = new SolutionB(observations[thisObs]->getSize());
 		aSol->neighsFromList(observations[thisObs]->getNeighborhood());
 
-		for (int i = 0; i < aSol->getSize(); i++) {
+		/*for (int i = 0; i < aSol->getSize(); i++) {
 			aSol->setValue(i, 0);
-			}
+			}*/
 
 		for (int i = 0; i < island.size(); i++) {
 			aSol->setValue(island[i], 1);
@@ -243,8 +263,7 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		fitness(aSol, observations, 0.3, false);
 
 	/*	Assess competitors to aSol already in mySols
-	Don't add to mySols Solution with the exact same
-	shape is in the vector                            */
+	Don't add to mySols a Solution with a shape already included in the vector */
 
 		for (int i = 0; i < mySols.size(); i++){
 			if (equal(aSol, mySols[i])) {
@@ -253,7 +272,7 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 				}
 			}
 
-		if(breakOuter) {
+		if (breakOuter) {
 			continue;
 			}
 
@@ -261,40 +280,12 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		//cout << "mySols now has " << mySols.size() << " elements\n";
 		}
 
-	/*##############################################
- 	Get intersection and complements of solutions that partially overlap.
- 	However, intersections and complements could be not continuous!
-	Thus, move this code to the steady state perturbation routine
+	/* Create new Solutions using the starting seed
+	Come up with some new areas from the intersection zones of Solutions in the
+	seed.
+	*/
 
-	bool addme = false;
-	for (int i = 0; i < mySols.size(); i++) {
-		for (int j = i + 1; j < mySols.size(); j++) {
-			if (overlap(mySols[i], mySols[j])) {
-				// interCompl
-				vector <SolutionB *> newCand = interCompl(mySols[i], mySols[j]);
-				for (int c = 0; c < newCand.size(); c++) {
-					addme = false;
-
-					for (int k = 0; k < mySols.size(); k++) {
-						if (equal(newCand[c], mySols[k])) {
-							break;
-							} else {
-								addme = true;
-								}
-						}
-					if (addme) {
-						fitness(newCand[c], observations, 0.3);
-						mySols.push_back(newCand[c]);
-						} else {
-							delete newCand[c];
-							}
-
-					}
-				}
-			}
-		} */
-
-	sortSols(mySols, 0, (mySols.size() - 1));
+	sortSols(mySols, 0, (mySols.size() - 1), "aggregated");
 
 	if (mySols.size() > outSize) {
 		for (int i = outSize; i < mySols.size(); i++) {
@@ -314,14 +305,16 @@ void borderExpansion (Mesh * mechita, int cellIndx, map<int, int> &exclMap, vect
 	vector<int> thisNeighs = mechita->getCellNeighs(cellIndx);
 
 	for (int n = 0; n < thisNeighs.size(); n++) {
+
 		if ((mechita->getValue(thisNeighs[n]) > 0) & (exclMap[thisNeighs[n]] == 0)){
+
 			exclMap[thisNeighs[n]] = 1;
 			island.push_back(thisNeighs[n]);
 			borderExpansion(mechita, thisNeighs[n], exclMap, island);
 			}
 		}
-
 	}
+
 
 double kulczynski(Mesh * meshA, Mesh * meshB){
 	double dis = 0.0;
@@ -374,64 +367,16 @@ bool equal (Mesh * meshA, Mesh * meshB) {
 	}
 
 
-/*###################################################################
-#
-# interCompl has to return continuous solutions
-#
-#####################################################################*/
-vector<SolutionB*> interCompl (SolutionB * solA, SolutionB * solB) {
-//	cout << "In interCompl function. Initial Solution objects:" << endl;
-	vector<SolutionB*> out;
-// a = A not B, b = B not A, ab = A and B
-	SolutionB * a = new SolutionB(solA->getSize());
-	a->neighsFromList(solA->getNeighborhood());
-	SolutionB * b = new SolutionB(solA->getSize());
-	b->neighsFromList(solA->getNeighborhood());
-	SolutionB * ab = new SolutionB(solA->getSize());
-	ab->neighsFromList(solA->getNeighborhood());
-	//	a->prettyPrint();
-	//	b->prettyPrint();
-	//	ab->prettyPrint();
-
-
+vector<int> inter (SolutionB * solA, SolutionB * solB) {
+	//	cout << "In interCompl function. Initial Solution objects:" << endl;
+	vector<int> out;
+	// a = A not B, b = B not A, ab = A and B
 
 	for (int i = 0; i < solA->getSize(); i++){
-		if (solA->getValue(i) > 0){
-			if (solB->getValue(i) > 0) {
-				ab->setValue(i, 1);
-				} else {
-					a->setValue(i, 1);
-					}
-			} else if (solB->getValue(i) > 0) {
-				b->setValue(i, 1);
-				}
+		if ((solA->getValue(i) > 0) && (solB->getValue(i) > 0)) {
+			out.push_back(i);
+			}
 		}
-
-	//	cout << "\nSolution objects prefiltering:" << endl;
-	//	a->prettyPrint();
-	//	b->prettyPrint();
-	//	ab->prettyPrint();
-
-	if (a->isNull() || equal(a, solA)) {
-	//		cout << "Deleting a." << endl;
-		delete a;
-		} else {
-			out.push_back(a);
-			}
-
-	if (b->isNull() || equal(b, solB)) {
-	//		cout << "Deleting b." << endl;
-		} else {
-			out.push_back(b);
-			}
-
-	if (ab->isNull()) {
-	//		cout << "Deleting ab." << endl;
-		} else {
-			out.push_back(ab);
-			}
-
-	//		cout << "Leaving interCompl function." << endl;
 
 	return out;
 	}
@@ -457,6 +402,7 @@ void expand(vector<Mesh*> &observations, map<int, vector<int>> &clusters, map<in
 
 	}
 
+
 map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
 
 	map<int, vector<int>> out;
@@ -465,7 +411,7 @@ map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
 
 	for (int i = 0; i < observations.size(); i++) {
 		visited[i] = 0;
-		}
+	}
 
 	for (int i = 0; i < observations.size(); i++) {
 
@@ -476,9 +422,110 @@ map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
 			visited[i] = 1;
 			expand(observations, out, visited, label, i, eps);
 
-			}
 		}
+	}
 
 	return out;
 
+}
+
+
+void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore) {
+
+	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
+	double postscore;
+
+	for (int n = 0; n < thisNeighs.size(); n++) {
+		//cout << "exclMap[thisNeighs[n]] : " << exclMap[thisNeighs[n]] << endl;
+		if (exclMap[thisNeighs[n]] == 0){
+
+			solita->setValue(thisNeighs[n], 1);
+			fitness(solita, observations, 0.3, false);
+			postscore = (double) solita->score * solita->ndmScore;
+			// cout << "prescore: " << prescore << ", postscore: " << postscore << endl; 
+
+			if (postscore > prescore) { 
+
+				exclMap[thisNeighs[n]] = 1;
+				solExpansion(solita, observations, exclMap, thisNeighs[n], postscore);
+
+			} else {
+				
+				solita->setValue(thisNeighs[n], 0);
+
+			}
+		}
 	}
+}
+
+
+vector<SolutionB*> exhSearch (vector<Mesh*> &observations) {
+
+	vector<SolutionB*> out;
+	map<int, int> excluded;
+	int meshSize = observations[0]->getSize();
+	double initscore;
+	bool breakOuter;
+
+	for (int i = 0; i < meshSize; i++) {
+
+		for (int j = 0; j < meshSize; j++) {
+			excluded[j] = 0;
+		}
+
+		SolutionB * asol = new SolutionB(observations[0]);
+		asol->nullMe();
+		asol->setValue(i, 1);
+		fitness(asol, observations, 0.3, false);
+		initscore = asol->aggrScore;
+		
+		if (initscore > 0) {
+
+			breakOuter = false;
+			solExpansion(asol, observations, excluded, i, initscore);
+
+			for (int k = 0; k < out.size(); k++) {
+				
+				if (equal(asol, out[k])) {
+					breakOuter = true;
+					delete asol;
+					break;
+
+				}
+			}
+
+			if (breakOuter) {
+				continue;
+			}
+
+			out.push_back(asol);
+
+		} else {
+
+			delete asol;
+
+		}
+	}
+
+	for (int i = 0; i < out.size(); i++) {
+		for (int j = i + 1; j < out.size(); j++) {
+			break;
+			if (overlap(out[i], out[j])) {
+				if (out[i]->aggrScore > out[j]->aggrScore) {
+					out[j]->aggrScore = 0.0;
+					/*SolutionB* temp = out[k];
+					out[k] = asol;
+					asol = temp;
+					delete asol;
+					breakOuter = true;
+					break;*/
+				} else {
+					out[j]->aggrScore = 0.0;
+				}		
+			} 
+		}
+	}
+
+	return out;
+
+}

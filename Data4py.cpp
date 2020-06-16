@@ -184,6 +184,12 @@ bool Mesh::isNull(){
 	return out;
 	}
 
+void Mesh::nullMe () {
+	for (int i = 0; i < cellColl.size(); i++){
+		cellColl[i]->setValue(0);
+	}
+}
+
 void Mesh::randomize(){
 	for (int i = 0; i < cellColl.size(); i++){
 		cellColl[i]->setValue( (double) (rand() % 2) );
@@ -206,6 +212,10 @@ Mesh * Mesh::copy(){
 
 /*****************************************************/
 
+SolutionB::SolutionB(): Mesh(){
+}
+
+
 SolutionB::SolutionB(int size): Mesh(size){
 	critA = 0;
 	critB = 0;
@@ -219,6 +229,7 @@ SolutionB::SolutionB(Mesh * mother): Mesh(mother->getSize()) {
 	critB = 0;
 	score = 0;
 	ndmScore = 0.0;
+	aggrScore = 0.0;
 	extent = 0;
 	this->neighsFromList(mother->getNeighborhood());
 

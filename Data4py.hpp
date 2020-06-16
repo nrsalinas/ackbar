@@ -53,6 +53,7 @@ class Mesh {
 		int getSize();
 		string getName();
 		bool isNull();
+		void nullMe();
 
 		void setValue(int index, double value);
 		double getValue(int index);
@@ -98,6 +99,7 @@ class SolutionB : public Mesh {
 	int critB;
 	int score;
 	double ndmScore;
+	double aggrScore;
 	int extent;
 	map<int, vector<int>> spp2crit;
 	/* keys are indexes in observations vector. Values are vectors integers that 

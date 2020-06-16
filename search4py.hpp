@@ -1,7 +1,11 @@
+#include <iostream>
 #include <vector>
 #include <string>
 #include <map>
 
+using std::cout;
+using std::cin;
+using std::endl;
 using std::vector;
 using std::string;
 using std::map;
@@ -18,7 +22,7 @@ void perturbDiff(SolutionB * searchMesh, double variance);
 
 void mergeSols(vector<SolutionB*> &population, int lower, int middle, int upper);
 
-void sortSols(vector<SolutionB*> &population, int lower, int upper);
+void sortSols(vector<SolutionB*> &population, int lower, int upper, string scoreType);
 
 vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize);
 
@@ -30,10 +34,14 @@ bool overlap (Mesh * meshA, Mesh * meshB);
 
 bool equal (Mesh * meshA, Mesh * meshB);
 
-vector<SolutionB*> interCompl (SolutionB * solA, SolutionB * solB);
+vector<int> inter (SolutionB * solA, SolutionB * solB);
 
 void expand(vector<Mesh*> &observations, map<int, vector<int>> &clusters, map<int, int> &visited, int label, int border, double eps);
 
 map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps);
+
+void solExpansion(SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore);
+
+vector<SolutionB*> exhSearch (vector<Mesh*> &observations);
 
 #endif

@@ -1,9 +1,10 @@
 #include "sim.hpp"
 
 vector<Mesh*> overTiles (int size, int tilesxtype, int staProb) {
-
+	// staProp should be int 0-99
 	vector<Mesh*> out;
 	int index, nindex, midx, prob;
+	double cellValue;
 
 	if (size % 2 == 0) {
 
@@ -45,21 +46,24 @@ vector<Mesh*> overTiles (int size, int tilesxtype, int staProb) {
 						if (staProb >= prob){
 
 							if (m == 0) {
-
+								// extent = size ** 2 / 2
 								if (irow < (size / 2)) {
-									out[midx]->setValue(index, 1);
+									cellValue = 1.0 / (size * size / 2.0);
+									out[midx]->setValue(index, cellValue);
 									}
 
 								} else if (m == 1) {
-
+									// extent = size ** 2 / 2
 									if (icol < (size / 2)) {
-										out[midx]->setValue(index, 1);
+										cellValue = 1.0 / (size * size / 2.0);
+										out[midx]->setValue(index, cellValue);
 										}
 
 									} else {
-
+										// extent = size ** 2 - 2 * size + 1
 										if ((irow > 0) && (icol > 0)) {
-											out[midx]->setValue(index, 1);
+											cellValue = 1.0 / (size * size - 2.0 * size + 1.0);
+											out[midx]->setValue(index, cellValue);
 											}
 										}
 							}
