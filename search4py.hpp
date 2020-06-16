@@ -13,18 +13,18 @@ using std::map;
 #ifndef SEARCH4PY_HPP
 #define SEARCH4PY_HPP
 
-void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double overPenalty,
+void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor,
 	bool updateAll);
 
 void perturb(SolutionB * searchMesh, Mesh * meshTemplate, double hybrProb);
 
-void perturbDiff(SolutionB * searchMesh, double variance);
+void perturbDiff(SolutionB * searchMesh);
 
 void mergeSols(vector<SolutionB*> &population, int lower, int middle, int upper);
 
 void sortSols(vector<SolutionB*> &population, int lower, int upper, string scoreType);
 
-vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize);
+vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor);
 
 void borderExpansion (Mesh * mechita, int cellIndx, map<int, int> &exclMap, vector<int> &island);
 
@@ -40,8 +40,8 @@ void expand(vector<Mesh*> &observations, map<int, vector<int>> &clusters, map<in
 
 map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps);
 
-void solExpansion(SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore);
+void solExpansion(SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor);
 
-vector<SolutionB*> exhSearch (vector<Mesh*> &observations);
+vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor);
 
 #endif

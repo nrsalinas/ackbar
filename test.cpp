@@ -33,7 +33,7 @@ int main(){
 	int tileSide = 6;
 	vector<Mesh*> obs;
 	vector<SolutionB*> sols;
-	obs = overTiles(tileSide, 1, 100);
+	obs = overTiles2(tileSide, 2, 100);
 
 	map<int, vector<int>>::iterator it;
 	map<int, vector<int>> clusters = dbscan(obs, 0.2);
@@ -51,17 +51,37 @@ int main(){
 		cout << endl;
 	}
 
+/*	SolutionB* sola = new SolutionB(obs[0]);
+	sola->nullMe();
+	sola->setValue(7, 1);
+	fitness(sola, obs, 0.2, false);
+	cout << "A Solution" << endl;
+	cout << sola->score << ", " << sola->ndmScore << ", " << sola->aggrScore << endl;
+	printMe(sola, tileSide);
 	cout << endl;
 
-	sols = exhSearch (obs);
-	sortSols(sols, 0, (sols.size() - 1), "aggregated");
+	SolutionB* solb = new SolutionB(obs[0]);
+	solb->nullMe();
+	solb->setValue(28, 1);
+	fitness(solb, obs, 0.2, false);
+	cout << "Another Solution" << endl;
+	cout << solb->score << ", " << solb->ndmScore << ", " << solb->aggrScore << endl;
+	printMe(solb, tileSide);
+	cout << endl;
+
+
+	delete sola;
+	delete solb; */
+
+	sols = dropSearch (clusters, obs, 10, 4, 0.0);
+	//sortSols(sols, 0, (sols.size() - 1), "aggregated");
 	
 	for (int q = 0; q < sols.size(); q++) {
-		cout << "Solution " << q << ": " << sols[q]->score << ", " << sols[q]->ndmScore << endl;
+		cout << "Solution " << q << ": " << sols[q]->score << ", " << sols[q]->ndmScore
+			<< ", " << sols[q]->aggrScore << endl;
 		printMe(sols[q], tileSide);
 		cout << endl;
 	}
-	
 
 	for (int x = 0; x < obs.size(); x++){
 		delete obs[x];
