@@ -1,6 +1,8 @@
 #include "search4py.hpp"
 
-void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, bool updateAll){
+void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, double absFactor, bool updateAll){
+	map<int, int> noSupp;
+	double noObsCells = 0.0;
 	rsearchSol->score = 0;
 	rsearchSol->critA = 0;
 	rsearchSol->critB = 0;
@@ -14,6 +16,7 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerF
 	for(int c = 0; c < rsearchSol->getSize(); c++){
 		if (rsearchSol->getValue(c) > 0){
 			rsearchSol->extent += 1;
+			noSupp[c] = 1;
 		}
 	}
 
@@ -40,6 +43,7 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerF
 				popIncluded += observations[i]->getValue(c);
 				if (observations[i]->getValue(c) > 0) {
 					innerPresences += 1.0;
+					noSupp[c] = 0;
 				}
 			} else {
 				if (observations[i]->getValue(c) > 0) {
@@ -48,7 +52,11 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerF
 			}
 		}
 
+		if (outerFactor <= 0) {
+			outerFactor = 0.000001;
+		}
 		rsearchSol->ndmScore += (innerPresences / ((double)rsearchSol->extent + outerPresences * outerFactor));
+		//rsearchSol->ndmScore += (innerPresences / ((double)rsearchSol->extent + outerPresences / outerFactor));
 
 		if ((status == "CR") || (status == "EN")) {
 
@@ -116,7 +124,15 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerF
 		rsearchSol->critB += suppB;
 	}
 
+	for (int c = 0; c < rsearchSol->getSize(); c++) {
+		if (noSupp[c] == 1) {
+			noObsCells += 1.0;
+		}
+	}
+
+
 	rsearchSol->score = rsearchSol->critA + rsearchSol->critB;
+	rsearchSol->ndmScore /= (1.0 + noObsCells * absFactor);
 	rsearchSol->aggrScore = (double) rsearchSol->score * rsearchSol->ndmScore;
 	
 }
@@ -220,7 +236,7 @@ void sortSols(vector<SolutionB*> &population, int lower, int upper, string score
 	}
 
 
-vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor){
+vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor){
 	//cout << "In dropSearch\n";
 	int clusNum = -1;
 	int thisClus;
@@ -254,13 +270,14 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		for (int j = 0; j < observations[0]->getSize(); j++) {
 			exclMap[j] = 0;
 		}
+		exclMap[thisCell] = 1;
 
 		SolutionB * asol = new SolutionB(observations[thisObs]);
 		asol->nullMe();
 		asol->setValue(thisCell, 1);
-		fitness(asol, observations, ndmOutFactor, false);
+		fitness(asol, observations, ndmOutFactor, ndmAbsFactor, false);
 		initscore = asol->aggrScore;
-		solExpansion(asol, observations, exclMap, thisCell, initscore, ndmOutFactor);
+		solExpansion(asol, observations, exclMap, thisCell, initscore, ndmOutFactor, ndmAbsFactor);
 		//borderExpansion(observations[thisObs], thisCell, exclMap, island);
 
 		/*	Assess if solution is already in mySols
@@ -435,7 +452,7 @@ map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
 }
 
 
-void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor) {
+void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor) {
 
 	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
 	double postscore;
@@ -445,19 +462,19 @@ void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> 
 		if (exclMap[thisNeighs[n]] == 0){
 
 			solita->setValue(thisNeighs[n], 1);
-			fitness(solita, observations, ndmOutFactor, false);
-			postscore = solita->aggrScore;// (double) solita->score * solita->ndmScore;
+			fitness(solita, observations, ndmOutFactor, ndmAbsFactor, false);
+			postscore = solita->aggrScore;
 			// cout << "prescore: " << prescore << ", postscore: " << postscore << endl; 
 
 			if (postscore > prescore) { 
 
 				exclMap[thisNeighs[n]] = 1;
-				solExpansion(solita, observations, exclMap, thisNeighs[n], postscore, ndmOutFactor);
+				solExpansion(solita, observations, exclMap, thisNeighs[n], postscore, ndmOutFactor, ndmAbsFactor);
 
 			} else {
 				
 				solita->setValue(thisNeighs[n], 0);
-				fitness(solita, observations, ndmOutFactor, false);
+				fitness(solita, observations, ndmOutFactor, ndmAbsFactor, false);
 
 			}
 		}
@@ -465,7 +482,7 @@ void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> 
 }
 
 
-vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor) {
+vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, double ndmAbsFactor) {
 
 	vector<SolutionB*> out;
 	map<int, int> excluded;
@@ -482,13 +499,13 @@ vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor) 
 		SolutionB * asol = new SolutionB(observations[0]);
 		asol->nullMe();
 		asol->setValue(i, 1);
-		fitness(asol, observations, 0.3, false);
+		fitness(asol, observations, ndmOutFactor,ndmAbsFactor, false);
 		initscore = asol->aggrScore;
 		
 		if (initscore > 0) {
 
 			breakOuter = false;
-			solExpansion(asol, observations, excluded, i, initscore, ndmOutFactor);
+			solExpansion(asol, observations, excluded, i, initscore, ndmOutFactor,ndmAbsFactor);
 
 			for (int k = 0; k < out.size(); k++) {
 				
