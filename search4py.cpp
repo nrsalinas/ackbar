@@ -552,3 +552,17 @@ vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, 
 	return out;
 
 }
+
+
+vector<SolutionB*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor){
+
+	map<int, vector<int>> clusterSch;
+	vector<SolutionB*> sols;
+
+	clusterSch = dbscan(observations, clusterEps);
+
+	sols = dropSearch(clusterSch, observations, iters, outSize, ndmOutFactor, ndmAbsFactor);
+
+	return sols;
+
+}

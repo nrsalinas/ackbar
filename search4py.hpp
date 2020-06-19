@@ -13,8 +13,7 @@ using std::map;
 #ifndef SEARCH4PY_HPP
 #define SEARCH4PY_HPP
 
-void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor,
-	double absFactor, bool updateAll);
+void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, double absFactor, bool updateAll);
 
 void perturb(SolutionB * searchMesh, Mesh * meshTemplate, double hybrProb);
 
@@ -43,5 +42,7 @@ map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps);
 void solExpansion(SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor);
 
 vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, double ndmAbsFactor);
+
+vector<SolutionB*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor);
 
 #endif

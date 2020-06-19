@@ -42,6 +42,9 @@ cdef class pyMesh:
 	def isNull(self):
 		return self.thismesh.isNull()
 
+	def nullMe(self):
+		self.thisMesh.nullMe()
+
 	def linkNeighs(self, int indexA, int indexB):
 		self.thismesh.linkNeighs(indexA, indexB)
 
@@ -104,6 +107,10 @@ cdef class pySolution:
 		return self.thissol.ndmScore
 
 	@property
+	def aggrScore(self):
+		return self.thissol.aggrScore
+
+	@property
 	def extent(self):
 		return self.thissol.extent
 
@@ -123,13 +130,16 @@ cdef class pySolution:
 	def isNull(self):
 		return self.thissol.isNull()
 
+	def nullMe(self):
+		self.thissol.nullMe()
+
 	def randomize(self):
 		self.thissol.randomize()
 
 
 
 
-def evalFit(pySolution mySol, list myObs, double overPenalty, bool updateAll):
+def evalFit(pySolution mySol, list myObs, double outerFactor, double absFactor, bool updateAll):
 
 	cdef vector[Mesh*] ve
 
@@ -138,4 +148,61 @@ def evalFit(pySolution mySol, list myObs, double overPenalty, bool updateAll):
 		ve.push_back(obme.thismesh)
 
 
-	fitness(mySol.thissol, ve, overPenalty, updateAll)
+	fitness(mySol.thissol, ve, outerFactor, absFactor, updateAll)
+
+
+def metasearh(list obs, double eps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor)
+
+	pout = []
+	cdef vector[Mesh*] ve
+	cdef vector[SolutionB*] out
+
+	for ob in obs:
+		obme = <pyMesh> ob
+		ve.push_back(obme.thismesh)
+
+	out = meta(ve, eps, iters, outSize, ndmOutFactor, ndmAbsFactor)
+
+	for i in range(outSize):
+
+		psol = pySolution(obs[0])
+		del psol.thisol
+		psol.thissol = out[i]
+		pout.append(psol)
+
+	return pout
+
+
+"""
+def search(dict clusters, list obs, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor):
+
+	pout = []
+	cdef vector[Mesh*] ve
+	cdef vector[SolutionB*] out
+	cdef cppmap[int, vector[int]] ma
+	cdef vector[int] tve
+
+	for ob in obs:
+		obme = <pyMesh> ob
+		ve.push_back(obme.thismesh)
+
+	for cl in clusters:
+		key = <int> cl
+		tve.clear()
+		
+		for item in clusters[cl]:
+			el = <int> item
+			tve.push_back(el)
+		
+		ma[key] = tve
+
+	out = dropSearch(ma, ve, iters, outSize, ndmOutFactor, ndmAbsFactor)
+
+	for i in range(outSize):
+		psol = pySolution(obs[0])
+		del psol.thisol
+		psol.thissol = out[i]
+		pout.append(psol)
+	
+	return pout
+"""

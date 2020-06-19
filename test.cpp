@@ -30,13 +30,13 @@ void printMe (Mesh* amesh, int side) {
 int main(){
 
 	srand((unsigned) time(0));
-	int tileSide = 30;
+	int tileSide = 6;
 	vector<Mesh*> obs;
 	vector<SolutionB*> sols;
-	obs = overTiles2(tileSide, 100, 100);
+	obs = overTiles2(tileSide, 4, 100);
 
 	map<int, vector<int>>::iterator it;
-	map<int, vector<int>> clusters = dbscan(obs, 0.2);
+	//map<int, vector<int>> clusters = dbscan(obs, 0.2);
 
 	/* for (it = clusters.begin(); it != clusters.end(); it++) {
 		cout << "Cluster " << it->first << ":" << endl;
@@ -89,7 +89,8 @@ int main(){
 	//delete solb;
 
 	//*
-	sols = dropSearch(clusters, obs, 100, 10, 0.01, 1.0);
+	//sols = dropSearch(clusters, obs, 100, 10, 0.01, 1.0);
+	sols = meta(obs, 0.2, 100, 10, 0.01, 1.0);
 	//sortSols(sols, 0, (sols.size() - 1), "aggregated");
 	
 	for (int q = 0; q < sols.size(); q++) {

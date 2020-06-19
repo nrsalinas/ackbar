@@ -21,6 +21,7 @@ cdef extern from "Data4py.hpp":
 		int getSize()
 		string getName()
 		bool isNull()
+		void nullMe()
 
 		#void resetNeighborhood()
 		void linkNeighs(int indexA, int indexB)
@@ -33,10 +34,6 @@ cdef extern from "Data4py.hpp":
 		void newThreatSubcriteriaA(int subcri)
 		vector[int] getThreatSubcriteriaA()
 		
-		void setMean(int indx, double value)
-		void setStadev(int indx, double value)
-		double getMean(int indx)
-		double getStadev(int indx)
 		void randomize()
 
 
@@ -46,11 +43,12 @@ cdef extern from "Data4py.hpp":
 		SolutionB(int size) except +
 		SolutionB(Mesh * mother) except +
 		int critA, critB, score, extent
-		double ndmScore
+		double ndmScore, aggrScore
 		void setValue(int index, double value)
 		double getValue(int index)
 		int getSize()
 		bool isNull()
+		void nullMe()
 		void randomize()
 		cppmap[int, vector[int]] spp2crit
 
@@ -59,4 +57,6 @@ cdef extern from "search4py.cpp":
 
 cdef extern from "search4py.hpp":
 
-	void fitness(SolutionB * rsearchSol, vector [Mesh*] &observations, double overPenalty, bool updateAll)
+	void fitness(SolutionB * rsearchSol, vector [Mesh*] &observations, double outerFactor, double absFactor, bool updateAll)
+
+	vector[SolutionB*] meta(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor)
