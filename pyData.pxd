@@ -57,6 +57,6 @@ cdef extern from "search4py.cpp":
 
 cdef extern from "search4py.hpp":
 
-	void fitness(SolutionB * rsearchSol, vector [Mesh*] &observations, double outerFactor, double absFactor, bool updateAll)
+	void fitness(SolutionB * rsearchSol, vector [Mesh*] &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll)
 
-	vector[SolutionB*] meta(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor)
+	vector[SolutionB*] meta(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)

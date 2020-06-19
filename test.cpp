@@ -90,7 +90,7 @@ int main(){
 
 	//*
 	//sols = dropSearch(clusters, obs, 100, 10, 0.01, 1.0);
-	sols = meta(obs, 0.2, 100, 10, 0.01, 1.0);
+	sols = meta(obs, 0.2, 100, 10, 0.01, 0.01, 3);
 	//sortSols(sols, 0, (sols.size() - 1), "aggregated");
 	
 	for (int q = 0; q < sols.size(); q++) {

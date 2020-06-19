@@ -1,6 +1,6 @@
 #include "search4py.hpp"
 
-void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, double absFactor, bool updateAll){
+void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll){
 	map<int, int> noSupp;
 	double noObsCells = 0.0;
 	rsearchSol->score = 0;
@@ -84,24 +84,24 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerF
 				}
 			}
 
-			} else if (status == "VU") {
+		} else if (status == "VU") {
 			
-				if (popIncluded >= 0.01){
-					//rsearchSol->critA += 1;
-					suppA = 1;
-					if (updateAll){
-						rsearchSol->spp2crit[i].push_back(1);
-					}
-				}
-
-				if ((popIncluded >= 0.02) & (properA)) {
-					//rsearchSol->critA += 1;
-					suppA = 1;
-					if (updateAll){
-						rsearchSol->spp2crit[i].push_back(3);
-					}
+			if (popIncluded >= 0.01){
+				//rsearchSol->critA += 1;
+				suppA = 1;
+				if (updateAll){
+					rsearchSol->spp2crit[i].push_back(1);
 				}
 			}
+
+			if ((popIncluded >= 0.02) & (properA)) {
+				//rsearchSol->critA += 1;
+				suppA = 1;
+				if (updateAll){
+					rsearchSol->spp2crit[i].push_back(3);
+				}
+			}
+		}
 
 
 		if (popIncluded >= 0.1) {
@@ -133,7 +133,7 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerF
 
 	rsearchSol->score = rsearchSol->critA + rsearchSol->critB;
 	rsearchSol->ndmScore /= (1.0 + noObsCells * absFactor);
-	rsearchSol->aggrScore = (double) rsearchSol->score * rsearchSol->ndmScore;
+	rsearchSol->aggrScore = (double) rsearchSol->score + rsearchSol->ndmScore * ndmWeight;
 	
 }
 
@@ -236,7 +236,7 @@ void sortSols(vector<SolutionB*> &population, int lower, int upper, string score
 	}
 
 
-vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor){
+vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
 	//cout << "In dropSearch\n";
 	int clusNum = -1;
 	int thisClus;
@@ -275,9 +275,9 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		SolutionB * asol = new SolutionB(observations[thisObs]);
 		asol->nullMe();
 		asol->setValue(thisCell, 1);
-		fitness(asol, observations, ndmOutFactor, ndmAbsFactor, false);
+		fitness(asol, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
 		initscore = asol->aggrScore;
-		solExpansion(asol, observations, exclMap, thisCell, initscore, ndmOutFactor, ndmAbsFactor);
+		solExpansion(asol, observations, exclMap, thisCell, initscore, ndmOutFactor, ndmAbsFactor, ndmWeight);
 		//borderExpansion(observations[thisObs], thisCell, exclMap, island);
 
 		/*	Assess if solution is already in mySols
@@ -452,7 +452,7 @@ map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
 }
 
 
-void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor) {
+void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight) {
 
 	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
 	double postscore;
@@ -462,19 +462,19 @@ void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> 
 		if (exclMap[thisNeighs[n]] == 0){
 
 			solita->setValue(thisNeighs[n], 1);
-			fitness(solita, observations, ndmOutFactor, ndmAbsFactor, false);
+			fitness(solita, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
 			postscore = solita->aggrScore;
 			// cout << "prescore: " << prescore << ", postscore: " << postscore << endl; 
 
 			if (postscore > prescore) { 
 
 				exclMap[thisNeighs[n]] = 1;
-				solExpansion(solita, observations, exclMap, thisNeighs[n], postscore, ndmOutFactor, ndmAbsFactor);
+				solExpansion(solita, observations, exclMap, thisNeighs[n], postscore, ndmOutFactor, ndmAbsFactor, ndmWeight);
 
 			} else {
 				
 				solita->setValue(thisNeighs[n], 0);
-				fitness(solita, observations, ndmOutFactor, ndmAbsFactor, false);
+				fitness(solita, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
 
 			}
 		}
@@ -482,7 +482,7 @@ void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> 
 }
 
 
-vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, double ndmAbsFactor) {
+vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, double ndmAbsFactor, double ndmWeight) {
 
 	vector<SolutionB*> out;
 	map<int, int> excluded;
@@ -499,13 +499,13 @@ vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, 
 		SolutionB * asol = new SolutionB(observations[0]);
 		asol->nullMe();
 		asol->setValue(i, 1);
-		fitness(asol, observations, ndmOutFactor,ndmAbsFactor, false);
+		fitness(asol, observations, ndmOutFactor,ndmAbsFactor, ndmWeight, false);
 		initscore = asol->aggrScore;
 		
 		if (initscore > 0) {
 
 			breakOuter = false;
-			solExpansion(asol, observations, excluded, i, initscore, ndmOutFactor,ndmAbsFactor);
+			solExpansion(asol, observations, excluded, i, initscore, ndmOutFactor,ndmAbsFactor, ndmWeight);
 
 			for (int k = 0; k < out.size(); k++) {
 				
@@ -554,14 +554,14 @@ vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, 
 }
 
 
-vector<SolutionB*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor){
+vector<SolutionB*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
 
 	map<int, vector<int>> clusterSch;
 	vector<SolutionB*> sols;
 
 	clusterSch = dbscan(observations, clusterEps);
 
-	sols = dropSearch(clusterSch, observations, iters, outSize, ndmOutFactor, ndmAbsFactor);
+	sols = dropSearch(clusterSch, observations, iters, outSize, ndmOutFactor, ndmAbsFactor, ndmWeight);
 
 	return sols;
 

@@ -136,10 +136,19 @@ cdef class pySolution:
 	def randomize(self):
 		self.thissol.randomize()
 
+	def toBitList(self):
+		out = []
+		for c in range(self.getSize()):
+			if self.getValue(c) > 0:
+				out.append(1)
+			elif self.getValue(c) == 0:
+				out.append(0)
+			else:
+				raise ValueError("Solution object has negative values.")
+		return out
 
 
-
-def evalFit(pySolution mySol, list myObs, double outerFactor, double absFactor, bool updateAll):
+def evalFit(pySolution mySol, list myObs, double outerFactor, double absFactor, double ndmWeight, bool updateAll):
 
 	cdef vector[Mesh*] ve
 
@@ -148,10 +157,10 @@ def evalFit(pySolution mySol, list myObs, double outerFactor, double absFactor, 
 		ve.push_back(obme.thismesh)
 
 
-	fitness(mySol.thissol, ve, outerFactor, absFactor, updateAll)
+	fitness(mySol.thissol, ve, outerFactor, absFactor, ndmWeight, updateAll)
 
 
-def metasearh(list obs, double eps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor)
+def metasearch(list obs, double eps, int iters, int maxOutSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight):
 
 	pout = []
 	cdef vector[Mesh*] ve
@@ -161,12 +170,12 @@ def metasearh(list obs, double eps, int iters, int outSize, double ndmOutFactor,
 		obme = <pyMesh> ob
 		ve.push_back(obme.thismesh)
 
-	out = meta(ve, eps, iters, outSize, ndmOutFactor, ndmAbsFactor)
+	out = meta(ve, eps, iters, maxOutSize, ndmOutFactor, ndmAbsFactor, ndmWeight)
 
-	for i in range(outSize):
+	for i in range(out.size()):
 
 		psol = pySolution(obs[0])
-		del psol.thisol
+		del psol.thissol
 		psol.thissol = out[i]
 		pout.append(psol)
 
