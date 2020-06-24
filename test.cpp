@@ -33,7 +33,7 @@ int main(){
 	int tileSide = 6;
 	vector<Mesh*> obs;
 	vector<SolutionB*> sols;
-	obs = overTiles2(tileSide, 4, 100);
+	obs = overTiles2(tileSide, 100, 100);
 
 	map<int, vector<int>>::iterator it;
 	//map<int, vector<int>> clusters = dbscan(obs, 0.2);

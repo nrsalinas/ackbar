@@ -160,6 +160,19 @@ def evalFit(pySolution mySol, list myObs, double outerFactor, double absFactor, 
 	fitness(mySol.thissol, ve, outerFactor, absFactor, ndmWeight, updateAll)
 
 
+def solExp(pySolution mySol, list myObs, dict exMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight):
+
+	cdef vector[Mesh*] ve
+	#cdef cppmap[int,int] emap
+
+	for ob in myObs:
+		obme = <pyMesh> ob
+		ve.push_back(obme.thismesh)
+	
+	solExpansion(mySol.thissol, ve, exMap, cellIndx, prescore, ndmOutFactor, ndmAbsFactor, ndmWeight)
+
+	
+
 def metasearch(list obs, double eps, int iters, int maxOutSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight):
 
 	pout = []
