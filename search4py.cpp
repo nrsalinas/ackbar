@@ -1,6 +1,23 @@
 #include "search4py.hpp"
 
-void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll){
+
+map<int, map<int, double>> fitGrid(vector <Mesh*> &observations, double outerFactor, double absFactor, double ndmWeight){
+	map<int, map<int, double>> out;
+
+	for (int c = 0; c < observations[i]->getSize(), c++){
+		out[c] = 0.0;
+		for (int i = 0; i < observations.size(); i++){
+			out[c] += observations[i]->getValue(c);
+			
+		}
+	}
+
+	return out;
+}
+
+
+void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, 
+	double absFactor, double ndmWeight, bool updateAll){
 	map<int, int> noSupp;
 	double noObsCells = 0.0;
 	rsearchSol->score = 0;
@@ -252,8 +269,8 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 	for (it = clusters.begin(); it != clusters.end(); it++) {
 		if (clusNum < it->first){
 			clusNum = it->first;
-			}
 		}
+	}
 	clusNum += 1;
 
 	for (int t = 0; t < iters; t++) {
@@ -265,7 +282,7 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 
 		while (observations[thisObs]->getValue(thisCell) <= 0) {
 			thisCell = rand() % observations[thisObs]->getSize();
-			}
+		}
 
 		for (int j = 0; j < observations[0]->getSize(); j++) {
 			exclMap[j] = 0;
@@ -278,47 +295,123 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		fitness(asol, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
 		initscore = asol->aggrScore;
 		solExpansion(asol, observations, exclMap, thisCell, initscore, ndmOutFactor, ndmAbsFactor, ndmWeight);
-		//borderExpansion(observations[thisObs], thisCell, exclMap, island);
-
-		/*	Assess if solution is already in mySols
-		Don't add to mySols a Solution with a shape already included in the 
-		vector */
 
 		for (int i = 0; i < mySols.size(); i++){
-			/* Include an overlapping threshold to filter out solutions too 
-			similar */
 			if (equal(asol, mySols[i])) {
 				breakOuter = true;
 				delete asol;
 				break;
-				}
 			}
+		}
 
 		if (breakOuter) {
 			continue;
-			}
+		}
 
 		mySols.push_back(asol);
 		//cout << "mySols now has " << mySols.size() << " elements\n";
-		}
+	}
 
 	/* Create new Solutions using the starting seed
 	Come up with some new areas from the intersection zones of Solutions in the
 	seed.
 	*/
 
+	/* Include an overlapping threshold to filter out solutions too 
+	similar */
+	
+	int vecSi = mySols.size();
+	for (int i = 0; i < vecSi; i++) {
+		for (int j = i+1; j < vecSi; j++) {
+			if ( overlap(mySols[i], mySols[j]) ) {
+			
+				SolutionB * comp0 = new SolutionB(mySols[j]);
+				SolutionB * comp1 = new SolutionB(mySols[i]);
+				SolutionB * inter = new SolutionB(mySols[i]);
+				inter->nullMe();
+
+				for (int c = 0; c < mySols[i]->getSize(); c++) {
+
+					if ((mySols[i]->getValue(c) > 0) && (mySols[j]->getValue(c) > 0)) {
+						comp0->setValue(c, 0);
+						comp1->setValue(c, 0);
+						inter->setValue(c, 1);
+					}
+				}
+				
+				/***********************************
+				*  Check if new areas are continuous
+				************************************/
+				
+				bool del0 = false;
+				bool del1 = false;
+				bool deli = false;
+
+				if (comp0->isNull()) {
+					delete comp0;
+				} else {
+					for (int m = 0; m < mySols.size(); m++) {
+						if ( equal(comp0, mySols[m]) ) {
+							delete comp0;
+							del0 = true;
+							break;
+						} 
+					}
+					
+					if (!del0) {
+						fitness(comp0, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
+						mySols.push_back(comp0);
+					}
+				}
+
+				if (comp1->isNull()) {
+					delete comp1;
+				} else {
+					for (int m = 0; m < mySols.size(); m++) {
+						if ( equal(comp1, mySols[m]) ) {
+							delete comp1;
+							del1 = true;
+							break;
+						} 
+					}
+					
+					if (!del1) {
+						fitness(comp1, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
+						mySols.push_back(comp1);
+					}
+				}
+
+				if (inter->isNull()) {
+					delete inter;
+				} else {
+					for (int m = 0; m < mySols.size(); m++) {
+						if ( equal(inter, mySols[m]) ) {
+							delete inter;
+							deli = true;
+							break;
+						} 
+					}
+					
+					if (!deli) {
+						fitness(inter, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
+						mySols.push_back(inter);
+					}
+				}
+
+			}
+		}
+	}
+	
 	sortSols(mySols, 0, (mySols.size() - 1), "aggregated");
+
 
 	if (mySols.size() > outSize) {
 		for (int i = outSize; i < mySols.size(); i++) {
 			delete mySols[i];
-			//cout << "Eliminating an element in mySols, now has " << mySols.size() << " elements" << endl;
 			}
 		mySols.resize(outSize);
-		//cout << "Resizing mySols to " << outSize << endl;
 		}
 
-	//cout << "returning dropSearch" << endl;
 	return mySols;
 	}
 
@@ -363,7 +456,7 @@ double kulczynski(Mesh * meshA, Mesh * meshB){
 bool overlap (Mesh * meshA, Mesh * meshB) {
 	bool out = false;
 	for (int i = 0; i < meshA->getSize(); i++){
-		if ((meshA->getValue(i) > 0) && (meshB->getValue(i) > 0)){\
+		if ((meshA->getValue(i) > 0) && (meshB->getValue(i) > 0)){
 			out = true;
 			break;
 			}

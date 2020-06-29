@@ -13,6 +13,8 @@ using std::map;
 #ifndef SEARCH4PY_HPP
 #define SEARCH4PY_HPP
 
+map<int, double> fitGrid(vector <Mesh*> &observations, double outerFactor, double absFactor, double ndmWeight);
+
 void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll);
 
 void perturb(SolutionB * searchMesh, Mesh * meshTemplate, double hybrProb);
