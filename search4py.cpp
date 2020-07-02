@@ -1,18 +1,220 @@
 #include "search4py.hpp"
 
 
-map<int, map<int, double>> fitGrid(vector <Mesh*> &observations, double outerFactor, double absFactor, double ndmWeight){
-	map<int, map<int, double>> out;
+map<int, double> presGrid(vector <Mesh*> &observations){
+	map<int, double> out;
 
-	for (int c = 0; c < observations[i]->getSize(), c++){
+	for (int c = 0; c < observations[0]->getSize(); c++){
 		out[c] = 0.0;
 		for (int i = 0; i < observations.size(); i++){
 			out[c] += observations[i]->getValue(c);
-			
 		}
 	}
-
 	return out;
+}
+
+
+void solExpansionAlt (SolutionB* solita, map<int, double> &scoringGrid, map<int,int> &exclMap, int cellIndx) {
+
+	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
+	double prescore, postscore;
+
+	for (int n = 0; n < thisNeighs.size(); n++) {
+		//cout << "exclMap[thisNeighs[n]] : " << exclMap[thisNeighs[n]] << endl;
+		if (exclMap[thisNeighs[n]] == 0){
+
+			postscore = (solita->ndmScore * (double) solita->extent + scoringGrid[thisNeighs[n]]) / ((double) solita->extent + 1.0);
+
+			if (postscore > solita->ndmScore) { 
+
+				solita->setValue(thisNeighs[n], 1);
+				solita->ndmScore = postscore;
+				solita->extent += 1;
+				exclMap[thisNeighs[n]] = 1;
+				solExpansionAlt(solita, scoringGrid, exclMap, thisNeighs[n]);
+
+			}
+		}
+	}
+}
+
+
+vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
+	//cout << "In dropSearch\n";
+	int clusNum = -1;
+	int thisClus;
+	int thisObs;
+	int thisCell;
+	bool breakOuter;
+	double initscore;
+	map<int, vector<int>>::iterator it;
+	map<int, int> exclMap;
+	//vector<int> island;
+	vector<SolutionB*> mySols;
+	map<int, double> scoreGrid;
+
+	for (it = clusters.begin(); it != clusters.end(); it++) {
+		if (clusNum < it->first){
+			clusNum = it->first;
+		}
+	}
+	clusNum += 1;
+
+	scoreGrid = presGrid(observations);
+
+
+	for (int t = 0; t < iters; t++) {
+		breakOuter = false;
+		thisClus = rand() % clusNum;
+		thisObs = rand() % clusters[thisClus].size();
+		thisObs = clusters[thisClus][thisObs];
+		thisCell = rand() % observations[thisObs]->getSize();
+
+		while (observations[thisObs]->getValue(thisCell) <= 0) {
+			thisCell = rand() % observations[thisObs]->getSize();
+		}
+
+		SolutionB * asol = new SolutionB(observations[thisObs]);
+		asol->nullMe();
+		asol->setValue(thisCell, 1);
+		asol->extent = 1;
+
+		asol->ndmScore = scoreGrid[thisCell];
+		
+		for (int j = 0; j < observations[0]->getSize(); j++) {
+			exclMap[j] = 0;
+		}
+		exclMap[thisCell] = 1;
+
+		for (int k = 0; k < observations.size(); k++) {
+			asol->sppAreas[k] = observations[k]->getValue(thisCell);
+		}
+
+		/*************
+		Por aca voy
+		**************/
+
+		//fitness(asol, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
+		initscore = asol->aggrScore;
+		solExpansion(asol, observations, exclMap, thisCell, initscore, ndmOutFactor, ndmAbsFactor, ndmWeight);
+
+		for (int i = 0; i < mySols.size(); i++){
+			if (equal(asol, mySols[i])) {
+				breakOuter = true;
+				delete asol;
+				break;
+			}
+		}
+
+		if (breakOuter) {
+			continue;
+		}
+
+		mySols.push_back(asol);
+		//cout << "mySols now has " << mySols.size() << " elements\n";
+	}
+
+	/* Create new Solutions using the starting seed
+	Come up with some new areas from the intersection zones of Solutions in the
+	seed.
+	*/
+
+	/* Include an overlapping threshold to filter out solutions too 
+	similar */
+	
+	int vecSi = mySols.size();
+	for (int i = 0; i < vecSi; i++) {
+		for (int j = i+1; j < vecSi; j++) {
+			if ( overlap(mySols[i], mySols[j]) ) {
+			
+				SolutionB * comp0 = new SolutionB(mySols[j]);
+				SolutionB * comp1 = new SolutionB(mySols[i]);
+				SolutionB * inter = new SolutionB(mySols[i]);
+				inter->nullMe();
+
+				for (int c = 0; c < mySols[i]->getSize(); c++) {
+
+					if ((mySols[i]->getValue(c) > 0) && (mySols[j]->getValue(c) > 0)) {
+						comp0->setValue(c, 0);
+						comp1->setValue(c, 0);
+						inter->setValue(c, 1);
+					}
+				}
+				
+				/***********************************
+				*  Check if new areas are continuous
+				************************************/
+				
+				bool del0 = false;
+				bool del1 = false;
+				bool deli = false;
+
+				if (comp0->isNull()) {
+					delete comp0;
+				} else {
+					for (int m = 0; m < mySols.size(); m++) {
+						if ( equal(comp0, mySols[m]) ) {
+							delete comp0;
+							del0 = true;
+							break;
+						} 
+					}
+					
+					if (!del0) {
+						fitness(comp0, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
+						mySols.push_back(comp0);
+					}
+				}
+
+				if (comp1->isNull()) {
+					delete comp1;
+				} else {
+					for (int m = 0; m < mySols.size(); m++) {
+						if ( equal(comp1, mySols[m]) ) {
+							delete comp1;
+							del1 = true;
+							break;
+						} 
+					}
+					
+					if (!del1) {
+						fitness(comp1, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
+						mySols.push_back(comp1);
+					}
+				}
+
+				if (inter->isNull()) {
+					delete inter;
+				} else {
+					for (int m = 0; m < mySols.size(); m++) {
+						if ( equal(inter, mySols[m]) ) {
+							delete inter;
+							deli = true;
+							break;
+						} 
+					}
+					
+					if (!deli) {
+						fitness(inter, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
+						mySols.push_back(inter);
+					}
+				}
+
+			}
+		}
+	}
+	
+	sortSols(mySols, 0, (mySols.size() - 1), "aggregated");
+
+
+	if (mySols.size() > outSize) {
+		for (int i = outSize; i < mySols.size(); i++) {
+			delete mySols[i];
+		}
+		mySols.resize(outSize);
+	}
+
+	return mySols;
 }
 
 
@@ -408,12 +610,14 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 	if (mySols.size() > outSize) {
 		for (int i = outSize; i < mySols.size(); i++) {
 			delete mySols[i];
-			}
-		mySols.resize(outSize);
 		}
+		mySols.resize(outSize);
+	}
 
 	return mySols;
-	}
+}
+
+
 
 
 void borderExpansion (Mesh * mechita, int cellIndx, map<int, int> &exclMap, vector<int> &island) {

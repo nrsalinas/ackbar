@@ -33,7 +33,7 @@ int main(){
 	int tileSide = 6;
 	vector<Mesh*> obs;
 	vector<SolutionB*> sols;
-	obs = overTiles2(tileSide, 100, 100);
+	obs = overTiles2(tileSide, 3, 100);
 
 	map<int, vector<int>>::iterator it;
 	//map<int, vector<int>> clusters = dbscan(obs, 0.2);
@@ -51,8 +51,15 @@ int main(){
 		cout << endl;
 	}
 
+	map <int, double> myScoGrid = presGrid(obs);
+	map<int, double>::iterator it2;
+	cout << "\nScoring grid:\n" << endl;
+	for (it2 = myScoGrid.begin(); it2 != myScoGrid.end(); it2++) {
+		cout << it2->first << " | " << it2->second << endl;
+	}
+	cout << endl;
 
-/*	SolutionB* sola = new SolutionB(obs[0]);
+	SolutionB* sola = new SolutionB(obs[0]);
 	sola->nullMe();
 	sola->setValue(6, 1);
 	cout << "Solution init:" << endl;
@@ -60,18 +67,17 @@ int main(){
 	cout << endl;
 	
 	map<int,int> emap;
-	for (int i = 0; i < obs.size(); i++) {
+	for (int i = 0; i < sola->getSize(); i++) {
 		emap[i] = 0;
 	}
 
-	fitness(sola, obs, 0.001, false);
 	emap[6] = 1;
-	solExpansion(sola, obs, emap, 6, sola->aggrScore, 0.001);
+	solExpansionAlt(sola, myScoGrid, emap, 6);
 
 	cout << "Solution expanded:" << endl;
 	printMe(sola, tileSide);
 	cout << endl;
-*/
+
 
 	/*
 	SolutionB* solb = new SolutionB(obs[0]);
@@ -85,12 +91,12 @@ int main(){
 	*/
 
 
-	//delete sola;
+	delete sola;
 	//delete solb;
 
-	//*
+	/*
 	//sols = dropSearch(clusters, obs, 100, 10, 0.01, 1.0);
-	sols = meta(obs, 0.2, 100, 10, 0.01, 0.01, 3);
+	//sols = meta(obs, 0.2, 100, 10, 0.01, 0.01, 3);
 	//sortSols(sols, 0, (sols.size() - 1), "aggregated");
 	
 	for (int q = 0; q < sols.size(); q++) {
@@ -105,11 +111,11 @@ int main(){
 		delete obs[x];
 	}
 
-	//*
+	/*
 	for (int x = 0; x < sols.size(); x++){
 		delete sols[x];
 	}
-	//*/
+	// */
 
 	return 0;
 

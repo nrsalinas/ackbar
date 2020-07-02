@@ -101,6 +101,8 @@ class SolutionB : public Mesh {
 	double ndmScore;
 	double aggrScore;
 	int extent;
+
+	map<int, double> spp2extent;
 	map<int, vector<int>> spp2crit;
 	/* keys are indexes in observations vector. Values are vectors integers that 
 	associates to KBA criteria. Code options are:
@@ -111,6 +113,7 @@ class SolutionB : public Mesh {
 		4 = A1e
 		5 = B1
 		6 = B2*/ 
+	map<int, double> sppAreas;
 
 	};
 
