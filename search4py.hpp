@@ -15,7 +15,9 @@ using std::map;
 
 map<int, double> presGrid(vector <Mesh*> &observations);
 
-vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight);
+vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight);
+
+void complScore(SolutionB * rsearchSol, vector <Mesh*> &observations, double ndmWeight);
 
 void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll);
 

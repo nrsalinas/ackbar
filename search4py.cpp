@@ -39,7 +39,7 @@ void solExpansionAlt (SolutionB* solita, map<int, double> &scoringGrid, map<int,
 }
 
 
-vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
+vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
 	//cout << "In dropSearch\n";
 	int clusNum = -1;
 	int thisClus;
@@ -90,13 +90,7 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 			asol->sppAreas[k] = observations[k]->getValue(thisCell);
 		}
 
-		/*************
-		Por aca voy
-		**************/
-
-		//fitness(asol, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
-		initscore = asol->aggrScore;
-		solExpansion(asol, observations, exclMap, thisCell, initscore, ndmOutFactor, ndmAbsFactor, ndmWeight);
+		solExpansionAlt(asol, scoreGrid, exclMap, thisCell);
 
 		for (int i = 0; i < mySols.size(); i++){
 			if (equal(asol, mySols[i])) {
@@ -108,10 +102,10 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 
 		if (breakOuter) {
 			continue;
+		} else {
+			mySols.push_back(asol);
 		}
 
-		mySols.push_back(asol);
-		//cout << "mySols now has " << mySols.size() << " elements\n";
 	}
 
 	/* Create new Solutions using the starting seed
@@ -161,7 +155,7 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 					}
 					
 					if (!del0) {
-						fitness(comp0, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
+						//fitness(comp0, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
 						mySols.push_back(comp0);
 					}
 				}
@@ -178,7 +172,6 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 					}
 					
 					if (!del1) {
-						fitness(comp1, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
 						mySols.push_back(comp1);
 					}
 				}
@@ -195,7 +188,6 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 					}
 					
 					if (!deli) {
-						fitness(inter, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
 						mySols.push_back(inter);
 					}
 				}
@@ -204,8 +196,7 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 		}
 	}
 	
-	sortSols(mySols, 0, (mySols.size() - 1), "aggregated");
-
+	sortSols(mySols, 0, (mySols.size() - 1), "ndm");
 
 	if (mySols.size() > outSize) {
 		for (int i = outSize; i < mySols.size(); i++) {
@@ -214,7 +205,89 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 		mySols.resize(outSize);
 	}
 
+	for (int i = 0; i < mySols.size(); i++) {
+		complScore(mySols[i], observations, ndmWeight);
+	}
+
 	return mySols;
+}
+
+
+void complScore(SolutionB * rsearchSol, vector <Mesh*> &observations, double ndmWeight) {
+	rsearchSol->score = 0;
+	rsearchSol->critA = 0;
+	rsearchSol->critB = 0;
+	rsearchSol->spp2crit.clear();
+
+	for(int i = 0; i < observations.size(); i++){
+		string status = observations[i]->getThreatStatus();
+		vector <int> subcritA = observations[i]->getThreatSubcriteriaA();
+		bool properA = false;
+		int suppA = 0;
+		int suppB = 0;
+		double popIncluded = 0.0;
+
+		for(int c = 0; c < rsearchSol->getSize(); c++){
+			if (rsearchSol->getValue(c) > 0){
+				popIncluded += observations[i]->getValue(c);
+			}
+		}
+
+		for (int a = 0; a < subcritA.size(); a++){
+			if ((subcritA[a] == 1) || (subcritA[a] == 2) || (subcritA[a] == 4)) {
+				properA = true;
+				break;
+			}
+		}
+
+		if ((status == "CR") || (status == "EN")) {
+
+			if (popIncluded >= 0.005){
+				suppA = 1;
+				rsearchSol->spp2crit[i].push_back(0);
+			}
+		
+			if ((popIncluded >= 0.01) & (properA)) {
+				suppA = 1;
+				rsearchSol->spp2crit[i].push_back(2);
+			}
+			
+			if (popIncluded >= 0.95) {
+				suppA = 1;
+				rsearchSol->spp2crit[i].push_back(4);
+			}
+
+		} else if (status == "VU") {
+			
+			if (popIncluded >= 0.01){
+				suppA = 1;
+				rsearchSol->spp2crit[i].push_back(1);
+			}
+
+			if ((popIncluded >= 0.02) & (properA)) {
+				suppA = 1;
+				rsearchSol->spp2crit[i].push_back(3);
+			}
+		}
+
+		if (popIncluded >= 0.1) {
+			suppB = 1;
+			rsearchSol->spp2crit[i].push_back(5);
+		}
+
+		if (popIncluded >= 0.01) {
+			suppB = 1;
+			rsearchSol->spp2crit[i].push_back(6);
+		}
+
+		rsearchSol->critA += suppA;
+		rsearchSol->critB += suppB;
+
+	}
+
+	rsearchSol->score = rsearchSol->critA + rsearchSol->critB;
+	rsearchSol->aggrScore = (double) rsearchSol->score + ndmWeight * rsearchSol->ndmScore;
+
 }
 
 
@@ -859,6 +932,20 @@ vector<SolutionB*> meta(vector<Mesh*> &observations, double clusterEps, int iter
 	clusterSch = dbscan(observations, clusterEps);
 
 	sols = dropSearch(clusterSch, observations, iters, outSize, ndmOutFactor, ndmAbsFactor, ndmWeight);
+
+	return sols;
+
+}
+
+
+vector<SolutionB*> metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
+
+	map<int, vector<int>> clusterSch;
+	vector<SolutionB*> sols;
+
+	clusterSch = dbscan(observations, clusterEps);
+
+	sols = dropSearchAlt(clusterSch, observations, iters, outSize, ndmWeight);
 
 	return sols;
 
