@@ -51,4 +51,12 @@ vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, 
 
 vector<SolutionB*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight);
 
+vector<SolutionB*> metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight);
+
+int islandNumber(SolutionB * solita);
+
+void islandCheck (SolutionB* solita, map <int, int> &checked, int cellIndx) ;
+
+bool isContinuous (SolutionB* solita);
+
 #endif

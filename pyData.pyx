@@ -195,36 +195,35 @@ def metasearch(list obs, double eps, int iters, int maxOutSize, double ndmOutFac
 	return pout
 
 
-"""
-def search(dict clusters, list obs, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor):
+def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight):
 
 	pout = []
 	cdef vector[Mesh*] ve
 	cdef vector[SolutionB*] out
-	cdef cppmap[int, vector[int]] ma
-	cdef vector[int] tve
 
 	for ob in obs:
 		obme = <pyMesh> ob
 		ve.push_back(obme.thismesh)
 
-	for cl in clusters:
-		key = <int> cl
-		tve.clear()
-		
-		for item in clusters[cl]:
-			el = <int> item
-			tve.push_back(el)
-		
-		ma[key] = tve
+	out = metaAlt(ve, eps, iters, maxOutSize, ndmWeight)
 
-	out = dropSearch(ma, ve, iters, outSize, ndmOutFactor, ndmAbsFactor)
+	for i in range(out.size()):
 
-	for i in range(outSize):
 		psol = pySolution(obs[0])
-		del psol.thisol
+		del psol.thissol
 		psol.thissol = out[i]
 		pout.append(psol)
-	
+
 	return pout
-"""
+
+
+def islNum(pysolita):
+	solita = <pySolution> pysolita
+	out = islandNumber(solita.thissol)
+	return out
+
+
+def isCont(pysolita):
+	solita = <pySolution> pysolita
+	out = isContinuous(solita.thissol)
+	return out

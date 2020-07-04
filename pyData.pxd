@@ -62,3 +62,10 @@ cdef extern from "search4py.hpp":
 	void solExpansion(SolutionB* solita, vector [Mesh*] &observations, cppmap[int,int] &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
 
 	vector[SolutionB*] meta(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
+
+	vector[SolutionB*] metaAlt(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmWeight)
+
+	int islandNumber(SolutionB * solita)
+
+	bool isContinuous (SolutionB* solita)
+

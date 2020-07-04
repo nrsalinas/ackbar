@@ -125,25 +125,44 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 				SolutionB * comp1 = new SolutionB(mySols[i]);
 				SolutionB * inter = new SolutionB(mySols[i]);
 				inter->nullMe();
+				inter->extent = 0;
+				comp0->extent = 0;
+				comp1->extent = 0;
 
 				for (int c = 0; c < mySols[i]->getSize(); c++) {
 
-					if ((mySols[i]->getValue(c) > 0) && (mySols[j]->getValue(c) > 0)) {
-						comp0->setValue(c, 0);
-						comp1->setValue(c, 0);
-						inter->setValue(c, 1);
+					if (mySols[i]->getValue(c) > 0) {
+
+						if (mySols[j]->getValue(c) > 0) {
+						
+							comp0->setValue(c, 0);
+							comp1->setValue(c, 0);
+							inter->setValue(c, 1);
+							inter->extent += 1;
+						
+						} else {
+						
+							comp1->extent += 1;
+						
+						}
+
+					} else if (mySols[j]->getValue(c) > 0) {
+						
+						comp0->extent += 1;
+
 					}
+
 				}
-				
-				/***********************************
-				*  Check if new areas are continuous
-				************************************/
 				
 				bool del0 = false;
 				bool del1 = false;
 				bool deli = false;
 
-				if (comp0->isNull()) {
+				/***********************************
+				*  Assess Solution scores
+				************************************/
+				
+				if (comp0->isNull() || !isContinuous(comp0)) {
 					delete comp0;
 				} else {
 					for (int m = 0; m < mySols.size(); m++) {
@@ -160,7 +179,7 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 					}
 				}
 
-				if (comp1->isNull()) {
+				if (comp1->isNull() || !isContinuous(comp1)) {
 					delete comp1;
 				} else {
 					for (int m = 0; m < mySols.size(); m++) {
@@ -176,7 +195,7 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 					}
 				}
 
-				if (inter->isNull()) {
+				if (inter->isNull() || !isContinuous(inter)) {
 					delete inter;
 				} else {
 					for (int m = 0; m < mySols.size(); m++) {
@@ -948,5 +967,75 @@ vector<SolutionB*> metaAlt(vector<Mesh*> &observations, double clusterEps, int i
 	sols = dropSearchAlt(clusterSch, observations, iters, outSize, ndmWeight);
 
 	return sols;
+
+}
+
+
+int islandNumber(SolutionB * solita) {
+
+	int out = 0;
+	map <int, int> checked;
+	
+	for (int i = 0; i < solita->getSize(); i++) {
+		checked[i] = 0;
+	}
+
+
+	for (int i = 0; i < solita->getSize(); i++) {
+		if (checked[i] == 0) {
+			checked[i] = 1;
+			if (solita->getValue(i) > 0) {
+				out += 1;
+				islandCheck(solita, checked, i);
+			}
+		}
+	}
+
+	return out;
+
+}
+
+
+void islandCheck (SolutionB* solita, map <int, int> &checked, int cellIndx) {
+	
+	vector <int> neighs = solita->getCellNeighs(cellIndx);
+	
+	for (int n = 0; n < neighs.size(); n++) {
+		if (checked[neighs[n]] == 0) {
+			checked[neighs[n]] = 1;
+			if (solita->getValue(neighs[n]) > 0) {
+				islandCheck(solita, checked, neighs[n]);
+			}
+		}	
+	}
+}
+
+
+bool isContinuous (SolutionB* solita) {
+
+	int islands = 0;
+	bool out = true;
+	map <int, int> checked;
+	
+	for (int i = 0; i < solita->getSize(); i++) {
+		checked[i] = 0;
+	}
+
+	for (int i = 0; i < solita->getSize(); i++) {
+		if (checked[i] == 0) {
+			checked[i] = 1;
+			if (solita->getValue(i) > 0) {
+				islands += 1;
+				if (islands >= 2) {
+					out = false;
+					break;
+				} else {
+					islandCheck(solita, checked, i);
+				}
+			}
+		}
+	}
+
+	return out;
 
 }

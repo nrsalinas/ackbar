@@ -102,11 +102,22 @@ int main(){
 	//sortSols(sols, 0, (sols.size() - 1), "aggregated");
 	//*/
 
-	sols = dropSearchAlt(clusters, obs, 20, 5, 1.0);
+	sols = dropSearchAlt(clusters, obs, 100, 20, 1.0);
+
+	int nuis;
+	bool isco;
 	
 	for (int q = 0; q < sols.size(); q++) {
+		nuis = islandNumber(sols[q]);
+		isco = isContinuous(sols[q]);
+
 		cout << "Solution " << q << ": " << sols[q]->score << ", " << sols[q]->ndmScore
-			<< ", " << sols[q]->aggrScore << endl;
+			<< ", " << sols[q]->aggrScore << ". Islands: " << nuis << endl;
+
+		if (!isco) {
+			cout << "NOT CONTINUOUS!!!" << endl;
+		}
+
 		printMe(sols[q], tileSide);
 		cout << endl;
 	}
