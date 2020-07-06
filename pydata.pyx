@@ -1,13 +1,8 @@
 # distutils: language = c++
 
-#from libcpp.string cimport string
-#from libcpp.map cimport map as mapcpp
-#from libcpp.vector cimport vector
-#from cython.operator import dereference, postincrement
+from pydata cimport Mesh
 
-from pyData cimport Mesh
-
-cdef class pyMesh:
+cdef class Meshpy:
 	
 	cdef Mesh * thismesh
 
@@ -65,13 +60,13 @@ cdef class pyMesh:
 		self.thismesh.randomize()
 
 
-cdef class pySolution:
+cdef class Solutionpy:
 	
-	cdef SolutionB * thissol
+	cdef Solution * thissol
 
-	def __cinit__(self, pyMesh mother):
+	def __cinit__(self, Meshpy mother):
 
-		self.thissol = new SolutionB(mother.thismesh)
+		self.thissol = new Solution(mother.thismesh)
 
 	def __dealloc__(self):
 		del self.thissol
@@ -148,25 +143,25 @@ cdef class pySolution:
 		return out
 
 
-def evalFit(pySolution mySol, list myObs, double outerFactor, double absFactor, double ndmWeight, bool updateAll):
+def evalFit(Solutionpy mySol, list myObs, double outerFactor, double absFactor, double ndmWeight, bool updateAll):
 
 	cdef vector[Mesh*] ve
 
 	for ob in myObs:
-		obme = <pyMesh> ob
+		obme = <Meshpy> ob
 		ve.push_back(obme.thismesh)
 
 
 	fitness(mySol.thissol, ve, outerFactor, absFactor, ndmWeight, updateAll)
 
 
-def solExp(pySolution mySol, list myObs, dict exMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight):
+def solExp(Solutionpy mySol, list myObs, dict exMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight):
 
 	cdef vector[Mesh*] ve
 	#cdef cppmap[int,int] emap
 
 	for ob in myObs:
-		obme = <pyMesh> ob
+		obme = <Meshpy> ob
 		ve.push_back(obme.thismesh)
 	
 	solExpansion(mySol.thissol, ve, exMap, cellIndx, prescore, ndmOutFactor, ndmAbsFactor, ndmWeight)
@@ -177,17 +172,17 @@ def metasearch(list obs, double eps, int iters, int maxOutSize, double ndmOutFac
 
 	pout = []
 	cdef vector[Mesh*] ve
-	cdef vector[SolutionB*] out
+	cdef vector[Solution*] out
 
 	for ob in obs:
-		obme = <pyMesh> ob
+		obme = <Meshpy> ob
 		ve.push_back(obme.thismesh)
 
 	out = meta(ve, eps, iters, maxOutSize, ndmOutFactor, ndmAbsFactor, ndmWeight)
 
 	for i in range(out.size()):
 
-		psol = pySolution(obs[0])
+		psol = Solutionpy(obs[0])
 		del psol.thissol
 		psol.thissol = out[i]
 		pout.append(psol)
@@ -199,17 +194,17 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 
 	pout = []
 	cdef vector[Mesh*] ve
-	cdef vector[SolutionB*] out
+	cdef vector[Solution*] out
 
 	for ob in obs:
-		obme = <pyMesh> ob
+		obme = <Meshpy> ob
 		ve.push_back(obme.thismesh)
 
 	out = metaAlt(ve, eps, iters, maxOutSize, ndmWeight)
 
 	for i in range(out.size()):
 
-		psol = pySolution(obs[0])
+		psol = Solutionpy(obs[0])
 		del psol.thissol
 		psol.thissol = out[i]
 		pout.append(psol)
@@ -218,12 +213,12 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 
 
 def islNum(pysolita):
-	solita = <pySolution> pysolita
+	solita = <Solutionpy> pysolita
 	out = islandNumber(solita.thissol)
 	return out
 
 
 def isCont(pysolita):
-	solita = <pySolution> pysolita
+	solita = <Solutionpy> pysolita
 	out = isContinuous(solita.thissol)
 	return out

@@ -3,10 +3,10 @@ from libcpp.string cimport string
 from libcpp.map cimport map as cppmap
 from libcpp cimport bool
 
-cdef extern from "Data4py.cpp":
+cdef extern from "data.cpp":
 	pass
 
-cdef extern from "Data4py.hpp":
+cdef extern from "data.hpp":
 
 	cdef cppclass Mesh:
 
@@ -37,11 +37,11 @@ cdef extern from "Data4py.hpp":
 		void randomize()
 
 
-	cdef cppclass SolutionB:
+	cdef cppclass Solution:
 
-		SolutionB() except +
-		SolutionB(int size) except +
-		SolutionB(Mesh * mother) except +
+		Solution() except +
+		Solution(int size) except +
+		Solution(Mesh * mother) except +
 		int critA, critB, score, extent
 		double ndmScore, aggrScore
 		void setValue(int index, double value)
@@ -52,20 +52,20 @@ cdef extern from "Data4py.hpp":
 		void randomize()
 		cppmap[int, vector[int]] spp2crit
 
-cdef extern from "search4py.cpp":
+cdef extern from "search.cpp":
 	pass
 
-cdef extern from "search4py.hpp":
+cdef extern from "search.hpp":
 
-	void fitness(SolutionB * rsearchSol, vector [Mesh*] &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll)
+	void fitness(Solution * rsearchSol, vector [Mesh*] &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll)
 
-	void solExpansion(SolutionB* solita, vector [Mesh*] &observations, cppmap[int,int] &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
+	void solExpansion(Solution* solita, vector [Mesh*] &observations, cppmap[int,int] &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
 
-	vector[SolutionB*] meta(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
+	vector[Solution*] meta(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
 
-	vector[SolutionB*] metaAlt(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmWeight)
+	vector[Solution*] metaAlt(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmWeight)
 
-	int islandNumber(SolutionB * solita)
+	int islandNumber(Solution * solita)
 
-	bool isContinuous (SolutionB* solita)
+	bool isContinuous (Solution* solita)
 
