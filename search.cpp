@@ -1,4 +1,4 @@
-#include "search4py.hpp"
+#include "search.hpp"
 
 
 map<int, double> presGrid(vector <Mesh*> &observations){
@@ -14,7 +14,7 @@ map<int, double> presGrid(vector <Mesh*> &observations){
 }
 
 
-void solExpansionAlt (SolutionB* solita, map<int, double> &scoringGrid, map<int,int> &exclMap, int cellIndx) {
+void solExpansionAlt (Solution* solita, map<int, double> &scoringGrid, map<int,int> &exclMap, int cellIndx) {
 
 	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
 	double prescore, postscore;
@@ -39,7 +39,7 @@ void solExpansionAlt (SolutionB* solita, map<int, double> &scoringGrid, map<int,
 }
 
 
-vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
+vector<Solution*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
 	//cout << "In dropSearch\n";
 	int clusNum = -1;
 	int thisClus;
@@ -50,7 +50,7 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 	map<int, vector<int>>::iterator it;
 	map<int, int> exclMap;
 	//vector<int> island;
-	vector<SolutionB*> mySols;
+	vector<Solution*> mySols;
 	map<int, double> scoreGrid;
 
 	for (it = clusters.begin(); it != clusters.end(); it++) {
@@ -74,7 +74,7 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 			thisCell = rand() % observations[thisObs]->getSize();
 		}
 
-		SolutionB * asol = new SolutionB(observations[thisObs]);
+		Solution * asol = new Solution(observations[thisObs]);
 		asol->nullMe();
 		asol->setValue(thisCell, 1);
 		asol->extent = 1;
@@ -121,13 +121,13 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 		for (int j = i+1; j < vecSi; j++) {
 			if ( overlap(mySols[i], mySols[j]) ) {
 			
-				SolutionB * comp0 = new SolutionB(mySols[j]);
-				SolutionB * comp1 = new SolutionB(mySols[i]);
-				SolutionB * inter = new SolutionB(mySols[i]);
+				Solution * comp0 = new Solution(mySols[j]);
+				Solution * comp1 = new Solution(mySols[i]);
+				Solution * inter = new Solution(mySols[i]);
 				inter->nullMe();
-				inter->extent = 0;
+				/*inter->extent = 0;
 				comp0->extent = 0;
-				comp1->extent = 0;
+				comp1->extent = 0;*/
 
 				for (int c = 0; c < mySols[i]->getSize(); c++) {
 
@@ -139,20 +139,27 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 							comp1->setValue(c, 0);
 							inter->setValue(c, 1);
 							inter->extent += 1;
+							inter->ndmScore += scoreGrid[c];
 						
 						} else {
 						
 							comp1->extent += 1;
+							comp1->ndmScore += scoreGrid[c];
 						
 						}
 
 					} else if (mySols[j]->getValue(c) > 0) {
 						
 						comp0->extent += 1;
+						comp0->ndmScore += scoreGrid[c];
 
 					}
 
 				}
+
+				inter->ndmScore /= (double) inter->extent;
+				comp0->ndmScore /= (double) comp0->extent;
+				comp1->ndmScore /= (double) comp1->extent;
 				
 				bool del0 = false;
 				bool del1 = false;
@@ -174,7 +181,6 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 					}
 					
 					if (!del0) {
-						//fitness(comp0, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
 						mySols.push_back(comp0);
 					}
 				}
@@ -232,7 +238,7 @@ vector<SolutionB*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*>
 }
 
 
-void complScore(SolutionB * rsearchSol, vector <Mesh*> &observations, double ndmWeight) {
+void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmWeight) {
 	rsearchSol->score = 0;
 	rsearchSol->critA = 0;
 	rsearchSol->critB = 0;
@@ -310,7 +316,7 @@ void complScore(SolutionB * rsearchSol, vector <Mesh*> &observations, double ndm
 }
 
 
-void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerFactor, 
+void fitness(Solution * rsearchSol, vector <Mesh*> &observations, double outerFactor, 
 	double absFactor, double ndmWeight, bool updateAll){
 	map<int, int> noSupp;
 	double noObsCells = 0.0;
@@ -449,7 +455,7 @@ void fitness(SolutionB * rsearchSol, vector <Mesh*> &observations, double outerF
 }
 
 
-void perturb(SolutionB * searchMesh, Mesh * meshTemplate, double hybrProb) {
+void perturb(Solution * searchMesh, Mesh * meshTemplate, double hybrProb) {
 	int threshold = (int) (hybrProb * 100.0);
 	for (int i = 0 ; i < searchMesh->getSize(); i++) {
 		if (rand() % 100 < threshold){
@@ -463,7 +469,7 @@ void perturb(SolutionB * searchMesh, Mesh * meshTemplate, double hybrProb) {
 	}
 
 
-void perturbDiff(SolutionB * searchMesh) {
+void perturbDiff(Solution * searchMesh) {
 	/* Works only on 1-degree neighborhoods
 	threshold should be 0-99 */
 	vector <int> neighs;
@@ -491,8 +497,8 @@ void perturbDiff(SolutionB * searchMesh) {
 }
 
 
-void mergeSols(vector<SolutionB*> &population, int lower, int middle, int upper, string scoreType){
-	vector<SolutionB*> temp;
+void mergeSols(vector<Solution*> &population, int lower, int middle, int upper, string scoreType){
+	vector<Solution*> temp;
 	int lowerish = lower;
 	int middlish = middle + 1;
 	double scorel, scorem;
@@ -537,7 +543,7 @@ void mergeSols(vector<SolutionB*> &population, int lower, int middle, int upper,
 }
 
 
-void sortSols(vector<SolutionB*> &population, int lower, int upper, string scoreType){
+void sortSols(vector<Solution*> &population, int lower, int upper, string scoreType){
 	if (lower < upper) {
 		int middle = ((lower + upper) / 2);
 		sortSols(population, lower, middle, scoreType);
@@ -547,7 +553,7 @@ void sortSols(vector<SolutionB*> &population, int lower, int upper, string score
 	}
 
 
-vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
+vector<Solution*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
 	//cout << "In dropSearch\n";
 	int clusNum = -1;
 	int thisClus;
@@ -558,7 +564,7 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 	map<int, vector<int>>::iterator it;
 	map<int, int> exclMap;
 	//vector<int> island;
-	vector<SolutionB*> mySols;
+	vector<Solution*> mySols;
 
 	for (it = clusters.begin(); it != clusters.end(); it++) {
 		if (clusNum < it->first){
@@ -583,7 +589,7 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		}
 		exclMap[thisCell] = 1;
 
-		SolutionB * asol = new SolutionB(observations[thisObs]);
+		Solution * asol = new Solution(observations[thisObs]);
 		asol->nullMe();
 		asol->setValue(thisCell, 1);
 		fitness(asol, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
@@ -619,9 +625,9 @@ vector<SolutionB*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &o
 		for (int j = i+1; j < vecSi; j++) {
 			if ( overlap(mySols[i], mySols[j]) ) {
 			
-				SolutionB * comp0 = new SolutionB(mySols[j]);
-				SolutionB * comp1 = new SolutionB(mySols[i]);
-				SolutionB * inter = new SolutionB(mySols[i]);
+				Solution * comp0 = new Solution(mySols[j]);
+				Solution * comp1 = new Solution(mySols[i]);
+				Solution * inter = new Solution(mySols[i]);
 				inter->nullMe();
 
 				for (int c = 0; c < mySols[i]->getSize(); c++) {
@@ -778,7 +784,7 @@ bool equal (Mesh * meshA, Mesh * meshB) {
 	}
 
 
-vector<int> inter (SolutionB * solA, SolutionB * solB) {
+vector<int> inter (Solution * solA, Solution * solB) {
 	//	cout << "In interCompl function. Initial Solution objects:" << endl;
 	vector<int> out;
 	// a = A not B, b = B not A, ab = A and B
@@ -841,7 +847,7 @@ map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
 }
 
 
-void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight) {
+void solExpansion (Solution* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight) {
 
 	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
 	double postscore;
@@ -871,9 +877,9 @@ void solExpansion (SolutionB* solita, vector<Mesh*> &observations, map<int,int> 
 }
 
 
-vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, double ndmAbsFactor, double ndmWeight) {
+vector<Solution*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, double ndmAbsFactor, double ndmWeight) {
 
-	vector<SolutionB*> out;
+	vector<Solution*> out;
 	map<int, int> excluded;
 	int meshSize = observations[0]->getSize();
 	double initscore;
@@ -885,7 +891,7 @@ vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, 
 			excluded[j] = 0;
 		}
 
-		SolutionB * asol = new SolutionB(observations[0]);
+		Solution * asol = new Solution(observations[0]);
 		asol->nullMe();
 		asol->setValue(i, 1);
 		fitness(asol, observations, ndmOutFactor,ndmAbsFactor, ndmWeight, false);
@@ -925,7 +931,7 @@ vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, 
 			if (overlap(out[i], out[j])) {
 				if (out[i]->aggrScore > out[j]->aggrScore) {
 					out[j]->aggrScore = 0.0;
-					/*SolutionB* temp = out[k];
+					/*Solution* temp = out[k];
 					out[k] = asol;
 					asol = temp;
 					delete asol;
@@ -943,10 +949,10 @@ vector<SolutionB*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, 
 }
 
 
-vector<SolutionB*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
+vector<Solution*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
 
 	map<int, vector<int>> clusterSch;
-	vector<SolutionB*> sols;
+	vector<Solution*> sols;
 
 	clusterSch = dbscan(observations, clusterEps);
 
@@ -957,10 +963,10 @@ vector<SolutionB*> meta(vector<Mesh*> &observations, double clusterEps, int iter
 }
 
 
-vector<SolutionB*> metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
+vector<Solution*> metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
 
 	map<int, vector<int>> clusterSch;
-	vector<SolutionB*> sols;
+	vector<Solution*> sols;
 
 	clusterSch = dbscan(observations, clusterEps);
 
@@ -971,7 +977,7 @@ vector<SolutionB*> metaAlt(vector<Mesh*> &observations, double clusterEps, int i
 }
 
 
-int islandNumber(SolutionB * solita) {
+int islandNumber(Solution * solita) {
 
 	int out = 0;
 	map <int, int> checked;
@@ -996,7 +1002,7 @@ int islandNumber(SolutionB * solita) {
 }
 
 
-void islandCheck (SolutionB* solita, map <int, int> &checked, int cellIndx) {
+void islandCheck (Solution* solita, map <int, int> &checked, int cellIndx) {
 	
 	vector <int> neighs = solita->getCellNeighs(cellIndx);
 	
@@ -1011,7 +1017,7 @@ void islandCheck (SolutionB* solita, map <int, int> &checked, int cellIndx) {
 }
 
 
-bool isContinuous (SolutionB* solita) {
+bool isContinuous (Solution* solita) {
 
 	int islands = 0;
 	bool out = true;

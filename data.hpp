@@ -6,8 +6,8 @@ using std::vector;
 using std::string;
 using std::map;
 
-#ifndef DATA4PY_HPP
-#define DATA4PY_HPP
+#ifndef DATA_HPP
+#define DATA_HPP
 
 class Cell {
 
@@ -87,14 +87,14 @@ class Mesh {
 	};
 
 
-class SolutionB : public Mesh {
+class Solution : public Mesh {
 
 	public:
 
-	SolutionB();
-	SolutionB(int size);
-	SolutionB(Mesh * mother);
-	~SolutionB();
+	Solution();
+	Solution(int size);
+	Solution(Mesh * mother);
+	~Solution();
 	int critA;
 	int critB;
 	int score;

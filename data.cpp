@@ -1,4 +1,4 @@
-#include "Data4py.hpp"
+#include "data.hpp"
 
 Cell::Cell(double invalue, int ingeometry, double inxCentroid, double inyCentroid){
 	value = invalue;
@@ -212,11 +212,11 @@ Mesh * Mesh::copy(){
 
 /*****************************************************/
 
-SolutionB::SolutionB(): Mesh(){
+Solution::Solution(): Mesh(){
 }
 
 
-SolutionB::SolutionB(int size): Mesh(size){
+Solution::Solution(int size): Mesh(size){
 	critA = 0;
 	critB = 0;
 	score = 0;
@@ -224,7 +224,7 @@ SolutionB::SolutionB(int size): Mesh(size){
 	extent = 0;
 	}
 
-SolutionB::SolutionB(Mesh * mother): Mesh(mother->getSize()) {
+Solution::Solution(Mesh * mother): Mesh(mother->getSize()) {
 	critA = 0;
 	critB = 0;
 	score = 0;
@@ -239,5 +239,5 @@ SolutionB::SolutionB(Mesh * mother): Mesh(mother->getSize()) {
 	
 	}
 
-SolutionB::~SolutionB(){
+Solution::~Solution(){
 	}
