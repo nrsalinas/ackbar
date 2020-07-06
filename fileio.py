@@ -1,6 +1,6 @@
 import csv
 import re
-import pyData
+import pydata
 from math import ceil, sin, cos, atan2, pi
 
 class InputData(object):
@@ -121,15 +121,17 @@ class InputData(object):
 					
 					cat = row[categCol]
 
+					isvalid = False
 					if type(cat) == str:
-						isvalid = False
+						
 						for vc in validCats:
+							cat = re.sub(r'^\s+','',cat)
+							cat = re.sub(r'\s+$','',cat)
 							if vc == cat.upper():
-								cat = vc
 								isvalid = True
-						if not isvalid:
-							# Throw exception
-							cat = ''
+
+					if not isvalid:
+						raise IOError("{0} has a non valid IUCN category code (`{1}`)".format(row[nameCol], cat))
 
 					if cat == '' or re.search(r'^\s+$', cat): 
 						cat = 'NE'
@@ -137,12 +139,15 @@ class InputData(object):
 
 					subcrA = []
 					if type(row[subcritACol]) == str:
-						if re.search('1', row[subcritACol]):
-							subcrA.append(1)
-						if re.search('2', row[subcritACol]):
-							subcrA.append(2)
-						if re.search('4', row[subcritACol]):
-							subcrA.append(4)
+						for dig in row[subcritACol]:
+							if dig == '1':
+								subcrA.append(1)
+							elif dig == '2':
+								subcrA.append(2)
+							elif dig == '4':
+								subcrA.append(4)
+							elif dig != '3':
+								raise IOError("{0} has non valid subcriteria A (`{1}`)".format(row[nameCol], row[subcritACol]))
 
 					self.iucn[row[nameCol]] = {'category': cat, 'subcritA': subcrA}
 
@@ -295,8 +300,8 @@ class InputData(object):
 			#print(taxon)
 			# instanciate pyMesh
 			cat = self.iucn[taxon]['category']
-			#tile = pyData.pyMesh(self.rows * self.cols, taxon, cat)
-			tile = pyData.pyMesh(act_size, taxon, cat)
+			#tile = pydata.Meshpy(self.rows * self.cols, taxon, cat)
+			tile = pydata.Meshpy(act_size, taxon, cat)
 			for sca in self.iucn[taxon]['subcritA']:
 				tile.newThreatSubcriteriaA(sca)
 			#print('Rows: {0}, Cols: {1}'.format(self.rows, self.cols))

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include "Data4py.cpp"
-#include "search4py.cpp"
+#include "data.cpp"
+#include "search.cpp"
 #include "sim.cpp"
 
 using std::cout;
@@ -32,7 +32,7 @@ int main(){
 	srand((unsigned) time(0));
 	int tileSide = 6;
 	vector<Mesh*> obs;
-	vector<SolutionB*> sols;
+	vector<Solution*> sols;
 	obs = overTiles2(tileSide, 3, 100);
 
 	map<int, vector<int>>::iterator it;
@@ -61,7 +61,7 @@ int main(){
 	cout << endl; */
 
 	/*
-	SolutionB* sola = new SolutionB(obs[0]);
+	Solution* sola = new Solution(obs[0]);
 	sola->nullMe();
 	sola->setValue(27, 1);
 	cout << "Solution init:" << endl;
@@ -82,7 +82,7 @@ int main(){
 	*/
 
 	/*
-	SolutionB* solb = new SolutionB(obs[0]);
+	Solution* solb = new Solution(obs[0]);
 	solb->nullMe();
 	solb->setValue(28, 1);
 	fitness(solb, obs, 0.2, false);
