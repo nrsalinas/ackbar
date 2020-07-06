@@ -47,9 +47,7 @@ parser.add_argument('-l', '--excluded_areas', dest = 'exclDir', metavar = '<dire
 
 parser.add_argument('-o', '--outfile_root', required = True, dest = 'outfileRoot', metavar = '<outfile_root_name>', action = 'store', help = 'Outfiles name root.')
 
-parser.add_argument('-w', '--cell_width', required = True, dest = 'cellWidth', metavar = '<#>', action = 'store', type = float, help = 'Grid cell width in geographic degrees.')
-
-parser.add_argument('-g', '--cell_height', required = True, dest = 'cellHeight', metavar = '<#>', action = 'store', type = float, help = 'Grid cell height in geographic degrees.')
+parser.add_argument('-s', '--cell_size', required = True, dest = 'cellSize', metavar = '<#>', action = 'store', type = float, help = 'Grid cell size in geographic degrees.')
 
 parser.add_argument('-x', '--long_offset', dest = 'lonOffset', metavar = '<#>', action = 'store', default = 0, type = float, help = 'Longitudinal offset of the W border of the grid in relation to the westernmost point in the infile. Should be a positive value in geographic degrees. Default = 0.')
 

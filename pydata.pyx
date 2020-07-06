@@ -5,7 +5,7 @@ from pydata cimport Mesh
 cdef class Meshpy:
 	
 	cdef Mesh * thismesh
-
+	
 	def __cinit__(self, int size, str inname, str threatCat):
 
 		#cdef string n = inname.encode('utf-8')
@@ -16,7 +16,10 @@ cdef class Meshpy:
 		del self.thismesh
 
 	def setValue(self, int index, float theVal):
-		self.thismesh.setValue(index, theVal)
+		if index < 0 or index >= self.thismesh.getSize():
+			raise IndexError("Index {0} out of range".format(index))
+		else:
+			self.thismesh.setValue(index, theVal)
 		
 	def getValue(self, int index):
 		if index < 0 or index >= self.thismesh.getSize():
@@ -63,6 +66,9 @@ cdef class Meshpy:
 cdef class Solutionpy:
 	
 	cdef Solution * thissol
+	cdef public double originX
+	cdef public double originY
+	cdef public double cellSize
 
 	def __cinit__(self, Meshpy mother):
 
@@ -113,14 +119,20 @@ cdef class Solutionpy:
 	def spp2crit(self):
 		return self.thissol.spp2crit
 
-	def setValue(self, int index, float theVal):
-		self.thissol.setValue(index, theVal)
-		
-	def getValue(self, int index):
-		return self.thissol.getValue(index)
-
 	def getSize(self):
 		return self.thissol.getSize()
+
+	def setValue(self, int index, float theVal):
+		if index < 0 or index >= self.thissol.getSize():
+			raise IndexError("Index {0} out of range".format(index))
+		else:
+			self.thissol.setValue(index, theVal)
+		
+	def getValue(self, int index):
+		if index < 0 or index >= self.thissol.getSize():
+			raise IndexError("Index {0} out of range".format(index))
+		else:
+			return self.thissol.getValue(index)
 
 	def isNull(self):
 		return self.thissol.isNull()

@@ -44,6 +44,7 @@ class InputData(object):
 
 				if len(row) > 3:
 					raise IOError("Line {0} in `{1}` contains more than three columns.".format(lineCounter, infile))
+				
 				row[2] = re.sub("[\s\'\"]","",row[2])
 				row[1] = re.sub("[\s\'\"]","",row[1])
 
@@ -251,6 +252,7 @@ class InputData(object):
 		self.rows, self.cols = totRows, totCols
 
 		inclusion_grid = [[1 for x in range(totCols)] for x in range(totRows)]
+
 		############################################
 		# Select cells that are spatially excluded
 		############################################
