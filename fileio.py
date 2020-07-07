@@ -91,7 +91,7 @@ class InputData(object):
 		lineCounter = 0
 		nameCol = None
 		categCol = None
-		subcritACol = None
+		criterCol = None
 		validCats = ['CR', 'EN', 'VU', 'NT', 'LC', 'DD', 'NE']
 
 		with open(filename,'r') as fil:
@@ -109,14 +109,14 @@ class InputData(object):
 							categCol = ic
 							continue
 
-						if re.search("subcriter",row[ic],flags=re.I):
-							subcritACol = ic
+						if re.search("criter",row[ic],flags=re.I):
+							criterCol = ic
 							continue
 					#print(nameCol)
 					#print(categCol)
-					#print(subcritACol)
-					if nameCol is None or categCol is None or subcritACol is None:
-						raise IOError("Input file `{0}`: column labels do not follow the required format (`Taxon`, `Category`, `SubcriteriaA`).".format(filename))
+					#print(criterCol)
+					if nameCol is None or categCol is None or criterCol is None:
+						raise IOError("Input file `{0}`: column labels do not follow the required format (`Taxon`, `Category`, `Criteria`).".format(filename))
 				
 				else:
 					
@@ -138,17 +138,30 @@ class InputData(object):
 						cat = 'NE'
 
 
+
 					subcrA = []
-					if type(row[subcritACol]) == str:
-						for dig in row[subcritACol]:
-							if dig == '1':
-								subcrA.append(1)
-							elif dig == '2':
-								subcrA.append(2)
-							elif dig == '4':
-								subcrA.append(4)
-							elif dig != '3':
-								raise IOError("{0} has non valid subcriteria A (`{1}`)".format(row[nameCol], row[subcritACol]))
+					if type(row[criterCol]) == str:
+						
+						if not re.search(r'[BCDE]', row[criterCol]) and re.search(r'A', row[criterCol]):
+
+							digits = re.findall(r'\d', row[criterCol])
+							#print(digits)
+
+							if len(digits) >= 1:
+
+								for dig in digits:
+
+									if dig == '1':
+										subcrA.append(1)
+
+									elif dig == '2':
+										subcrA.append(2)
+
+									elif dig == '4':
+										subcrA.append(4)
+
+									elif dig != '3':
+										raise IOError("{0} has non valid subcriteria A (`{1}`)".format(row[nameCol], row[criterCol]))
 
 					self.iucn[row[nameCol]] = {'category': cat, 'subcritA': subcrA}
 
