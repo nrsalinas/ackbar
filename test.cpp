@@ -35,8 +35,8 @@ int main(){
 	vector<Solution*> sols;
 	obs = overTiles2(tileSide, 3, 100);
 
-	map<int, vector<int>>::iterator it;
-	map<int, vector<int>> clusters = dbscan(obs, 0.2);
+	map<int, vector<int> >::iterator it;
+	map<int, vector<int> > clusters = dbscan(obs, 0.2);
 
 	/* for (it = clusters.begin(); it != clusters.end(); it++) {
 		cout << "Cluster " << it->first << ":" << endl;

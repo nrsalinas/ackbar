@@ -119,8 +119,8 @@ void Mesh::linkNeighs(int indexA, int indexB){ // indexes in vector cellColl
 
 	}
 
-vector<vector<int>> Mesh::getNeighborhood(){
-	vector<vector<int>> out;
+vector<vector<int> > Mesh::getNeighborhood(){
+	vector<vector<int> > out;
 	out = neighborhood;
 	return out;
 	}
@@ -131,7 +131,7 @@ vector<int> Mesh::getCellNeighs(int index){
 	return out;
 	}
 
-void Mesh::neighsFromList(vector<vector<int>> origNeighs){
+void Mesh::neighsFromList(vector<vector<int> > origNeighs){
 	neighborhood.resize(origNeighs.size());
 	for (int i = 0; i < origNeighs.size(); i++){
 		neighborhood[i].resize(origNeighs[i].size());

@@ -60,9 +60,9 @@ class Mesh {
 
 		void resetNeighborhood();
 		void linkNeighs(int indexA, int indexB);
-		vector<vector<int>> getNeighborhood();
+		vector<vector<int> > getNeighborhood();
 		vector<int> getCellNeighs(int index);
-		void neighsFromList(vector<vector<int>> origNeighs);
+		void neighsFromList(vector<vector<int> > origNeighs);
 
 		void setThreatStatus(string newStatus);
 		string getThreatStatus();
@@ -77,7 +77,7 @@ class Mesh {
 
 	    int geometry; // 0 = square, 1 = hexagonal, 2 = triangular
 	    string name;
-	    vector<vector<int>> neighborhood;
+	    vector<vector<int> > neighborhood;
 	    string threatStatus; // 'CR', 'EN', or 'VU'
 	    vector<int> threatSubcriteriaA; // 1, 2, 3, or 4
 		vector<Cell*> cellColl;
@@ -103,7 +103,7 @@ class Solution : public Mesh {
 	int extent;
 
 	map<int, double> spp2extent;
-	map<int, vector<int>> spp2crit;
+	map<int, vector<int> > spp2crit;
 	/* keys are indexes in observations vector. Values are vectors integers that 
 	associates to KBA criteria. Code options are:
 		0 = A1a

@@ -24,3 +24,30 @@ A .csv file with the list of species soporting each KBA previously delimited.
 Each row should bear the information of a single pair species-KBA.
 There are two mandatory fields: a column with species names (`scientificName`) and another with a key that associates the species to a KBA.
 The name of the latter should be the same token employed as indexing field in the the KBA shapefile(s), and included into the configuration file throught the option "kba_index".
+
+
+----
+
+```python
+parser = argparse.ArgumentParser(description = 'Ackbar: a Python software to delimit and update Key Biodiversity Areas.')
+
+parser.add_argument('-d', '--distribution_file', required = True, dest = 'distrofile', metavar = '<infile>', action = 'store', help = 'Input distribution file in csv format. See manual for a detailed guideline.')
+
+parser.add_argument('-e', '--evaluation_file', required = True, dest = 'evalfile', metavar = '<infile>', action = 'store', help = 'Input file of IUCN evaluations in csv format. See manual for a detailed guideline.')
+
+parser.add_argument('-k', '--kba_directory', dest = 'kbaDir', metavar = '<directory>', action = 'store', help = 'Path to shapefiles of previously delimited KBA. See manual for a detailed guideline.')
+
+parser.add_argument('-l', '--excluded_areas', dest = 'exclDir', metavar = '<directory>', action = 'store', help = 'Path to shapefiles of areas to exclude from analysis. See manual for a detailed guideline.')
+
+parser.add_argument('-o', '--outfile_root', required = True, dest = 'outfileRoot', metavar = '<outfile_root_name>', action = 'store', help = 'Outfiles name root.')
+
+parser.add_argument('-s', '--cell_size', required = True, dest = 'cellSize', metavar = '<#>', action = 'store', type = float, help = 'Grid cell size in geographic degrees.')
+
+parser.add_argument('-x', '--long_offset', dest = 'lonOffset', metavar = '<#>', action = 'store', default = 0, type = float, help = 'Longitudinal offset of the W border of the grid in relation to the westernmost point in the infile. Should be a positive value in geographic degrees. Default = 0.')
+
+parser.add_argument('-y', '--lat_offset', dest = 'latOffset', metavar = '<#>', action = 'store', default = 0, type = float, help = 'Latitudinal offset of the N border of the grid in relation to the northernmost point in the infile. Should be a positive value in geographic degrees. Default = 0.')
+
+parser.add_argument('-c', '--cohesion', dest = 'cohesion', metavar = '<#>', default = 0.3, action = 'store', type = float, help = 'Clustering cohesion parameter (0.0--1.0). Default = 0.3.')
+
+parser.add_argument('-v', '--version', action = 'version', version = "Ackbar v. {0}".format(version))
+```

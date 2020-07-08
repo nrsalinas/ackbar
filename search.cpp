@@ -39,7 +39,7 @@ void solExpansionAlt (Solution* solita, map<int, double> &scoringGrid, map<int,i
 }
 
 
-vector<Solution*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
+vector<Solution*> dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
 	//cout << "In dropSearch\n";
 	int clusNum = -1;
 	int thisClus;
@@ -47,7 +47,7 @@ vector<Solution*> dropSearchAlt(map<int, vector<int>> &clusters, vector <Mesh*> 
 	int thisCell;
 	bool breakOuter;
 	double initscore;
-	map<int, vector<int>>::iterator it;
+	map<int, vector<int> >::iterator it;
 	map<int, int> exclMap;
 	//vector<int> island;
 	vector<Solution*> mySols;
@@ -553,7 +553,7 @@ void sortSols(vector<Solution*> &population, int lower, int upper, string scoreT
 	}
 
 
-vector<Solution*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
+vector<Solution*> dropSearch(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
 	//cout << "In dropSearch\n";
 	int clusNum = -1;
 	int thisClus;
@@ -561,7 +561,7 @@ vector<Solution*> dropSearch(map<int, vector<int>> &clusters, vector <Mesh*> &ob
 	int thisCell;
 	bool breakOuter;
 	double initscore;
-	map<int, vector<int>>::iterator it;
+	map<int, vector<int> >::iterator it;
 	map<int, int> exclMap;
 	//vector<int> island;
 	vector<Solution*> mySols;
@@ -799,7 +799,7 @@ vector<int> inter (Solution * solA, Solution * solB) {
 	}
 
 
-void expand(vector<Mesh*> &observations, map<int, vector<int>> &clusters, map<int, int> &visited, int label, int border, double eps) {
+void expand(vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<int, int> &visited, int label, int border, double eps) {
 
 	for (int i = 0; i < observations.size(); i++) {
 
@@ -820,9 +820,9 @@ void expand(vector<Mesh*> &observations, map<int, vector<int>> &clusters, map<in
 	}
 
 
-map<int, vector<int>> dbscan(vector<Mesh*> &observations, double eps){
+map<int, vector<int> > dbscan(vector<Mesh*> &observations, double eps){
 
-	map<int, vector<int>> out;
+	map<int, vector<int> > out;
 	map<int, int> visited;
 	int label = -1;
 
@@ -951,7 +951,7 @@ vector<Solution*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, d
 
 vector<Solution*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
 
-	map<int, vector<int>> clusterSch;
+	map<int, vector<int> > clusterSch;
 	vector<Solution*> sols;
 
 	clusterSch = dbscan(observations, clusterEps);
@@ -965,7 +965,7 @@ vector<Solution*> meta(vector<Mesh*> &observations, double clusterEps, int iters
 
 vector<Solution*> metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
 
-	map<int, vector<int>> clusterSch;
+	map<int, vector<int> > clusterSch;
 	vector<Solution*> sols;
 
 	clusterSch = dbscan(observations, clusterEps);

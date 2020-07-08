@@ -1,0 +1,15 @@
+distribution_file:
+iucn_file:
+kba_species_file:
+kba_directory:
+exclusion_directory:
+
+outfile_root: test
+
+cell_size: 3
+offset_lat: 0
+offset_lon: 0
+
+eps: 0.2
+iters: 100
+max_kba: 20

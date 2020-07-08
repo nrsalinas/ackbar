@@ -25,7 +25,7 @@
 #
 ###############################################################################
 
-import argparse
+import sys
 import datetime
 
 version =  "0.1"
@@ -35,30 +35,16 @@ today = datetime.datetime.now()
 outfileRootDefault = today.strftime("Ackbar_output_%Y%m%d_%H%M%S")
 bufferLog = "Admiral Ackbar ver. {0}\nAnalysis executed on {1}\n".format(version, today)
 
-parser = argparse.ArgumentParser(description = 'Ackbar: a Python software to delimit and update Key Biodiversity Areas.')
 
-parser.add_argument('-d', '--distribution_file', required = True, dest = 'distrofile', metavar = '<infile>', action = 'store', help = 'Input distribution file in csv format. See manual for a detailed guideline.')
+if len(sys.argv) > 2:
+	raise IOError('Too many arguments were parsed to Ackbar.')
+elif len(sys.argv) == 1:
+	raise IOError('Configuration file should be parsed to Ackbar.')
+else:
+	with open(sys.argv[1], 'r') as config:
+		for line in config:
+			if len(line) > 5:
+				print(line.rstrip())
 
-parser.add_argument('-e', '--evaluation_file', required = True, dest = 'evalfile', metavar = '<infile>', action = 'store', help = 'Input file of IUCN evaluations in csv format. See manual for a detailed guideline.')
-
-parser.add_argument('-k', '--kba_directory', dest = 'kbaDir', metavar = '<directory>', action = 'store', help = 'Path to shapefiles of previously delimited KBA. See manual for a detailed guideline.')
-
-parser.add_argument('-l', '--excluded_areas', dest = 'exclDir', metavar = '<directory>', action = 'store', help = 'Path to shapefiles of areas to exclude from analysis. See manual for a detailed guideline.')
-
-parser.add_argument('-o', '--outfile_root', required = True, dest = 'outfileRoot', metavar = '<outfile_root_name>', action = 'store', help = 'Outfiles name root.')
-
-parser.add_argument('-s', '--cell_size', required = True, dest = 'cellSize', metavar = '<#>', action = 'store', type = float, help = 'Grid cell size in geographic degrees.')
-
-parser.add_argument('-x', '--long_offset', dest = 'lonOffset', metavar = '<#>', action = 'store', default = 0, type = float, help = 'Longitudinal offset of the W border of the grid in relation to the westernmost point in the infile. Should be a positive value in geographic degrees. Default = 0.')
-
-parser.add_argument('-y', '--lat_offset', dest = 'latOffset', metavar = '<#>', action = 'store', default = 0, type = float, help = 'Latitudinal offset of the N border of the grid in relation to the northernmost point in the infile. Should be a positive value in geographic degrees. Default = 0.')
-
-parser.add_argument('-c', '--cohesion', dest = 'cohesion', metavar = '<#>', default = 0.3, action = 'store', type = float, help = 'Clustering cohesion parameter (0.0--1.0). Default = 0.3.')
-
-parser.add_argument('-v', '--version', action = 'version', version = "Ackbar v. {0}".format(version))
-
-args = parser.parse_args()
-
-print (args)
 
 exit(0)
