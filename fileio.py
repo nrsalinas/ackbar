@@ -8,7 +8,7 @@ class InputData(object):
 	Input data processor class. Class constructor requires a csv file (str) with
 	three columns: longitude, latitude, and taxon name.
 	"""
-	def __init__(self,infile):
+	def __init__(self, infile):
 		self.points = {} # values are population fractions
 		self.iucn = {} # taxon to (Category, subcriteriaA)
 		self.minLatitude = 91.0
@@ -164,7 +164,10 @@ class InputData(object):
 										raise IOError("{0} has non valid subcriteria A (`{1}`)".format(row[nameCol], row[criterCol]))
 
 					self.iucn[row[nameCol]] = {'category': cat, 'subcritA': subcrA}
+		
+			for na in [x for x in self.points if not x in self.iucn]:
 
+				self.iucn[na] = {'category': 'NE', 'subcritA': []}
 
 
 	def mergePoints(self, taxonName, minDist):

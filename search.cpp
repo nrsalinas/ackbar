@@ -300,10 +300,18 @@ void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmW
 			rsearchSol->spp2crit[i].push_back(5);
 		}
 
+		/****************************************
+		 * It is necessary to include a minimum 
+		 * number of species per group in the
+		 * criterion B2 and to quantify the range
+		 * extent
+
 		if (popIncluded >= 0.01) {
 			suppB = 1;
 			rsearchSol->spp2crit[i].push_back(6);
 		}
+
+		 * *************************************/
 
 		rsearchSol->critA += suppA;
 		rsearchSol->critB += suppB;
