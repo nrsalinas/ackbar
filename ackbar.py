@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 # Analysis and Corroboration of Key Biodiversity AReas  - Ackbar
-# Key Biodiversity Area Boundaries - Kebab
 
 ###############################################################################
 #
@@ -27,24 +26,58 @@
 
 import sys
 import datetime
+import re
 
 version =  "0.1"
 logfile = ""
-argPass = True
+paramPass = True
+parameters = {}
 today = datetime.datetime.now()
 outfileRootDefault = today.strftime("Ackbar_output_%Y%m%d_%H%M%S")
-bufferLog = "Admiral Ackbar ver. {0}\nAnalysis executed on {1}\n".format(version, today)
+bufferLog = "Ackbar ver. {0}\nAnalysis executed on {1}\n".format(version, today)
+helloLog = '''
+********	Ackbar ver. {0}	********
 
+A Python program to update and delimit Key Biodiversity Areas.
+
+Usage:
+
+	ackbar.py configuration_file
+
+A more detailed help can be accessed at www.chancro.com or by typing:
+
+	ackbar.py --help
+'''.format(version)
 
 if len(sys.argv) > 2:
 	raise IOError('Too many arguments were parsed to Ackbar.')
+
 elif len(sys.argv) == 1:
-	raise IOError('Configuration file should be parsed to Ackbar.')
+	print(helloLog)
+
 else:
+
 	with open(sys.argv[1], 'r') as config:
+
 		for line in config:
+
+			line = re.sub(r'#.*', '', line, flags=re.DOTALL)
+			line = re.sub(r'^\s+', '', line)
+			line = re.sub(r'\s$', '', line)
+
 			if len(line) > 5:
-				print(line.rstrip())
+
+				par = re.split(r':', line)[0]
+				par = re.sub(r'\s', '', par)
+
+				if par in 
+
+
+
+
+
+
+
 
 
 exit(0)

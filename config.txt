@@ -1,8 +1,9 @@
-distribution_file:
-iucn_file:
-kba_species_file:
-kba_directory:
-exclusion_directory:
+distribution_file: arecaceae.csv
+iucn_file: arecaceae_categories.csv
+kba_species_file: Colombia_IBA_trigger_species.csv
+kba_directory: /home/nelson/Dropbox/Humboldt/Postdoc/KBA_by_IUCN/Colombia_KBA
+kba_index: SitRecID
+exclusion_directory: # optional
 
 outfile_root: test
 
@@ -13,3 +14,4 @@ offset_lon: 0
 eps: 0.2
 iters: 100
 max_kba: 20
+ndn_weight: 1
