@@ -102,7 +102,7 @@ int main(){
 	//sortSols(sols, 0, (sols.size() - 1), "aggregated");
 	//*/
 
-	sols = dropSearchAlt(clusters, obs, 100, 20, 1.0);
+	sols = dropSearchAlt(clusters, obs, 200, 50, 1.0);
 
 	int nuis;
 	bool isco;

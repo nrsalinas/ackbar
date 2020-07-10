@@ -17,6 +17,8 @@ map<int, double> presGrid(vector <Mesh*> &observations);
 
 vector<Solution*> dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight);
 
+vector< vector<int> > solSets (vector <Solution*> &initSols, vector<int> &setMap);
+
 void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmWeight);
 
 void fitness(Solution * rsearchSol, vector <Mesh*> &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll);

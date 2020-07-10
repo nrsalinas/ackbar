@@ -66,9 +66,9 @@ cdef class Meshpy:
 cdef class Solutionpy:
 	
 	cdef Solution * thissol
-	originX = None
-	originY = None
-	cellSize = None
+	cdef public double originX
+	cdef public double originY
+	cdef public double cellSize
 
 	def __cinit__(self, Meshpy mother):
 

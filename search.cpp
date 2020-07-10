@@ -221,20 +221,90 @@ vector<Solution*> dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*>
 		}
 	}
 	
+	vector<int> setMap(mySols.size(), -1);
+
 	sortSols(mySols, 0, (mySols.size() - 1), "ndm");
 
-	if (mySols.size() > outSize) {
-		for (int i = outSize; i < mySols.size(); i++) {
-			delete mySols[i];
+	//vector< vector<int> > groups = solSets(mySols, setMap);
+
+	/*
+	int t = 0;
+	cout << "\nGot " << groups.size() << " groups of non overlapping sols." << endl;
+	for (int i =0; i < groups.size(); i++) {
+		cout << "Group " << i << ": " << groups[i].size() << " elements." << endl;
+		t += groups[i].size();
+	}
+	cout << t << " elements total." << endl;
+	cout << endl;
+	*/
+
+	vector<Solution*> newSols = mySols;
+
+	/*
+	for (int c = 0; c < mySols.size(); c++) {
+		if (setMap[c] < 0) {
+			newSols.push_back(mySols[c]);
+		} else {
+			delete mySols[c];
 		}
-		mySols.resize(outSize);
+	}
+	*/
+
+	//sortSols(newSols, 0, (newSols.size() - 1), "ndm");
+
+	if (newSols.size() > outSize) {
+		for (int i = outSize; i < newSols.size(); i++) {
+			delete newSols[i];
+		}
+		newSols.resize(outSize);
 	}
 
-	for (int i = 0; i < mySols.size(); i++) {
-		complScore(mySols[i], observations, ndmWeight);
+	for (int i = 0; i < newSols.size(); i++) {
+		complScore(newSols[i], observations, ndmWeight);
 	}
 
-	return mySols;
+	return newSols;
+}
+
+
+vector< vector<int> > solSets (vector <Solution*> &initSols, vector<int> &setMap) {
+	// retrieve groups of non-overlapping solutions.
+	vector< vector<int> > out; // clusters of element indexes
+	vector<int> visited(initSols.size(), 0);
+	int cc = -1;
+
+	for (int i = 0; i < initSols.size(); i++) {
+		if (visited[i] == 0) {
+			vector<int> thisgroup;
+			visited[i] = 1;
+			thisgroup.push_back(i);
+			cc += 1;
+			setMap[i] = cc;
+			
+			for (int j = i + 1; j < initSols.size(); j++) {
+				if (visited[j] == 0) {
+					bool addme = true;
+					for (int k = 0; k < thisgroup.size(); k++) {
+						if (overlap(initSols[thisgroup[k]], initSols[j])) {
+							addme = false;
+							break;
+						}
+					}
+					if (addme == true) {
+						visited[j] = 1;
+						thisgroup.push_back(j);
+						setMap[j] = cc; 
+					}
+				}
+			}
+
+			if (thisgroup.size() > 1) {
+				out.push_back(thisgroup);
+			}
+		}
+	}
+
+	return out;
 }
 
 
@@ -243,13 +313,14 @@ void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmW
 	rsearchSol->critA = 0;
 	rsearchSol->critB = 0;
 	rsearchSol->spp2crit.clear();
-
+		
 	for(int i = 0; i < observations.size(); i++){
 		string status = observations[i]->getThreatStatus();
 		vector <int> subcritA = observations[i]->getThreatSubcriteriaA();
 		bool properA = false;
 		int suppA = 0;
 		int suppB = 0;
+		int pass = 0;
 		double popIncluded = 0.0;
 
 		for(int c = 0; c < rsearchSol->getSize(); c++){
@@ -269,16 +340,19 @@ void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmW
 
 			if (popIncluded >= 0.005){
 				suppA = 1;
+				pass = 1;
 				rsearchSol->spp2crit[i].push_back(0);
 			}
 		
 			if ((popIncluded >= 0.01) & (properA)) {
 				suppA = 1;
+				pass = 1;
 				rsearchSol->spp2crit[i].push_back(2);
 			}
 			
 			if (popIncluded >= 0.95) {
 				suppA = 1;
+				pass = 1;
 				rsearchSol->spp2crit[i].push_back(4);
 			}
 
@@ -286,17 +360,20 @@ void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmW
 			
 			if (popIncluded >= 0.01){
 				suppA = 1;
+				pass = 1;
 				rsearchSol->spp2crit[i].push_back(1);
 			}
 
 			if ((popIncluded >= 0.02) & (properA)) {
 				suppA = 1;
+				pass = 1;
 				rsearchSol->spp2crit[i].push_back(3);
 			}
 		}
 
 		if (popIncluded >= 0.1) {
 			suppB = 1;
+			pass = 1;
 			rsearchSol->spp2crit[i].push_back(5);
 		}
 
@@ -315,10 +392,9 @@ void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmW
 
 		rsearchSol->critA += suppA;
 		rsearchSol->critB += suppB;
-
+		rsearchSol->score += pass;
 	}
 
-	rsearchSol->score = rsearchSol->critA + rsearchSol->critB;
 	rsearchSol->aggrScore = (double) rsearchSol->score + ndmWeight * rsearchSol->ndmScore;
 
 }
