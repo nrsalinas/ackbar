@@ -32,7 +32,7 @@ int main(){
 	srand((unsigned) time(0));
 	int tileSide = 6;
 	vector<Mesh*> obs;
-	vector<Solution*> sols;
+	vector< vector<Solution*> > sols;
 	obs = overTiles2(tileSide, 3, 100);
 
 	map<int, vector<int> >::iterator it;
@@ -108,18 +108,21 @@ int main(){
 	bool isco;
 	
 	for (int q = 0; q < sols.size(); q++) {
-		nuis = islandNumber(sols[q]);
-		isco = isContinuous(sols[q]);
+		cout << "Group " << q << endl;
+		for (int r = 0; r < sols[q].size(); r++) {
+			nuis = islandNumber(sols[q][r]);
+			isco = isContinuous(sols[q][r]);
 
-		cout << "Solution " << q << ": " << sols[q]->score << ", " << sols[q]->ndmScore
-			<< ", " << sols[q]->aggrScore << ". Islands: " << nuis << endl;
+			cout << "Solution " << r << ": " << sols[q][r]->score << ", " << sols[q][r]->ndmScore
+				<< ", " << sols[q][r]->aggrScore << ". Islands: " << nuis << endl;
 
-		if (!isco) {
-			cout << "NOT CONTINUOUS!!!" << endl;
+			if (!isco) {
+				cout << "NOT CONTINUOUS!!!" << endl;
+			}
+
+			printMe(sols[q][r], tileSide);
+			cout << endl;
 		}
-
-		printMe(sols[q], tileSide);
-		cout << endl;
 	}
 
 
@@ -129,7 +132,9 @@ int main(){
 
 	
 	for (int x = 0; x < sols.size(); x++){
-		delete sols[x];
+		for (int y = 0; y < sols[x].size(); y++) {
+			delete sols[x][y];
+		}
 	}
 
 	return 0;

@@ -206,7 +206,7 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 
 	pout = []
 	cdef vector[Mesh*] ve
-	cdef vector[Solution*] out
+	cdef vector[ vesol ] out
 
 	for ob in obs:
 		obme = <Meshpy> ob
@@ -215,11 +215,13 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 	out = metaAlt(ve, eps, iters, maxOutSize, ndmWeight)
 
 	for i in range(out.size()):
-
-		psol = Solutionpy(obs[0])
-		del psol.thissol
-		psol.thissol = out[i]
-		pout.append(psol)
+		tmp = []
+		for j in range(out[i].size()):
+			psol = Solutionpy(obs[0])
+			del psol.thissol
+			psol.thissol = out[i][j]
+			tmp.append(psol)
+		pout.append(tmp)
 
 	return pout
 

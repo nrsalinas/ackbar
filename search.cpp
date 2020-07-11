@@ -39,7 +39,7 @@ void solExpansionAlt (Solution* solita, map<int, double> &scoringGrid, map<int,i
 }
 
 
-vector<Solution*> dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
+vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
 	//cout << "In dropSearch\n";
 	int clusNum = -1;
 	int thisClus;
@@ -222,46 +222,49 @@ vector<Solution*> dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*>
 	}
 	
 	vector<int> setMap(mySols.size(), -1);
-
+	
 	sortSols(mySols, 0, (mySols.size() - 1), "ndm");
 
-	//vector< vector<int> > groups = solSets(mySols, setMap);
+	vector< vector<int> > groups = solSets(mySols, setMap);
 
-	/*
-	int t = 0;
-	cout << "\nGot " << groups.size() << " groups of non overlapping sols." << endl;
-	for (int i =0; i < groups.size(); i++) {
-		cout << "Group " << i << ": " << groups[i].size() << " elements." << endl;
-		t += groups[i].size();
+	vector< vector<Solution*> > newSols; //= mySols;
+
+	int counter = 0;
+	for (int g = 0; g < groups.size(); g++) {
+		vector <Solution*> tmp;
+		for (int h = 0; h < groups[g].size(); h++) {
+			if (counter < outSize) {
+				complScore(mySols[groups[g][h]], observations, ndmWeight);
+				tmp.push_back(mySols[groups[g][h]]);
+				counter += 1;
+			} else {
+				delete mySols[groups[g][h]];
+			}
+		}
+		if (tmp.size() > 0) {
+			newSols.push_back(tmp);
+		}
 	}
-	cout << t << " elements total." << endl;
-	cout << endl;
-	*/
-
-	vector<Solution*> newSols = mySols;
 
 	/*
 	for (int c = 0; c < mySols.size(); c++) {
-		if (setMap[c] < 0) {
+		if (setMap[c] >= 0) {
 			newSols.push_back(mySols[c]);
 		} else {
 			delete mySols[c];
 		}
 	}
-	*/
-
-	//sortSols(newSols, 0, (newSols.size() - 1), "ndm");
-
+	
 	if (newSols.size() > outSize) {
 		for (int i = outSize; i < newSols.size(); i++) {
 			delete newSols[i];
 		}
 		newSols.resize(outSize);
 	}
-
 	for (int i = 0; i < newSols.size(); i++) {
 		complScore(newSols[i], observations, ndmWeight);
 	}
+	*/
 
 	return newSols;
 }
@@ -1047,10 +1050,10 @@ vector<Solution*> meta(vector<Mesh*> &observations, double clusterEps, int iters
 }
 
 
-vector<Solution*> metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
+vector< vector<Solution*> > metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
 
 	map<int, vector<int> > clusterSch;
-	vector<Solution*> sols;
+	vector< vector<Solution*> > sols;
 
 	clusterSch = dbscan(observations, clusterEps);
 

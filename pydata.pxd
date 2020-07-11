@@ -3,6 +3,7 @@ from libcpp.string cimport string
 from libcpp.map cimport map as cppmap
 from libcpp cimport bool
 
+
 cdef extern from "data.cpp":
 	pass
 
@@ -52,8 +53,13 @@ cdef extern from "data.hpp":
 		void randomize()
 		cppmap[int, vector[int]] spp2crit
 
+
+ctypedef vector[Solution*] vesol
+
+
 cdef extern from "search.cpp":
 	pass
+
 
 cdef extern from "search.hpp":
 
@@ -63,7 +69,7 @@ cdef extern from "search.hpp":
 
 	vector[Solution*] meta(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
 
-	vector[Solution*] metaAlt(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmWeight)
+	vector[vesol] metaAlt(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmWeight)
 
 	int islandNumber(Solution * solita)
 

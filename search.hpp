@@ -15,7 +15,7 @@ using std::map;
 
 map<int, double> presGrid(vector <Mesh*> &observations);
 
-vector<Solution*> dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight);
+vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight);
 
 vector< vector<int> > solSets (vector <Solution*> &initSols, vector<int> &setMap);
 
@@ -53,7 +53,7 @@ vector<Solution*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, d
 
 vector<Solution*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight);
 
-vector<Solution*> metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight);
+vector< vector<Solution*> > metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight);
 
 int islandNumber(Solution * solita);
 
