@@ -155,58 +155,27 @@ cdef class Solutionpy:
 		return out
 
 
-def evalFit(Solutionpy mySol, list myObs, double outerFactor, double absFactor, double ndmWeight, bool updateAll):
-
-	cdef vector[Mesh*] ve
-
-	for ob in myObs:
-		obme = <Meshpy> ob
-		ve.push_back(obme.thismesh)
-
-
-	fitness(mySol.thissol, ve, outerFactor, absFactor, ndmWeight, updateAll)
-
-
-def solExp(Solutionpy mySol, list myObs, dict exMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight):
-
-	cdef vector[Mesh*] ve
-	#cdef cppmap[int,int] emap
-
-	for ob in myObs:
-		obme = <Meshpy> ob
-		ve.push_back(obme.thismesh)
-	
-	solExpansion(mySol.thissol, ve, exMap, cellIndx, prescore, ndmOutFactor, ndmAbsFactor, ndmWeight)
-
-	
-
-def metasearch(list obs, double eps, int iters, int maxOutSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight):
-
-	pout = []
-	cdef vector[Mesh*] ve
-	cdef vector[Solution*] out
-
-	for ob in obs:
-		obme = <Meshpy> ob
-		ve.push_back(obme.thismesh)
-
-	out = meta(ve, eps, iters, maxOutSize, ndmOutFactor, ndmAbsFactor, ndmWeight)
-
-	for i in range(out.size()):
-
-		psol = Solutionpy(obs[0])
-		del psol.thissol
-		psol.thissol = out[i]
-		pout.append(psol)
-
-	return pout
-
 
 def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight):
+	"""
+	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
+	of the first order are non-overlapping sets of areas. Solutions are score 
+	ordered.
 
+	Arguments:
+
+	- obs (list): Set of species distributions (pyMesh objects).
+
+	- eps (float): Maximum distance among distributions of the same cluster.
+
+	- iters (int): Number of iterations of to retrieve KBA candidates.
+
+	- ndmWeight (float): Scaling factor of the NDM component for scoring solutions.
+
+	"""
 	pout = []
 	cdef vector[Mesh*] ve
-	cdef vector[ vesol ] out
+	cdef vector[vesol] out
 
 	for ob in obs:
 		obme = <Meshpy> ob
@@ -224,15 +193,3 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 		pout.append(tmp)
 
 	return pout
-
-
-def islNum(pysolita):
-	solita = <Solutionpy> pysolita
-	out = islandNumber(solita.thissol)
-	return out
-
-
-def isCont(pysolita):
-	solita = <Solutionpy> pysolita
-	out = isContinuous(solita.thissol)
-	return out

@@ -1,7 +1,12 @@
 import csv
 import re
 import pydata
-from math import ceil, sin, cos, atan2, pi
+from math import ceil, floor, sin, cos, atan2, pi
+
+import fiona
+from fiona.crs import from_epsg
+from shapely.geometry import Point, Polygon, MultiPolygon, mapping
+
 
 class InputData(object):
 	"""
@@ -262,11 +267,13 @@ class InputData(object):
 		correctionFactor = self.cellSize / 100
 
 		self.originN = ((self.minLongitude - offsetLon), (self.maxLatitude + offsetLat))
-		span = (max((self.maxLongitude - self.originN[0]), self.cellSize), max((self.originN[1] - self.minLatitude), self.cellSize))
+		span = [max((self.maxLongitude - self.originN[0]), self.cellSize), max((self.originN[1] - self.minLatitude), self.cellSize)]
 		totCols = int(ceil(span[0] / self.cellSize))
 		totRows = int(ceil(span[1] / self.cellSize))
+		span[0] = totCols * self.cellSize
+		span[1] = totRows * self.cellSize
 		self.rows, self.cols = totRows, totCols
-
+		
 		inclusion_grid = [[1 for x in range(totCols)] for x in range(totRows)]
 
 		############################################
@@ -283,18 +290,18 @@ class InputData(object):
 			grid = [[0 for x in range(totCols)] for x in range(totRows)]
 
 			for lon,lat in self.points[taxon]:
-				apprindx = ceil(((lon - self.originN[0]) / span[0]) * totCols)
-				apprindy = ceil(((self.originN[1] - lat) / span[1]) * totRows)
+				apprindx = ceil( ( (lon - self.originN[0]) / span[0]) * totCols)
+				apprindy = ceil( ( (self.originN[1] - lat) / span[1]) * totRows)
 				
-				if apprindx == 0:
-					x = 0
-				else:
-					x = int(apprindx - 1)
-				
-				if apprindy == 0:
-					y = 0
-				else:
-					y = int(apprindy - 1)
+				x = apprindx - 1
+				y = apprindy - 1
+
+				if x < 0:
+					x += 1
+
+				if y < 0:
+					y += 1
+
 
 				th = self.points[taxon][lon,lat] / totPops								
 				grid[y][x] += th
@@ -390,4 +397,47 @@ class InputData(object):
 				ms += '\n'
 
 			return ms
+
+
+	def grid2shape(self, filename):
+		"""
+		Saves the grid into a shapefile.
+		"""
+		polys = []
+		multipol = None
+		#irkeys = list(self.index_reg.keys())
+		counter = 0
+		wrtMode = None
+
+		schema = {
+			'geometry': 'Polygon',
+			'properties': {'id': 'int', 'x': 'int', 'y': 'int', 'xBase': 'float', 'yBase': 'float'},
+			}
+
+		for y, x in self.index_reg:
+			#y, x = irkeys[ic]
+			xBase = self.originN[0] + self.cellSize * (x + 1)
+			yBase = self.originN[1] - self.cellSize * (y + 1)
+			ocor = [(xBase, yBase + self.cellSize),
+				(xBase - self.cellSize, yBase + self.cellSize),
+				(xBase - self.cellSize, yBase),
+				(xBase, yBase)]
+			pol = Polygon(ocor)
+			#polys.append(Polygon(ocor))
+			
+		#multipol = MultiPolygon(polys)
+			
+			if counter == 0:
+				wrtMode = 'w'
+			else:
+				wrtMode = 'a'
+
+			with fiona.open(filename, wrtMode, 'ESRI Shapefile', schema, from_epsg(4326)) as fhandle:
+				fhandle.write({'geometry': mapping(pol), 'properties': 
+					{'id': counter, 'x': x, 'y': y, 'xBase': xBase, 'yBase': yBase}})
+
+			counter += 1
+
+		return None
+
 

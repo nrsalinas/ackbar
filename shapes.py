@@ -1,8 +1,9 @@
 import os
 import fileio
 import fiona
-from shapely.geometry import shape, Point
+from shapely.geometry import shape, Point, MultiPolygon, mapping
 #from shapely.ops import unary_union
+
 
 class KBA(object):
 	"""
@@ -136,3 +137,5 @@ class KBA(object):
 
 		with open(filename, 'w') as fhandle:
 			fhandle.write(bffr)
+
+

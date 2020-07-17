@@ -63,15 +63,5 @@ cdef extern from "search.cpp":
 
 cdef extern from "search.hpp":
 
-	void fitness(Solution * rsearchSol, vector [Mesh*] &observations, double outerFactor, double absFactor, double ndmWeight, bool updateAll)
-
-	void solExpansion(Solution* solita, vector [Mesh*] &observations, cppmap[int,int] &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
-
-	vector[Solution*] meta(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight)
-
 	vector[vesol] metaAlt(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmWeight)
-
-	int islandNumber(Solution * solita)
-
-	bool isContinuous (Solution* solita)
 
