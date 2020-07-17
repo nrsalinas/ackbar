@@ -170,6 +170,8 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 
 	- iters (int): Number of iterations of to retrieve KBA candidates.
 
+	- maxOutSize (int): Maximum number of solutions to report.
+
 	- ndmWeight (float): Scaling factor of the NDM component for scoring solutions.
 
 	"""

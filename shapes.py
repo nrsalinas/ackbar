@@ -1,8 +1,9 @@
 import os
 import fileio
 import fiona
-from shapely.geometry import shape, Point, MultiPolygon, mapping
-#from shapely.ops import unary_union
+from fiona.crs import from_epsg
+from shapely.geometry import shape, Point, Polygon, mapping
+from shapely.ops import unary_union
 
 
 class KBA(object):
@@ -139,3 +140,59 @@ class KBA(object):
 			fhandle.write(bffr)
 
 
+def solution2shape(mysols, indata, dic_name = 'solutions'):
+
+
+	if os.path.exists(dic_name):
+		raise IOError("There is already a directory calloed `{0}`. Please chose another name for the solution folder.".format(dic_name))
+	else:
+		os.mkdir(dic_name)
+
+	irkeys = list(indata.index_reg.keys())
+	wrtMode = None
+
+	schema = {
+		'geometry': 'Polygon',
+		'properties': {'id': 'int',
+			'score': 'float',
+			'NDMscore': 'float'},
+	}
+
+	for igr, gr in enumerate(mysols):
+		filename = '{0}/group_{1}.shp'.format(dic_name, igr)
+
+		for its,  tsol in enumerate(gr):
+			polys = []
+			solpoly = None
+			
+			for ic in range(tsol.getSize()):
+			
+				if tsol.getValue(ic) > 0:
+			
+					y, x = irkeys[ic]
+					xBase = indata.originN[0] + indata.cellSize * x
+					yBase = indata.originN[1] - indata.cellSize * y
+					ocor = [(xBase + indata.cellSize, yBase),
+						(xBase, yBase),
+						(xBase, yBase - indata.cellSize),
+						(xBase + indata.cellSize, yBase - indata.cellSize)]
+					polys.append(Polygon(ocor))
+			
+			solpoly = unary_union(polys)
+			
+			if its == 0:
+				wrtMode = 'w'
+			else:
+				wrtMode = 'a'
+			
+			with fiona.open(filename, wrtMode, 'ESRI Shapefile', schema, from_epsg(4326)) as c:
+				
+				c.write({
+					'geometry': mapping(solpoly),
+					'properties': {
+						'id': its,
+						'score':  tsol.aggrScore,
+						'NDMscore': tsol.ndmScore
+						}})
+
+	return None
