@@ -116,6 +116,10 @@ cdef class Solutionpy:
 		return self.thissol.extent
 
 	@property
+	def origin(self):
+		return self.thissol.origin
+
+	@property
 	def spp2crit(self):
 		return self.thissol.spp2crit
 

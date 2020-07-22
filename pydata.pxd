@@ -43,7 +43,7 @@ cdef extern from "data.hpp":
 		Solution() except +
 		Solution(int size) except +
 		Solution(Mesh * mother) except +
-		int critA, critB, score, extent
+		int critA, critB, score, extent, origin
 		double ndmScore, aggrScore
 		void setValue(int index, double value)
 		double getValue(int index)

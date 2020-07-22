@@ -14,13 +14,13 @@ map<int, double> presGrid(vector <Mesh*> &observations){
 }
 
 
-void solExpansionAlt (Solution* solita, map<int, double> &scoringGrid, map<int,int> &exclMap, int cellIndx) {
+void solExpansionAlt(Solution* solita, map<int, double> &scoringGrid, map<int,int> &exclMap, int cellIndx) {
 
 	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
 	double prescore, postscore;
 
 	for (int n = 0; n < thisNeighs.size(); n++) {
-		//cout << "exclMap[thisNeighs[n]] : " << exclMap[thisNeighs[n]] << endl;
+		
 		if (exclMap[thisNeighs[n]] == 0){
 
 			postscore = (solita->ndmScore * (double) solita->extent + scoringGrid[thisNeighs[n]]) / ((double) solita->extent + 1.0);
@@ -40,7 +40,7 @@ void solExpansionAlt (Solution* solita, map<int, double> &scoringGrid, map<int,i
 
 
 vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
-	//cout << "In dropSearch\n";
+	
 	int clusNum = -1;
 	int thisClus;
 	int thisObs;
@@ -122,12 +122,12 @@ vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vect
 			if ( overlap(mySols[i], mySols[j]) ) {
 			
 				Solution * comp0 = new Solution(mySols[j]);
+				comp0->origin = 1;
 				Solution * comp1 = new Solution(mySols[i]);
+				comp1->origin = 1;
 				Solution * inter = new Solution(mySols[i]);
+				inter->origin = 1;
 				inter->nullMe();
-				/*inter->extent = 0;
-				comp0->extent = 0;
-				comp1->extent = 0;*/
 
 				for (int c = 0; c < mySols[i]->getSize(); c++) {
 
@@ -221,10 +221,16 @@ vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vect
 		}
 	}
 	
+	// Checking if assessing aggregated scores before sorting takes too much time
+
+	for (int s = 0; s < mySols.size(); s++) {
+		complScore(mySols[s], observations, ndmWeight);
+	}
+
+	sortSols(mySols, 0, (mySols.size() - 1), "aggregated");
+
 	vector<int> setMap(mySols.size(), -1);
 	
-	sortSols(mySols, 0, (mySols.size() - 1), "ndm");
-
 	vector< vector<int> > groups = solSets(mySols, setMap);
 
 	vector< vector<Solution*> > newSols; //= mySols;
@@ -234,7 +240,7 @@ vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vect
 		vector <Solution*> tmp;
 		for (int h = 0; h < groups[g].size(); h++) {
 			if (counter < outSize) {
-				complScore(mySols[groups[g][h]], observations, ndmWeight);
+				//complScore(mySols[groups[g][h]], observations, ndmWeight);
 				tmp.push_back(mySols[groups[g][h]]);
 				counter += 1;
 			} else {
@@ -245,26 +251,6 @@ vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vect
 			newSols.push_back(tmp);
 		}
 	}
-
-	/*
-	for (int c = 0; c < mySols.size(); c++) {
-		if (setMap[c] >= 0) {
-			newSols.push_back(mySols[c]);
-		} else {
-			delete mySols[c];
-		}
-	}
-	
-	if (newSols.size() > outSize) {
-		for (int i = outSize; i < newSols.size(); i++) {
-			delete newSols[i];
-		}
-		newSols.resize(outSize);
-	}
-	for (int i = 0; i < newSols.size(); i++) {
-		complScore(newSols[i], observations, ndmWeight);
-	}
-	*/
 
 	return newSols;
 }
@@ -403,187 +389,6 @@ void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmW
 }
 
 
-void fitness(Solution * rsearchSol, vector <Mesh*> &observations, double outerFactor, 
-	double absFactor, double ndmWeight, bool updateAll){
-	map<int, int> noSupp;
-	double noObsCells = 0.0;
-	rsearchSol->score = 0;
-	rsearchSol->critA = 0;
-	rsearchSol->critB = 0;
-	rsearchSol->ndmScore = 0.0;
-	rsearchSol->extent = 0;
-
-	if (updateAll){
-		rsearchSol->spp2crit.clear();
-	}
-
-	for(int c = 0; c < rsearchSol->getSize(); c++){
-		if (rsearchSol->getValue(c) > 0){
-			rsearchSol->extent += 1;
-			noSupp[c] = 1;
-		}
-	}
-
-
-	for(int i = 0; i < observations.size(); i++){
-		double innerPresences = 0;
-		double outerPresences = 0;
-		double popIncluded = 0.0;
-		string status = observations[i]->getThreatStatus();
-		vector <int> subcritA = observations[i]->getThreatSubcriteriaA();
-		bool properA = false;
-		int suppA = 0;
-		int suppB = 0;
-
-		for (int a = 0; a < subcritA.size(); a++){
-			if ((subcritA[a] == 1) || (subcritA[a] == 2) || (subcritA[a] == 4)) {
-				properA = true;
-				break;
-			}
-		}
-
-		for(int c = 0; c < rsearchSol->getSize(); c++){
-			if (rsearchSol->getValue(c) > 0){
-				popIncluded += observations[i]->getValue(c);
-				if (observations[i]->getValue(c) > 0) {
-					innerPresences += 1.0;
-					noSupp[c] = 0;
-				}
-			} else {
-				if (observations[i]->getValue(c) > 0) {
-					outerPresences += 1.0;
-				}
-			}
-		}
-
-		if (outerFactor <= 0) {
-			outerFactor = 0.000001;
-		}
-		rsearchSol->ndmScore += (innerPresences / ((double)rsearchSol->extent + outerPresences * outerFactor));
-		//rsearchSol->ndmScore += (innerPresences / ((double)rsearchSol->extent + outerPresences / outerFactor));
-
-		if ((status == "CR") || (status == "EN")) {
-
-			if (popIncluded >= 0.005){
-				//rsearchSol->critA += 1;
-				suppA = 1;
-				if (updateAll){
-					rsearchSol->spp2crit[i].push_back(0);
-				}
-			}
-		
-			if ((popIncluded >= 0.01) & (properA)) {
-				//rsearchSol->critA += 1;
-				suppA = 1;
-				if (updateAll){
-					rsearchSol->spp2crit[i].push_back(2);
-				}
-			}
-			
-			if (popIncluded >= 0.95) {
-				//rsearchSol->critA += 1;
-				suppA = 1;
-				if (updateAll){
-					rsearchSol->spp2crit[i].push_back(4);
-				}
-			}
-
-		} else if (status == "VU") {
-			
-			if (popIncluded >= 0.01){
-				//rsearchSol->critA += 1;
-				suppA = 1;
-				if (updateAll){
-					rsearchSol->spp2crit[i].push_back(1);
-				}
-			}
-
-			if ((popIncluded >= 0.02) & (properA)) {
-				//rsearchSol->critA += 1;
-				suppA = 1;
-				if (updateAll){
-					rsearchSol->spp2crit[i].push_back(3);
-				}
-			}
-		}
-
-
-		if (popIncluded >= 0.1) {
-			//rsearchSol->critB += 1;
-			suppB = 1;
-			if (updateAll){
-				rsearchSol->spp2crit[i].push_back(5);
-			}
-		}
-
-		if (popIncluded >= 0.01) {
-			//rsearchSol->critB += 1;
-			suppB = 1;
-			if (updateAll){
-				rsearchSol->spp2crit[i].push_back(6);
-			}
-		}
-
-		rsearchSol->critA += suppA;
-		rsearchSol->critB += suppB;
-	}
-
-	for (int c = 0; c < rsearchSol->getSize(); c++) {
-		if (noSupp[c] == 1) {
-			noObsCells += 1.0;
-		}
-	}
-
-
-	rsearchSol->score = rsearchSol->critA + rsearchSol->critB;
-	rsearchSol->ndmScore /= (1.0 + noObsCells * absFactor);
-	rsearchSol->aggrScore = (double) rsearchSol->score + rsearchSol->ndmScore * ndmWeight;
-	
-}
-
-
-void perturb(Solution * searchMesh, Mesh * meshTemplate, double hybrProb) {
-	int threshold = (int) (hybrProb * 100.0);
-	for (int i = 0 ; i < searchMesh->getSize(); i++) {
-		if (rand() % 100 < threshold){
-			if (meshTemplate->getValue(i) > 0.0){
-				searchMesh->setValue(i, 1.0);
-				} else {
-					searchMesh->setValue(i, 0.0);
-					}
-			}
-		}
-	}
-
-
-void perturbDiff(Solution * searchMesh) {
-	/* Works only on 1-degree neighborhoods
-	threshold should be 0-99 */
-	vector <int> neighs;
-	bool changed = false;
-	int index, nindex;
-	double val, nval;
-
-	while (!changed) {
-
-		index = rand() % searchMesh->getSize();
-		val = searchMesh->getValue(index);
-		neighs = searchMesh->getCellNeighs(index);
-		nindex = rand() % neighs.size();
-		nval = searchMesh->getValue(nindex);
-		
-		if ((val == 0) && (nval > 0)) {
-			searchMesh->setValue(nindex, 0);
-			changed = true;
-
-		} else if ((val > 0) && (nval == 0)) {
-			searchMesh->setValue(nindex, 1);
-			changed = true;	
-		}
-	}
-}
-
-
 void mergeSols(vector<Solution*> &population, int lower, int middle, int upper, string scoreType){
 	vector<Solution*> temp;
 	int lowerish = lower;
@@ -636,188 +441,9 @@ void sortSols(vector<Solution*> &population, int lower, int upper, string scoreT
 		sortSols(population, lower, middle, scoreType);
 		sortSols(population, (middle + 1), upper, scoreType);
 		mergeSols(population, lower, middle, upper, scoreType);
-		}
 	}
-
-
-vector<Solution*> dropSearch(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
-	//cout << "In dropSearch\n";
-	int clusNum = -1;
-	int thisClus;
-	int thisObs;
-	int thisCell;
-	bool breakOuter;
-	double initscore;
-	map<int, vector<int> >::iterator it;
-	map<int, int> exclMap;
-	//vector<int> island;
-	vector<Solution*> mySols;
-
-	for (it = clusters.begin(); it != clusters.end(); it++) {
-		if (clusNum < it->first){
-			clusNum = it->first;
-		}
-	}
-	clusNum += 1;
-
-	for (int t = 0; t < iters; t++) {
-		breakOuter = false;
-		thisClus = rand() % clusNum;
-		thisObs = rand() % clusters[thisClus].size();
-		thisObs = clusters[thisClus][thisObs];
-		thisCell = rand() % observations[thisObs]->getSize();
-
-		while (observations[thisObs]->getValue(thisCell) <= 0) {
-			thisCell = rand() % observations[thisObs]->getSize();
-		}
-
-		for (int j = 0; j < observations[0]->getSize(); j++) {
-			exclMap[j] = 0;
-		}
-		exclMap[thisCell] = 1;
-
-		Solution * asol = new Solution(observations[thisObs]);
-		asol->nullMe();
-		asol->setValue(thisCell, 1);
-		fitness(asol, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
-		initscore = asol->aggrScore;
-		solExpansion(asol, observations, exclMap, thisCell, initscore, ndmOutFactor, ndmAbsFactor, ndmWeight);
-
-		for (int i = 0; i < mySols.size(); i++){
-			if (equal(asol, mySols[i])) {
-				breakOuter = true;
-				delete asol;
-				break;
-			}
-		}
-
-		if (breakOuter) {
-			continue;
-		}
-
-		mySols.push_back(asol);
-		//cout << "mySols now has " << mySols.size() << " elements\n";
-	}
-
-	/* Create new Solutions using the starting seed
-	Come up with some new areas from the intersection zones of Solutions in the
-	seed.
-	*/
-
-	/* Include an overlapping threshold to filter out solutions too 
-	similar */
-	
-	int vecSi = mySols.size();
-	for (int i = 0; i < vecSi; i++) {
-		for (int j = i+1; j < vecSi; j++) {
-			if ( overlap(mySols[i], mySols[j]) ) {
-			
-				Solution * comp0 = new Solution(mySols[j]);
-				Solution * comp1 = new Solution(mySols[i]);
-				Solution * inter = new Solution(mySols[i]);
-				inter->nullMe();
-
-				for (int c = 0; c < mySols[i]->getSize(); c++) {
-
-					if ((mySols[i]->getValue(c) > 0) && (mySols[j]->getValue(c) > 0)) {
-						comp0->setValue(c, 0);
-						comp1->setValue(c, 0);
-						inter->setValue(c, 1);
-					}
-				}
-				
-				/***********************************
-				*  Check if new areas are continuous
-				************************************/
-				
-				bool del0 = false;
-				bool del1 = false;
-				bool deli = false;
-
-				if (comp0->isNull()) {
-					delete comp0;
-				} else {
-					for (int m = 0; m < mySols.size(); m++) {
-						if ( equal(comp0, mySols[m]) ) {
-							delete comp0;
-							del0 = true;
-							break;
-						} 
-					}
-					
-					if (!del0) {
-						fitness(comp0, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
-						mySols.push_back(comp0);
-					}
-				}
-
-				if (comp1->isNull()) {
-					delete comp1;
-				} else {
-					for (int m = 0; m < mySols.size(); m++) {
-						if ( equal(comp1, mySols[m]) ) {
-							delete comp1;
-							del1 = true;
-							break;
-						} 
-					}
-					
-					if (!del1) {
-						fitness(comp1, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
-						mySols.push_back(comp1);
-					}
-				}
-
-				if (inter->isNull()) {
-					delete inter;
-				} else {
-					for (int m = 0; m < mySols.size(); m++) {
-						if ( equal(inter, mySols[m]) ) {
-							delete inter;
-							deli = true;
-							break;
-						} 
-					}
-					
-					if (!deli) {
-						fitness(inter, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
-						mySols.push_back(inter);
-					}
-				}
-
-			}
-		}
-	}
-	
-	sortSols(mySols, 0, (mySols.size() - 1), "aggregated");
-
-
-	if (mySols.size() > outSize) {
-		for (int i = outSize; i < mySols.size(); i++) {
-			delete mySols[i];
-		}
-		mySols.resize(outSize);
-	}
-
-	return mySols;
 }
 
-
-
-
-void borderExpansion (Mesh * mechita, int cellIndx, map<int, int> &exclMap, vector<int> &island) {
-	vector<int> thisNeighs = mechita->getCellNeighs(cellIndx);
-
-	for (int n = 0; n < thisNeighs.size(); n++) {
-
-		if ((mechita->getValue(thisNeighs[n]) > 0) & (exclMap[thisNeighs[n]] == 0)){
-
-			exclMap[thisNeighs[n]] = 1;
-			island.push_back(thisNeighs[n]);
-			borderExpansion(mechita, thisNeighs[n], exclMap, island);
-			}
-		}
-	}
 
 
 double kulczynski(Mesh * meshA, Mesh * meshB){
@@ -830,16 +456,16 @@ double kulczynski(Mesh * meshA, Mesh * meshB){
 			occupA += 1.0;
 			if (meshB->getValue(i) > 0) {
 				common += 1.0;
-				}
-			}
-		if (meshB->getValue(i) > 0){
-			occupB += 1.0;
 			}
 		}
+		if (meshB->getValue(i) > 0){
+			occupB += 1.0;
+		}
+	}
 	//cout << "common: " << common << ", occupA: " << occupA << ", occupB: " << occupB << endl;
 	dis = 1.0 - (((common / occupA) + (common / occupB)) / 2.0);
 	return dis;
-	}
+}
 
 
 bool overlap (Mesh * meshA, Mesh * meshB) {
@@ -848,10 +474,10 @@ bool overlap (Mesh * meshA, Mesh * meshB) {
 		if ((meshA->getValue(i) > 0) && (meshB->getValue(i) > 0)){
 			out = true;
 			break;
-			}
 		}
-	return out;
 	}
+	return out;
+}
 
 
 bool equal (Mesh * meshA, Mesh * meshB) {
@@ -864,26 +490,11 @@ bool equal (Mesh * meshA, Mesh * meshB) {
 			//cout << "Index " << i << endl;
 			out = false;
 			break;
-			}
 		}
+	}
 	//cout << "Leaving equal function." << endl;
 	return out;
-	}
-
-
-vector<int> inter (Solution * solA, Solution * solB) {
-	//	cout << "In interCompl function. Initial Solution objects:" << endl;
-	vector<int> out;
-	// a = A not B, b = B not A, ab = A and B
-
-	for (int i = 0; i < solA->getSize(); i++){
-		if ((solA->getValue(i) > 0) && (solB->getValue(i) > 0)) {
-			out.push_back(i);
-			}
-		}
-
-	return out;
-	}
+}
 
 
 void expand(vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<int, int> &visited, int label, int border, double eps) {
@@ -898,13 +509,13 @@ void expand(vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<i
 				visited[i] = 1;
 				expand(observations, clusters, visited, label, i, eps);
 
-				}
-
 			}
 
 		}
 
 	}
+
+}
 
 
 map<int, vector<int> > dbscan(vector<Mesh*> &observations, double eps){
@@ -934,134 +545,6 @@ map<int, vector<int> > dbscan(vector<Mesh*> &observations, double eps){
 }
 
 
-void solExpansion (Solution* solita, vector<Mesh*> &observations, map<int,int> &exclMap, int cellIndx, double prescore, double ndmOutFactor, double ndmAbsFactor, double ndmWeight) {
-
-	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
-	double postscore;
-
-	for (int n = 0; n < thisNeighs.size(); n++) {
-		//cout << "exclMap[thisNeighs[n]] : " << exclMap[thisNeighs[n]] << endl;
-		if (exclMap[thisNeighs[n]] == 0){
-
-			solita->setValue(thisNeighs[n], 1);
-			fitness(solita, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
-			postscore = solita->aggrScore;
-			// cout << "prescore: " << prescore << ", postscore: " << postscore << endl; 
-
-			if (postscore > prescore) { 
-
-				exclMap[thisNeighs[n]] = 1;
-				solExpansion(solita, observations, exclMap, thisNeighs[n], postscore, ndmOutFactor, ndmAbsFactor, ndmWeight);
-
-			} else {
-				
-				solita->setValue(thisNeighs[n], 0);
-				fitness(solita, observations, ndmOutFactor, ndmAbsFactor, ndmWeight, false);
-
-			}
-		}
-	}
-}
-
-
-vector<Solution*> exhSearch (vector<Mesh*> &observations, double ndmOutFactor, double ndmAbsFactor, double ndmWeight) {
-
-	vector<Solution*> out;
-	map<int, int> excluded;
-	int meshSize = observations[0]->getSize();
-	double initscore;
-	bool breakOuter;
-
-	for (int i = 0; i < meshSize; i++) {
-
-		for (int j = 0; j < meshSize; j++) {
-			excluded[j] = 0;
-		}
-
-		Solution * asol = new Solution(observations[0]);
-		asol->nullMe();
-		asol->setValue(i, 1);
-		fitness(asol, observations, ndmOutFactor,ndmAbsFactor, ndmWeight, false);
-		initscore = asol->aggrScore;
-		
-		if (initscore > 0) {
-
-			breakOuter = false;
-			solExpansion(asol, observations, excluded, i, initscore, ndmOutFactor,ndmAbsFactor, ndmWeight);
-
-			for (int k = 0; k < out.size(); k++) {
-				
-				if (equal(asol, out[k])) {
-					breakOuter = true;
-					delete asol;
-					break;
-
-				}
-			}
-
-			if (breakOuter) {
-				continue;
-			}
-
-			out.push_back(asol);
-
-		} else {
-
-			delete asol;
-
-		}
-	}
-
-	for (int i = 0; i < out.size(); i++) {
-		for (int j = i + 1; j < out.size(); j++) {
-			break;
-			if (overlap(out[i], out[j])) {
-				if (out[i]->aggrScore > out[j]->aggrScore) {
-					out[j]->aggrScore = 0.0;
-					/*Solution* temp = out[k];
-					out[k] = asol;
-					asol = temp;
-					delete asol;
-					breakOuter = true;
-					break;*/
-				} else {
-					out[j]->aggrScore = 0.0;
-				}		
-			} 
-		}
-	}
-
-	return out;
-
-}
-
-
-vector<Solution*> meta(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmOutFactor, double ndmAbsFactor, double ndmWeight){
-
-	map<int, vector<int> > clusterSch;
-	vector<Solution*> sols;
-
-	clusterSch = dbscan(observations, clusterEps);
-
-	sols = dropSearch(clusterSch, observations, iters, outSize, ndmOutFactor, ndmAbsFactor, ndmWeight);
-
-	return sols;
-
-}
-
-
-vector< vector<Solution*> > metaAlt(vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
-
-	map<int, vector<int> > clusterSch;
-	vector< vector<Solution*> > sols;
-
-	clusterSch = dbscan(observations, clusterEps);
-
-	sols = dropSearchAlt(clusterSch, observations, iters, outSize, ndmWeight);
-
-	return sols;
-
-}
 
 
 int islandNumber(Solution * solita) {

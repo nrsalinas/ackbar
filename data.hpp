@@ -37,7 +37,7 @@ class Cell {
 	    Cell * neiPoints[6]; // array of neighbors' pointers
 	    vector<double> corners; // corner coordinates. For each corner, first figure given is longitude, then latitude.
 
-  	};
+};
 
 
 class Mesh {
@@ -84,37 +84,38 @@ class Mesh {
 		double means[2];
 		double stadevs[2];
 
-	};
+};
 
 
 class Solution : public Mesh {
 
 	public:
 
-	Solution();
-	Solution(int size);
-	Solution(Mesh * mother);
-	~Solution();
-	int critA;
-	int critB;
-	int score;
-	double ndmScore;
-	double aggrScore;
-	int extent;
+		Solution();
+		Solution(int size);
+		Solution(Mesh * mother);
+		~Solution();
+		int critA;
+		int critB;
+		int score;
+		double ndmScore;
+		double aggrScore;
+		int extent;
+		int origin;
 
-	map<int, double> spp2extent;
-	map<int, vector<int> > spp2crit;
-	/* keys are indexes in observations vector. Values are vectors integers that 
-	associates to KBA criteria. Code options are:
-		0 = A1a
-		1 = A1b
-		2 = A1c
-		3 = A1d
-		4 = A1e
-		5 = B1
-		6 = B2*/ 
-	map<int, double> sppAreas;
+		map<int, double> spp2extent;
+		map<int, vector<int> > spp2crit;
+		/* keys are indexes in observations vector. Values are vectors integers that 
+		associates to KBA criteria. Code options are:
+			0 = A1a
+			1 = A1b
+			2 = A1c
+			3 = A1d
+			4 = A1e
+			5 = B1
+			6 = B2*/ 
+		map<int, double> sppAreas;
 
-	};
+};
 
 #endif
