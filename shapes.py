@@ -154,7 +154,8 @@ def solution2shape(mysols, indata, dic_name = 'solutions'):
 	schema = {
 		'geometry': 'Polygon',
 		'properties': {'id': 'int',
-			'score': 'float',
+			'IUCNscore': 'int',
+			'aggrScore': 'float',
 			'NDMscore': 'float'},
 	}
 
@@ -191,7 +192,8 @@ def solution2shape(mysols, indata, dic_name = 'solutions'):
 					'geometry': mapping(solpoly),
 					'properties': {
 						'id': its,
-						'score':  tsol.aggrScore,
+						'IUCNscore': tsol.score,
+						'aggrScore':  tsol.aggrScore,
 						'NDMscore': tsol.ndmScore
 						}})
 

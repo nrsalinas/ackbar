@@ -1,45 +1,21 @@
 #include "search.hpp"
 
 
-map<int, double> presGrid(vector <Mesh*> &observations){
-	map<int, double> out;
+vector< vector<Solution*> > metaAlt (vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
 
-	for (int c = 0; c < observations[0]->getSize(); c++){
-		out[c] = 0.0;
-		for (int i = 0; i < observations.size(); i++){
-			out[c] += observations[i]->getValue(c);
-		}
-	}
-	return out;
+	map<int, vector<int> > clusterSch;
+	vector< vector<Solution*> > sols;
+
+	clusterSch = dbscan(observations, clusterEps);
+
+	sols = dropSearchAlt(clusterSch, observations, iters, outSize, ndmWeight);
+
+	return sols;
+
 }
 
 
-void solExpansionAlt(Solution* solita, map<int, double> &scoringGrid, map<int,int> &exclMap, int cellIndx) {
-
-	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
-	double prescore, postscore;
-
-	for (int n = 0; n < thisNeighs.size(); n++) {
-		
-		if (exclMap[thisNeighs[n]] == 0){
-
-			postscore = (solita->ndmScore * (double) solita->extent + scoringGrid[thisNeighs[n]]) / ((double) solita->extent + 1.0);
-
-			if (postscore > solita->ndmScore) { 
-
-				solita->setValue(thisNeighs[n], 1);
-				solita->ndmScore = postscore;
-				solita->extent += 1;
-				exclMap[thisNeighs[n]] = 1;
-				solExpansionAlt(solita, scoringGrid, exclMap, thisNeighs[n]);
-
-			}
-		}
-	}
-}
-
-
-vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
+vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
 	
 	int clusNum = -1;
 	int thisClus;
@@ -256,48 +232,93 @@ vector< vector<Solution*> > dropSearchAlt(map<int, vector<int> > &clusters, vect
 }
 
 
-vector< vector<int> > solSets (vector <Solution*> &initSols, vector<int> &setMap) {
-	// retrieve groups of non-overlapping solutions.
-	vector< vector<int> > out; // clusters of element indexes
-	vector<int> visited(initSols.size(), 0);
-	int cc = -1;
+void solExpansionAlt(Solution* solita, map<int, double> &scoringGrid, map<int,int> &exclMap, int cellIndx) {
 
-	for (int i = 0; i < initSols.size(); i++) {
+	vector<int> thisNeighs = solita->getCellNeighs(cellIndx);
+	double prescore, postscore;
+
+	for (int n = 0; n < thisNeighs.size(); n++) {
+		
+		if (exclMap[thisNeighs[n]] == 0){
+
+			postscore = (solita->ndmScore * (double) solita->extent + scoringGrid[thisNeighs[n]]) / ((double) solita->extent + 1.0);
+
+			if (postscore > solita->ndmScore) { 
+
+				solita->setValue(thisNeighs[n], 1);
+				solita->ndmScore = postscore;
+				solita->extent += 1;
+				exclMap[thisNeighs[n]] = 1;
+				solExpansionAlt(solita, scoringGrid, exclMap, thisNeighs[n]);
+
+			}
+		}
+	}
+}
+
+
+map<int, vector<int> > dbscan (vector<Mesh*> &observations, double eps){
+
+	map<int, vector<int> > out;
+	map<int, int> visited;
+	int label = -1;
+
+	for (int i = 0; i < observations.size(); i++) {
+		visited[i] = 0;
+	}
+
+	for (int i = 0; i < observations.size(); i++) {
+
 		if (visited[i] == 0) {
-			vector<int> thisgroup;
-			visited[i] = 1;
-			thisgroup.push_back(i);
-			cc += 1;
-			setMap[i] = cc;
-			
-			for (int j = i + 1; j < initSols.size(); j++) {
-				if (visited[j] == 0) {
-					bool addme = true;
-					for (int k = 0; k < thisgroup.size(); k++) {
-						if (overlap(initSols[thisgroup[k]], initSols[j])) {
-							addme = false;
-							break;
-						}
-					}
-					if (addme == true) {
-						visited[j] = 1;
-						thisgroup.push_back(j);
-						setMap[j] = cc; 
-					}
-				}
-			}
 
-			if (thisgroup.size() > 1) {
-				out.push_back(thisgroup);
-			}
+			label += 1;
+			out[label].push_back(i);
+			visited[i] = 1;
+			expand(observations, out, visited, label, i, eps);
+
 		}
 	}
 
 	return out;
+
 }
 
 
-void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmWeight) {
+void expand (vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<int, int> &visited, int label, int border, double eps) {
+
+	for (int i = 0; i < observations.size(); i++) {
+
+		if ((visited[i] == 0) && (i != border)) {
+
+			if (eps > kulczynski(observations[border], observations[i])) {
+
+				clusters[label].push_back(i);
+				visited[i] = 1;
+				expand(observations, clusters, visited, label, i, eps);
+
+			}
+
+		}
+
+	}
+
+}
+
+
+map<int, double> presGrid (vector <Mesh*> &observations){
+	map<int, double> out;
+
+	for (int c = 0; c < observations[0]->getSize(); c++){
+		out[c] = 0.0;
+		for (int i = 0; i < observations.size(); i++){
+			out[c] += observations[i]->getValue(c);
+		}
+	}
+	return out;
+}
+
+
+void complScore (Solution * rsearchSol, vector <Mesh*> &observations, double ndmWeight) {
 	rsearchSol->score = 0;
 	rsearchSol->critA = 0;
 	rsearchSol->critB = 0;
@@ -389,7 +410,58 @@ void complScore(Solution * rsearchSol, vector <Mesh*> &observations, double ndmW
 }
 
 
-void mergeSols(vector<Solution*> &population, int lower, int middle, int upper, string scoreType){
+vector< vector<int> > solSets (vector <Solution*> &initSols, vector<int> &setMap) {
+	// retrieve groups of non-overlapping solutions.
+	vector< vector<int> > out; // clusters of element indexes
+	vector<int> visited(initSols.size(), 0);
+	int cc = -1;
+
+	for (int i = 0; i < initSols.size(); i++) {
+		if (visited[i] == 0) {
+			vector<int> thisgroup;
+			visited[i] = 1;
+			thisgroup.push_back(i);
+			cc += 1;
+			setMap[i] = cc;
+			
+			for (int j = i + 1; j < initSols.size(); j++) {
+				if (visited[j] == 0) {
+					bool addme = true;
+					for (int k = 0; k < thisgroup.size(); k++) {
+						if (overlap(initSols[thisgroup[k]], initSols[j])) {
+							addme = false;
+							break;
+						}
+					}
+					if (addme == true) {
+						visited[j] = 1;
+						thisgroup.push_back(j);
+						setMap[j] = cc; 
+					}
+				}
+			}
+
+			if (thisgroup.size() > 1) {
+				out.push_back(thisgroup);
+			}
+		}
+	}
+
+	return out;
+}
+
+
+void sortSols (vector<Solution*> &population, int lower, int upper, string scoreType){
+	if (lower < upper) {
+		int middle = ((lower + upper) / 2);
+		sortSols(population, lower, middle, scoreType);
+		sortSols(population, (middle + 1), upper, scoreType);
+		mergeSols(population, lower, middle, upper, scoreType);
+	}
+}
+
+
+void mergeSols (vector<Solution*> &population, int lower, int middle, int upper, string scoreType){
 	vector<Solution*> temp;
 	int lowerish = lower;
 	int middlish = middle + 1;
@@ -435,15 +507,21 @@ void mergeSols(vector<Solution*> &population, int lower, int middle, int upper, 
 }
 
 
-void sortSols(vector<Solution*> &population, int lower, int upper, string scoreType){
-	if (lower < upper) {
-		int middle = ((lower + upper) / 2);
-		sortSols(population, lower, middle, scoreType);
-		sortSols(population, (middle + 1), upper, scoreType);
-		mergeSols(population, lower, middle, upper, scoreType);
+bool equal (Mesh * meshA, Mesh * meshB) {
+	//cout << "In equal function" << endl;
+	bool out = true;
+	for (int i = 0; i < meshA->getSize(); i++){
+		//cout << meshA->getValue(i) << ", "<< meshB->getValue(i) << endl;
+		if (((meshA->getValue(i) > 0) && (meshB->getValue(i) == 0)) ||
+			((meshA->getValue(i) == 0) && (meshB->getValue(i) > 0))) {
+			//cout << "Index " << i << endl;
+			out = false;
+			break;
+		}
 	}
+	//cout << "Leaving equal function." << endl;
+	return out;
 }
-
 
 
 double kulczynski(Mesh * meshA, Mesh * meshB){
@@ -480,71 +558,34 @@ bool overlap (Mesh * meshA, Mesh * meshB) {
 }
 
 
-bool equal (Mesh * meshA, Mesh * meshB) {
-	//cout << "In equal function" << endl;
+bool isContinuous (Solution* solita) {
+
+	int islands = 0;
 	bool out = true;
-	for (int i = 0; i < meshA->getSize(); i++){
-		//cout << meshA->getValue(i) << ", "<< meshB->getValue(i) << endl;
-		if (((meshA->getValue(i) > 0) && (meshB->getValue(i) == 0)) ||
-			((meshA->getValue(i) == 0) && (meshB->getValue(i) > 0))) {
-			//cout << "Index " << i << endl;
-			out = false;
-			break;
-		}
+	map <int, int> checked;
+	
+	for (int i = 0; i < solita->getSize(); i++) {
+		checked[i] = 0;
 	}
-	//cout << "Leaving equal function." << endl;
-	return out;
-}
 
-
-void expand(vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<int, int> &visited, int label, int border, double eps) {
-
-	for (int i = 0; i < observations.size(); i++) {
-
-		if ((visited[i] == 0) && (i != border)) {
-
-			if (eps > kulczynski(observations[border], observations[i])) {
-
-				clusters[label].push_back(i);
-				visited[i] = 1;
-				expand(observations, clusters, visited, label, i, eps);
-
+	for (int i = 0; i < solita->getSize(); i++) {
+		if (checked[i] == 0) {
+			checked[i] = 1;
+			if (solita->getValue(i) > 0) {
+				islands += 1;
+				if (islands >= 2) {
+					out = false;
+					break;
+				} else {
+					islandCheck(solita, checked, i);
+				}
 			}
-
-		}
-
-	}
-
-}
-
-
-map<int, vector<int> > dbscan(vector<Mesh*> &observations, double eps){
-
-	map<int, vector<int> > out;
-	map<int, int> visited;
-	int label = -1;
-
-	for (int i = 0; i < observations.size(); i++) {
-		visited[i] = 0;
-	}
-
-	for (int i = 0; i < observations.size(); i++) {
-
-		if (visited[i] == 0) {
-
-			label += 1;
-			out[label].push_back(i);
-			visited[i] = 1;
-			expand(observations, out, visited, label, i, eps);
-
 		}
 	}
 
 	return out;
 
 }
-
-
 
 
 int islandNumber(Solution * solita) {
@@ -587,31 +628,3 @@ void islandCheck (Solution* solita, map <int, int> &checked, int cellIndx) {
 }
 
 
-bool isContinuous (Solution* solita) {
-
-	int islands = 0;
-	bool out = true;
-	map <int, int> checked;
-	
-	for (int i = 0; i < solita->getSize(); i++) {
-		checked[i] = 0;
-	}
-
-	for (int i = 0; i < solita->getSize(); i++) {
-		if (checked[i] == 0) {
-			checked[i] = 1;
-			if (solita->getValue(i) > 0) {
-				islands += 1;
-				if (islands >= 2) {
-					out = false;
-					break;
-				} else {
-					islandCheck(solita, checked, i);
-				}
-			}
-		}
-	}
-
-	return out;
-
-}
