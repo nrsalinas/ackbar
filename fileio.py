@@ -1,3 +1,4 @@
+import sys
 import csv
 import re
 import pydata
@@ -20,7 +21,6 @@ class InputData(object):
 		self.maxLatitude = -91.0
 		self.minLongitude = 181.0
 		self.maxLongitude = -181.0
-		#self.cases = ((0,0,0), (0,-1,0), (0,-1,-1), (-1,-1,-1), (-1,0,-1), (-1,0,0)) # for 3- to 2-dimensional index conversion
 		self.originN = None
 		self.cellSize = None
 		self.rows = None
@@ -29,6 +29,7 @@ class InputData(object):
 		self.csvfile = infile
 		self.presence_grid = []
 		self.index_reg = {}
+		self.taxonGroups = {}
 		lineCounter = 0
 		latCol = int()
 		lonCol = int()
@@ -87,6 +88,83 @@ class InputData(object):
 			raise ValueError("Input file only contain distribution data from {0} species (at least three are required).".format(len(self.points)))
 
 		return None
+
+
+	def groupFiles(self, assignments_file, diversity_file):
+		
+		log = '' # log buffer
+		assignments = False
+		taxonCol = None
+		groupCol = None
+		rangeCol = None
+		self.taxonGroups = {x: None for x in self.points.keys()}
+
+		with open(assignments_file, 'r') as afile:
+			table = csv.reader(afile)
+			
+			for irow , row in enumerate(table):
+				
+				if irow == 0:
+
+					for ic , cell in enumerate(row):
+
+						if re.search('group', cell, flags=re.I):
+							groupCol = ic
+							continue
+
+						if re.search('taxon', cell, flags=re.I):
+							taxonCol = ic
+							continue
+
+						if re.search('range_size', cell, flags=re.I):
+							rangeCol = ic
+							continue
+
+					if groupCol is None or taxonCol is None:
+						raise IOError("Input file `{0}`: column labels do not follow the required format (`Group`, `Taxon`, `Range_size`).".format(assignments_file))
+
+				else:
+
+					rangeS = None
+					if not rangeCol is None:
+						rangeS = re.sub('^\s+', '', row[rangeCol])
+						rangeS = re.sub('\s+$', '', row[rangeCol])
+
+						if len(rangeS) > 0:
+
+							rangeS = float(rangeS)
+								
+							if rangeS <= 0:
+								raise IOError("Invalid range size provided (`{0}`)".format(rangeS))
+
+						else:
+
+							rangeS = None
+
+					group = re.sub('^\s+', '', row[groupCol])
+					group = re.sub('\s+$', '', row[groupCol])
+
+					if len(group) < 4:
+						raise IOError("`{0}` does not seem an actual taxonomic membership".format(group))
+
+					taxon = re.sub('^\s+', '', row[taxonCol])
+					taxon = re.sub('\s+$', '', row[taxonCol])
+
+					if not taxon in self.taxonGroups:
+
+						terr = '`{0}` not included in distribution file\n'.format(taxon)
+						print(terr, file = sys.stderr)
+						log += terr
+				
+					if not self.taxonGroups[taxon] is None:
+
+						raise IOError("Taxon duplicated in group file (`{0}`)".format(taxon))
+
+					else:
+
+						self.taxonGroups[taxon] = {'group': group, 'range_size': rangeS}
+
+
 
 
 	def iucnFile(self, filename):

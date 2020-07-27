@@ -1,5 +1,36 @@
 # Files and directories required
 
+## Taxonomic groups file
+
+Application of criterion B2 requires the selection of a taxonomic rank above species,
+and the specification of range sizes for each especies (the latter
+can be relaxed though, see below). Choosing a taxonomic rank also implies selecting a 
+taxonomic classification scheme. Depending on the group of study, the latter can 
+be an ambiguous choice because there may be several competing classification systems 
+supported by the taxonomic community. 
+To avoid any assumption that could mislead the analysis, the user has to assign 
+each taxon to a taxonomic group above species, and provide the estimated global 
+diversity of each group (number of species).
+This information can be provided through two csv files, one listing the species 
+and their corresponding taxonomic group, and another with the group diversity estimates.
+
+The species-to-group file should contain three columns:
+
+- **Group**: Name of the taxonomic group (genus, family, class, etc.) under which 
+the species is classified.
+ 
+- **Taxon**: Name of the species.
+ 
+- **Range_size**: Size of the distribution range of the secies, in square kilometers.
+This field is optional. If missing, the range will be estimated from the Extent of Occurrence.
+
+The file with group diversity estimates should have only tow columns:
+
+- **Group**: Name of the taxonomic group.
+
+- **Global_species**: Diversity in number of accepted species.
+
+
 ## Categories file
 
 A .csv file that contains the IUCN evaluation information required of the species to be analyzed.
@@ -15,7 +46,7 @@ The file should have three columns:
 - **Criteria**: This field should contain the standarized code of the assessment criteria (v.g., `A2c`, `B2(i,ii,iii)`, `A2ae;B1+2ab(iii,v);C2a(i)`). Be aware that the only letters that should be capitalized are criteria; subcriteria, thresholds, and parameter types should all be lowercase, if applicable.
 
 
-## KBA shpefile directory
+## KBA shapefile directory
 
 Path to a directory. Within this directory the user should have saved all the ESRI shapefiles with the polygons of previously delimited KBAs.
 All polygons in this file should share a unique, indexed field. The name of that field should be annotated in the configuration file, option "kba_index". 
