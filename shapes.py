@@ -1,10 +1,11 @@
 import os
 import fileio
+import pyproj
 import fiona
 from fiona.crs import from_epsg
-from shapely.geometry import shape, Point, Polygon, mapping
-from shapely.ops import unary_union
-
+from shapely.geometry import shape, Point, Polygon, mapping, MultiPoint
+from shapely.ops import unary_union, transform
+from functools import partial
 
 class KBA(object):
 	"""
@@ -198,3 +199,26 @@ def solution2shape(mysols, indata, dic_name = 'solutions'):
 						}})
 
 	return None
+
+
+def area_estimator(point_list, lat0 = 0, lon0 = -73, factor = 0.9992):
+	"""
+	Estimates the area (km^2) of the convex hull of a set of points. Points 
+	should be longitude-latitude points, projected in the WGS84 datum. Area will 
+	be estimated using the Transverse Mercator projection. Origin coordinates of 
+	the Transverse Mercator projection should be provided; if not set, the 
+	Colombian offical origin will be used. Scale factor can be also parsed 
+	(default = 0.9992).
+	""" 
+	out = None
+
+	if len(point_list) > 2:
+
+		convex_hull = MultiPoint(point_list).convex_hull
+		wgs84 = pyproj.Proj(init='epsg:4326')
+		tm = pyproj.Proj(proj='tmerc', lat_0 = lat0, lon_0 = lon0, k_0=factor, units='m')
+		project = partial(pyproj.transform, wgs84, tm)
+		tm_ch = transform(project, convex_hull)
+		out = tm_ch.area / 1000 ** 2
+		
+	return out

@@ -30,6 +30,11 @@ The file with group diversity estimates should have only tow columns:
 
 - **Global_species**: Diversity in number of accepted species.
 
+- **Range_threshold**: If geographic ranges of all species of the group are known, 
+the user should select a threshold such that 25% of all the species of the group 
+have smaller ranges. If range information is incompletely known for the group in 
+question, this field should be left blank.
+
 
 ## Categories file
 

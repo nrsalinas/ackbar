@@ -30,6 +30,7 @@ class InputData(object):
 		self.presence_grid = []
 		self.index_reg = {}
 		self.taxonGroups = {}
+		self.taxonGroupsInfo = {}
 		lineCounter = 0
 		latCol = int()
 		lonCol = int()
@@ -97,9 +98,13 @@ class InputData(object):
 		taxonCol = None
 		groupCol = None
 		rangeCol = None
+		groupBisCol = None
+		globsppCol = None
+		rangeThresCol = None
 		self.taxonGroups = {x: None for x in self.points.keys()}
 
 		with open(assignments_file, 'r') as afile:
+			
 			table = csv.reader(afile)
 			
 			for irow , row in enumerate(table):
@@ -124,21 +129,19 @@ class InputData(object):
 						raise IOError("Input file `{0}`: column labels do not follow the required format (`Group`, `Taxon`, `Range_size`).".format(assignments_file))
 
 				else:
-
 					rangeS = None
+
 					if not rangeCol is None:
 						rangeS = re.sub('^\s+', '', row[rangeCol])
 						rangeS = re.sub('\s+$', '', row[rangeCol])
 
 						if len(rangeS) > 0:
-
 							rangeS = float(rangeS)
 								
 							if rangeS <= 0:
 								raise IOError("Invalid range size provided (`{0}`)".format(rangeS))
 
 						else:
-
 							rangeS = None
 
 					group = re.sub('^\s+', '', row[groupCol])
@@ -151,20 +154,67 @@ class InputData(object):
 					taxon = re.sub('\s+$', '', row[taxonCol])
 
 					if not taxon in self.taxonGroups:
-
 						terr = '`{0}` not included in distribution file\n'.format(taxon)
 						print(terr, file = sys.stderr)
 						log += terr
 				
 					if not self.taxonGroups[taxon] is None:
-
 						raise IOError("Taxon duplicated in group file (`{0}`)".format(taxon))
 
 					else:
 
 						self.taxonGroups[taxon] = {'group': group, 'range_size': rangeS}
+						self.taxonGroupsInfo[group] = None
 
+		with open(diversity_file, 'r') as dhandle:
 
+			table = csv.reader(dhandle)
+			
+			for irow , row in enumerate(table):
+				
+				if irow == 0:
+
+					for ic , cell in enumerate(row):
+
+						if re.search('group', cell, flags=re.I):
+							groupBisCol = ic
+							continue
+
+						if re.search('global_species', cell, flags=re.I):
+							globsppCol = ic
+							continue
+
+						if re.search('range_threshold', cell, flags=re.I):
+							rangeThresCol = ic
+							continue
+
+					if groupBisCol is None or globsppCol is None:
+						raise IOError("Input file `{0}`: column labels do not follow the required format (`Group`, `Global_species`, `Range_threshold`).".format(assignments_file))
+
+				else:
+
+					tgroup = row[groupBisCol]
+					tsp = row[globsppCol]
+					threshold = None
+
+					if rangeThresCol:
+						threshold = row[rangeThresCol]
+						if len(threshold) > 0:
+							threshold = float(threshold)
+						else:
+							threshold = None
+
+					if len(tsp) > 0:
+						tsp = int(tsp)
+
+					else:
+						tsp = None
+
+					if tgroup in self.taxonGroupsInfo:
+						self.taxonGroupsInfo[tgroup] = tsp
+
+					else:
+						raise IOError("Taxon `{0}` not included in group assignment file.".format(tgroup))
 
 
 	def iucnFile(self, filename):
@@ -405,8 +455,23 @@ class InputData(object):
 			cat = self.iucn[taxon]['category']
 			#tile = pydata.Meshpy(self.rows * self.cols, taxon, cat)
 			tile = pydata.Meshpy(act_size, taxon, cat)
+			
+			##################################################
+			##################################################
+			##################################################
+			# Review if A subcriteria are correctly processed
+
 			for sca in self.iucn[taxon]['subcritA']:
 				tile.newThreatSubcriteriaA(sca)
+
+			##################################################
+			##################################################
+			##################################################
+
+			if len(self.taxonGroups) > 0 and taxon in self.taxonGroups and self.taxonGroups[taxon]['range_size']:
+
+				pass
+		
 			#print('Rows: {0}, Cols: {1}'.format(self.rows, self.cols))
 			for r in range(self.rows):
 				for c in range(self.cols):
