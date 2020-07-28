@@ -15,9 +15,9 @@ using std::map;
 
 // main search functions
 
-vector< vector<Solution*> > metaAlt (vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight);
+vector< vector<Solution*> > metaAlt (vector<Mesh*> &observations, map<int, vector<int> > &taxGroups, map<int, int> &spp2groups, double clusterEps, int iters, int outSize, double ndmWeight);
 
-vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight);
+vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vector <Mesh*> &observations, map<int, vector<int> > &taxGroups, map<int, int> &spp2groups, int iters, int outSize, double ndmWeight);
 
 void solExpansionAlt (Solution* solita, map<int, double> &scoringGrid, map<int,int> &exclMap, int cellIndx);
 
@@ -33,7 +33,7 @@ void expand (vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<
 
 map<int, double> presGrid (vector <Mesh*> &observations);
 
-void complScore (Solution * rsearchSol, vector <Mesh*> &observations, double ndmWeight);
+void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, vector<int> > &taxGroups, map<int, int> &spp2groups, double ndmWeight);
 
 
 // solution sorting

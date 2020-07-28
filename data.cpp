@@ -153,6 +153,15 @@ int Mesh::getSize(){
 	return cellColl.size();
 }
 
+void Mesh::setRange(double newRange){
+	range = newRange;
+}
+
+double Mesh::getRange(){
+	return range;
+}
+
+
 void Mesh::setThreatStatus(string newStatus){
 	threatStatus = newStatus;
 }

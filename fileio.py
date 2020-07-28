@@ -470,7 +470,7 @@ class InputData(object):
 
 			if len(self.taxonGroups) > 0 and taxon in self.taxonGroups and self.taxonGroups[taxon]['range_size']:
 
-				pass
+				tile.setRange(self.taxonGroups[taxon]['range_size'])
 		
 			#print('Rows: {0}, Cols: {1}'.format(self.rows, self.cols))
 			for r in range(self.rows):

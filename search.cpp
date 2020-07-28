@@ -1,21 +1,20 @@
 #include "search.hpp"
 
-
-vector< vector<Solution*> > metaAlt (vector<Mesh*> &observations, double clusterEps, int iters, int outSize, double ndmWeight) {
+vector< vector<Solution*> > metaAlt (vector<Mesh*> &observations, map<int, vector<int> > &taxGroups, map<int, int> &spp2groups, double clusterEps, int iters, int outSize, double ndmWeight) {
 
 	map<int, vector<int> > clusterSch;
 	vector< vector<Solution*> > sols;
 
 	clusterSch = dbscan(observations, clusterEps);
 
-	sols = dropSearchAlt(clusterSch, observations, iters, outSize, ndmWeight);
+	sols = dropSearchAlt(clusterSch, observations, taxGroups, spp2groups, iters, outSize, ndmWeight);
 
 	return sols;
 
 }
 
 
-vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vector <Mesh*> &observations, int iters, int outSize, double ndmWeight){
+vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vector <Mesh*> &observations, map<int, vector<int> > &taxGroups, map<int, int> &spp2groups, int iters, int outSize, double ndmWeight){
 	
 	int clusNum = -1;
 	int thisClus;
@@ -200,7 +199,7 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 	// Checking if assessing aggregated scores before sorting takes too much time
 
 	for (int s = 0; s < mySols.size(); s++) {
-		complScore(mySols[s], observations, ndmWeight);
+		complScore(mySols[s], observations, taxGroups, spp2groups, ndmWeight);
 	}
 
 	sortSols(mySols, 0, (mySols.size() - 1), "aggregated");
@@ -318,18 +317,25 @@ map<int, double> presGrid (vector <Mesh*> &observations){
 }
 
 
-void complScore (Solution * rsearchSol, vector <Mesh*> &observations, double ndmWeight) {
+void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, vector<int> > &taxGroups, map<int, int> &spp2groups, double ndmWeight) {
 	rsearchSol->score = 0;
 	rsearchSol->critA = 0;
 	rsearchSol->critB = 0;
 	rsearchSol->spp2crit.clear();
-		
+
+	map<int, vector<int> > groupSpp;
+	map<int, int> groupScore;
+	for (int k = 0; k < taxGroups.size(); k++) {
+		groupScore[k] = 0;
+	}
+
 	for(int i = 0; i < observations.size(); i++){
 		string status = observations[i]->getThreatStatus();
 		vector <int> subcritA = observations[i]->getThreatSubcriteriaA();
 		bool properA = false;
 		int suppA = 0;
 		int suppB = 0;
+		int suppBB = 0;
 		int pass = 0;
 		double popIncluded = 0.0;
 
@@ -392,17 +398,25 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, double ndm
 		 * number of species per group in the
 		 * criterion B2 and to quantify the range
 		 * extent
-
-		if (popIncluded >= 0.01) {
-			suppB = 1;
-			rsearchSol->spp2crit[i].push_back(6);
-		}
-
 		 * *************************************/
+
+		if ((popIncluded >= 0.01) && (observations[i]->getRange() <= taxGroups[spp2groups[i]][0])) {
+			groupScore[spp2groups[i]] += 1;
+			groupSpp[spp2groups[i]].push_back(i);
+		//	rsearchSol->spp2crit[i].push_back(6);
+		}
 
 		rsearchSol->critA += suppA;
 		rsearchSol->critB += suppB;
 		rsearchSol->score += pass;
+	}
+
+	for (int j = 0; j < groupScore.size(); j++) {
+		if (groupScore[j] > taxGroups[j][1]) {
+			for (int k = 0; k < groupSpp[j].size(); k++) {
+				rsearchSol->spp2crit[k].push_back(6);
+			}
+		}
 	}
 
 	rsearchSol->aggrScore = (double) rsearchSol->score + ndmWeight * rsearchSol->ndmScore;

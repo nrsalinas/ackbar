@@ -52,6 +52,8 @@ class Mesh {
 		void setName(string newName);
 		int getSize();
 		string getName();
+		void setRange(double newRange);
+		double getRange();
 		bool isNull();
 		void nullMe();
 
@@ -77,6 +79,7 @@ class Mesh {
 
 	    int geometry; // 0 = square, 1 = hexagonal, 2 = triangular
 	    string name;
+		double range;
 	    vector<vector<int> > neighborhood;
 	    string threatStatus; // 'CR', 'EN', or 'VU'
 	    vector<int> threatSubcriteriaA; // 1, 2, 3, or 4

@@ -23,6 +23,8 @@ cdef extern from "data.hpp":
 		string getName()
 		bool isNull()
 		void nullMe()
+		void setRange(double newRange)
+		double getRange()
 
 		#void resetNeighborhood()
 		void linkNeighs(int indexA, int indexB)
@@ -63,5 +65,6 @@ cdef extern from "search.cpp":
 
 cdef extern from "search.hpp":
 
-	vector[vesol] metaAlt(vector[Mesh*] &observations, double clusterEps, int iters, int outSize, double ndmWeight)
+	vector[vesol] metaAlt(vector[Mesh*] &observations, cppmap[int, vector[int]] &taxGroups, cppmap[int, int] &spp2groups, double clusterEps, int iters, int outSize, double ndmWeight)
+
 

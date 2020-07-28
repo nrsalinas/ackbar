@@ -31,11 +31,17 @@ cdef class Meshpy:
 		return self.thismesh.getSize()
 
 	def setName(self, str newName):
-		return self.thismesh.setName(newName.encode('utf-8'))
+		self.thismesh.setName(newName.encode('utf-8'))
 
 	def getName(self):
 		nm = self.thismesh.getName()
 		return nm.decode('utf-8')
+		
+	def setRange(self, float newRange):
+		self.thismesh.setRange(newRange)
+
+	def getRange(self):
+		return self.thismesh.getRange()
 		
 	def isNull(self):
 		return self.thismesh.isNull()
@@ -160,7 +166,7 @@ cdef class Solutionpy:
 
 
 
-def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight):
+def metasearchAlt(list obs, dict taxGr, dict spp2gr, double eps, int iters, int maxOutSize, double ndmWeight):
 	"""
 	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
 	of the first order are non-overlapping sets of areas. Solutions are score 
@@ -182,12 +188,15 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 	pout = []
 	cdef vector[Mesh*] ve
 	cdef vector[vesol] out
+	cdef cppmap[int, vector[int]] taxGroups = taxGr
+	cdef cppmap[int, int] spp2groups = spp2gr
 
 	for ob in obs:
 		obme = <Meshpy> ob
 		ve.push_back(obme.thismesh)
 
-	out = metaAlt(ve, eps, iters, maxOutSize, ndmWeight)
+
+	out = metaAlt(ve, taxGroups, spp2groups, eps, iters, maxOutSize, ndmWeight)
 
 	for i in range(out.size()):
 		tmp = []

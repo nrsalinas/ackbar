@@ -34,6 +34,25 @@ int main(){
 	vector<Mesh*> obs;
 	vector< vector<Solution*> > sols;
 	obs = overTiles2(tileSide, 3, 100);
+	for (int i = 0; i < obs.size(); i++) {
+		obs[i]->setRange(1000);
+	}
+	int midi = obs.size() / 2;
+
+	map<int, vector<int> > gr;
+	gr[0].push_back(10000);
+	gr[0].push_back(2);
+	gr[1].push_back(2000);
+	gr[1].push_back(2);
+
+	map<int, int> s2g;
+	for (int i = 0; i < midi; i++) {
+		s2g[i] = 0;
+	}
+	for (int i = midi; i < obs.size(); i++) {
+		s2g[i] = 1;
+	}
+
 
 	map<int, vector<int> >::iterator it;
 	map<int, vector<int> > clusters = dbscan(obs, 0.2);
@@ -102,7 +121,7 @@ int main(){
 	//sortSols(sols, 0, (sols.size() - 1), "aggregated");
 	//*/
 
-	sols = dropSearchAlt(clusters, obs, 200, 50, 1.0);
+	sols = dropSearchAlt(clusters, obs, gr, s2g, 200, 50, 1.0);
 
 	int nuis;
 	bool isco;

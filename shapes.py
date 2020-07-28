@@ -145,7 +145,7 @@ def solution2shape(mysols, indata, dic_name = 'solutions'):
 
 
 	if os.path.exists(dic_name):
-		raise IOError("There is already a directory calloed `{0}`. Please chose another name for the solution folder.".format(dic_name))
+		raise IOError("There is already a directory called `{0}`. Please chose another name for the solution folder.".format(dic_name))
 	else:
 		os.mkdir(dic_name)
 
@@ -158,7 +158,7 @@ def solution2shape(mysols, indata, dic_name = 'solutions'):
 			'IUCNscore': 'int',
 			'aggrScore': 'float',
 			'NDMscore': 'float'},
-	}
+		}
 
 	for igr, gr in enumerate(mysols):
 		filename = '{0}/group_{1}.shp'.format(dic_name, igr)
