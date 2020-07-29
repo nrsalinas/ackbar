@@ -166,7 +166,7 @@ cdef class Solutionpy:
 
 
 
-def metasearchAlt(list obs, dict taxGr, dict spp2gr, double eps, int iters, int maxOutSize, double ndmWeight):
+def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):
 	"""
 	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
 	of the first order are non-overlapping sets of areas. Solutions are score 
@@ -188,8 +188,15 @@ def metasearchAlt(list obs, dict taxGr, dict spp2gr, double eps, int iters, int 
 	pout = []
 	cdef vector[Mesh*] ve
 	cdef vector[vesol] out
-	cdef cppmap[int, vector[int]] taxGroups = taxGr
-	cdef cppmap[int, int] spp2groups = spp2gr
+	cdef cppmap[int, vector[int]] taxGroups
+	cdef cppmap[int, int] spp2groups
+
+	if type(taxGr) == dict and type(spp2gr) == dict:
+		taxGroups = taxGr
+		spp2groups = spp2gr
+
+	elif not taxGr is None and spp2gr is None:
+		raise ValueError("If parsed, parameters `taxGr` and `spp2gr` should be dictionaries.")
 
 	for ob in obs:
 		obme = <Meshpy> ob

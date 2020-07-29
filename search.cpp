@@ -322,11 +322,14 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 	rsearchSol->critA = 0;
 	rsearchSol->critB = 0;
 	rsearchSol->spp2crit.clear();
-
+	map<int, int> scoringSpp;
 	map<int, vector<int> > groupSpp;
 	map<int, int> groupScore;
-	for (int k = 0; k < taxGroups.size(); k++) {
-		groupScore[k] = 0;
+
+	if ((taxGroups.size() > 0) && (spp2groups.size() > 0)) {
+		for (int k = 0; k < taxGroups.size(); k++) {
+			groupScore[k] = 0;
+		}
 	}
 
 	for(int i = 0; i < observations.size(); i++){
@@ -337,6 +340,7 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 		int suppB = 0;
 		int suppBB = 0;
 		int pass = 0;
+		scoringSpp[i] = 0;
 		double popIncluded = 0.0;
 
 		for(int c = 0; c < rsearchSol->getSize(); c++){
@@ -357,18 +361,21 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 			if (popIncluded >= 0.005){
 				suppA = 1;
 				pass = 1;
+				scoringSpp[i] = 1;
 				rsearchSol->spp2crit[i].push_back(0);
 			}
 		
 			if ((popIncluded >= 0.01) & (properA)) {
 				suppA = 1;
 				pass = 1;
+				scoringSpp[i] = 1;
 				rsearchSol->spp2crit[i].push_back(2);
 			}
 			
 			if (popIncluded >= 0.95) {
 				suppA = 1;
 				pass = 1;
+				scoringSpp[i] = 1;
 				rsearchSol->spp2crit[i].push_back(4);
 			}
 
@@ -377,12 +384,14 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 			if (popIncluded >= 0.01){
 				suppA = 1;
 				pass = 1;
+				scoringSpp[i] = 1;
 				rsearchSol->spp2crit[i].push_back(1);
 			}
 
 			if ((popIncluded >= 0.02) & (properA)) {
 				suppA = 1;
 				pass = 1;
+				scoringSpp[i] = 1;
 				rsearchSol->spp2crit[i].push_back(3);
 			}
 		}
@@ -390,33 +399,38 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 		if (popIncluded >= 0.1) {
 			suppB = 1;
 			pass = 1;
+			scoringSpp[i] = 1;
 			rsearchSol->spp2crit[i].push_back(5);
 		}
 
-		/****************************************
-		 * It is necessary to include a minimum 
-		 * number of species per group in the
-		 * criterion B2 and to quantify the range
-		 * extent
-		 * *************************************/
-
-		if ((popIncluded >= 0.01) && (observations[i]->getRange() <= taxGroups[spp2groups[i]][0])) {
-			groupScore[spp2groups[i]] += 1;
-			groupSpp[spp2groups[i]].push_back(i);
-		//	rsearchSol->spp2crit[i].push_back(6);
+		if ((taxGroups.size() > 0) && (spp2groups.size() > 0)) {
+			if ((popIncluded >= 0.01) && (observations[i]->getRange() <= taxGroups[spp2groups[i]][0])) {
+				groupScore[spp2groups[i]] += 1;
+				groupSpp[spp2groups[i]].push_back(i);
+				if (groupScore[spp2groups[i]] >= taxGroups[spp2groups[i]][1]) {
+					suppB = 1;
+				}
+			}
 		}
 
 		rsearchSol->critA += suppA;
 		rsearchSol->critB += suppB;
-		rsearchSol->score += pass;
 	}
 
-	for (int j = 0; j < groupScore.size(); j++) {
-		if (groupScore[j] > taxGroups[j][1]) {
-			for (int k = 0; k < groupSpp[j].size(); k++) {
-				rsearchSol->spp2crit[k].push_back(6);
+	if ((taxGroups.size() > 0) && (spp2groups.size() > 0)) {
+		for (int j = 0; j < groupScore.size(); j++) {
+			if (groupScore[j] > taxGroups[j][1]) {
+				for (int k = 0; k < groupSpp[j].size(); k++) {
+					rsearchSol->spp2crit[groupSpp[j][k]].push_back(6);
+					scoringSpp[groupSpp[j][k]] = 1;
+				
+				}
 			}
 		}
+	}
+
+	for (int i = 0; i < scoringSpp.size(); i++) {
+		rsearchSol->score += scoringSpp[i];
 	}
 
 	rsearchSol->aggrScore = (double) rsearchSol->score + ndmWeight * rsearchSol->ndmScore;

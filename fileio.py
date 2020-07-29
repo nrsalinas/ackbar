@@ -8,6 +8,8 @@ import fiona
 from fiona.crs import from_epsg
 from shapely.geometry import Point, Polygon, MultiPolygon, mapping
 
+import shapes
+
 
 class InputData(object):
 	"""
@@ -39,7 +41,7 @@ class InputData(object):
 			table = csv.reader(fil)
 			for row in table:
 				lineCounter += 1
-				if lineCounter == 1 and (re.search("[^0-9\.\-]",row[1]) or re.search("[^0-9\.\-]",row[2])):
+				if lineCounter == 1 and (re.search(r"[^0-9\.\-]",row[1]) or re.search(r"[^0-9\.\-]",row[2])):
 					if re.search("lon(gitude)*",row[1],flags=re.I) and re.search("lat(itude)*",row[2],flags=re.I):
 						latCol, lonCol = 2, 1
 						continue
@@ -52,17 +54,17 @@ class InputData(object):
 				if len(row) > 3:
 					raise IOError("Line {0} in `{1}` contains more than three columns.".format(lineCounter, infile))
 				
-				row[2] = re.sub("[\s\'\"]","",row[2])
-				row[1] = re.sub("[\s\'\"]","",row[1])
+				row[2] = re.sub(r"[\s\'\"]","",row[2])
+				row[1] = re.sub(r"[\s\'\"]","",row[1])
 
 				if len(row[latCol]) < 1:
 					raise IOError("Line {0} in `{1}` do not contain latitude data.".format(lineCounter, infile))
-				if re.search("[^0-9\.\-]",row[latCol]) or float(row[latCol]) < -90 or float(row[latCol]) > 90:
+				if re.search(r"[^0-9\.\-]",row[latCol]) or float(row[latCol]) < -90 or float(row[latCol]) > 90:
 					raise IOError("Line {0} in `{1}` contains invalid coordinate value(s): `{2}`.".format(lineCounter, infile, row[latCol]))
 
 				if len(row[lonCol]) < 1:
 					raise IOError("Line {0} in `{1}` do not contain longitude data.".format(lineCounter, infile))
-				if re.search("[^0-9\.\-]",row[lonCol]) or float(row[lonCol]) < -180 or float(row[lonCol]) > 180:
+				if re.search(r"[^0-9\.\-]",row[lonCol]) or float(row[lonCol]) < -180 or float(row[lonCol]) > 180:
 					raise IOError("Line {0} in `{1}` contains invalid coordinate value(s): `{2}`.".format(lineCounter, infile, row[lonCol]))
 
 				lat = float(row[latCol])
@@ -132,8 +134,8 @@ class InputData(object):
 					rangeS = None
 
 					if not rangeCol is None:
-						rangeS = re.sub('^\s+', '', row[rangeCol])
-						rangeS = re.sub('\s+$', '', row[rangeCol])
+						rangeS = re.sub(r'^\s+', '', row[rangeCol])
+						rangeS = re.sub(r'\s+$', '', row[rangeCol])
 
 						if len(rangeS) > 0:
 							rangeS = float(rangeS)
@@ -144,14 +146,14 @@ class InputData(object):
 						else:
 							rangeS = None
 
-					group = re.sub('^\s+', '', row[groupCol])
-					group = re.sub('\s+$', '', row[groupCol])
+					group = re.sub(r'^\s+', '', row[groupCol])
+					group = re.sub(r'\s+$', '', row[groupCol])
 
 					if len(group) < 4:
 						raise IOError("`{0}` does not seem an actual taxonomic membership".format(group))
 
-					taxon = re.sub('^\s+', '', row[taxonCol])
-					taxon = re.sub('\s+$', '', row[taxonCol])
+					taxon = re.sub(r'^\s+', '', row[taxonCol])
+					taxon = re.sub(r'\s+$', '', row[taxonCol])
 
 					if not taxon in self.taxonGroups:
 						terr = '`{0}` not included in distribution file\n'.format(taxon)
@@ -162,7 +164,6 @@ class InputData(object):
 						raise IOError("Taxon duplicated in group file (`{0}`)".format(taxon))
 
 					else:
-
 						self.taxonGroups[taxon] = {'group': group, 'range_size': rangeS}
 						self.taxonGroupsInfo[group] = None
 
@@ -195,14 +196,14 @@ class InputData(object):
 
 					tgroup = row[groupBisCol]
 					tsp = row[globsppCol]
-					threshold = None
+					range_thr = None
 
 					if rangeThresCol:
-						threshold = row[rangeThresCol]
-						if len(threshold) > 0:
-							threshold = float(threshold)
+						range_thr = row[rangeThresCol]
+						if len(range_thr) > 0:
+							range_thr = float(range_thr)
 						else:
-							threshold = None
+							range_thr = 10000.0 
 
 					if len(tsp) > 0:
 						tsp = int(tsp)
@@ -211,10 +212,48 @@ class InputData(object):
 						tsp = None
 
 					if tgroup in self.taxonGroupsInfo:
-						self.taxonGroupsInfo[tgroup] = tsp
+						self.taxonGroupsInfo[tgroup] = {'range_threshold': range_thr, 'global_species': tsp}
 
 					else:
 						raise IOError("Taxon `{0}` not included in group assignment file.".format(tgroup))
+
+		for sp in self.points:
+
+			if not self.taxonGroups[sp]['range_size']:
+			
+				point_list = [x for x in self.points[sp].keys()]
+				tarea = shapes.area_estimator(point_list)
+				self.taxonGroups[sp]['range_size'] = tarea
+
+		
+		# Integer dictionaries for search routine functions
+
+		self.groupDict = {}
+		self.spp2groupDict = {}
+
+		for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
+		
+			mran = self.taxonGroupsInfo[gr]['range_threshold']
+			mspp = int(self.taxonGroupsInfo[gr]['global_species'] * 0.0002)
+		
+			if mspp < 2:
+				mspp = 2
+		
+			self.groupDict[igr] = (mran, mspp)
+
+
+		for ispp, spp in enumerate(sorted(self.taxonGroups.keys())):
+		
+			tgr = self.taxonGroups[spp]['group']
+		
+			for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
+		
+				if tgr == gr:
+					tgr = igr
+					break
+		
+			self.spp2groupDict[ispp] = tgr
+
 
 
 	def iucnFile(self, filename):
@@ -326,7 +365,6 @@ class InputData(object):
 
 		- eps: maximum distance among cluster members.  
 		"""
-		minpts = 0
 		clusters = {}
 		visited = {x:0 for x in self.points[taxon]}
 		for pivot in self.points[taxon]:
@@ -392,8 +430,7 @@ class InputData(object):
 		self.rows, self.cols = 0, 0
 		offsetLat = float(offsetLat)
 		offsetLon = float(offsetLon)
-		correctionFactor = self.cellSize / 100
-
+		
 		self.originN = ((self.minLongitude - offsetLon), (self.maxLatitude + offsetLat))
 		span = [max((self.maxLongitude - self.originN[0]), self.cellSize), max((self.originN[1] - self.minLatitude), self.cellSize)]
 		totCols = int(ceil(span[0] / self.cellSize))
@@ -402,10 +439,12 @@ class InputData(object):
 		span[1] = totRows * self.cellSize
 		self.rows, self.cols = totRows, totCols
 		
-		inclusion_grid = [[1 for x in range(totCols)] for x in range(totRows)]
 
 		############################################
 		# Select cells that are spatially excluded
+
+		#inclusion_grid = [[1 for x in range(totCols)] for x in range(totRows)]
+
 		############################################
 
 		self.presence_grid = [[0 for x in range(totCols)] for x in range(totRows)]
@@ -546,8 +585,8 @@ class InputData(object):
 		"""
 		Saves the grid into a shapefile.
 		"""
-		polys = []
-		multipol = None
+		#polys = []
+		#multipol = None
 		#irkeys = list(self.index_reg.keys())
 		counter = 0
 		wrtMode = None
