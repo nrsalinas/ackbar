@@ -128,7 +128,7 @@ class InputData(object):
 							continue
 
 					if groupCol is None or taxonCol is None:
-						raise IOError("Input file `{0}`: column labels do not follow the required format (`Group`, `Taxon`, `Range_size`).".format(assignments_file))
+						raise IOError("Input file `{0}`: column labels do not follow the required format (headers should be `Group`, `Taxon`, and `Range_size`).".format(assignments_file))
 
 				else:
 					rangeS = None
@@ -190,7 +190,7 @@ class InputData(object):
 							continue
 
 					if groupBisCol is None or globsppCol is None:
-						raise IOError("Input file `{0}`: column labels do not follow the required format (`Group`, `Global_species`, `Range_threshold`).".format(assignments_file))
+						raise IOError("Input file `{0}`: column labels do not follow the required format (headers should be `Group`, `Global_species`, and `Range_threshold`).".format(assignments_file))
 
 				else:
 
