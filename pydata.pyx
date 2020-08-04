@@ -195,7 +195,10 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 		taxGroups = taxGr
 		spp2groups = spp2gr
 
-	elif not taxGr is None and spp2gr is None:
+	elif taxGr is None and spp2gr is None:
+		pass
+
+	else:
 		raise ValueError("If parsed, parameters `taxGr` and `spp2gr` should be dictionaries.")
 
 	for ob in obs:

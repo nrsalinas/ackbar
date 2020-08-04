@@ -42,33 +42,33 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 		breakOuter = false;
 		thisClus = rand() % clusNum;
 		thisObs = rand() % clusters[thisClus].size();
-		thisObs = clusters[thisClus][thisObs];
-		thisCell = rand() % observations[thisObs]->getSize();
+		thisObs = clusters[thisClus].at(thisObs);
+		thisCell = rand() % observations.at(thisObs)->getSize();
 
-		while (observations[thisObs]->getValue(thisCell) <= 0) {
-			thisCell = rand() % observations[thisObs]->getSize();
+		while (observations.at(thisObs)->getValue(thisCell) <= 0) {
+			thisCell = rand() % observations.at(thisObs)->getSize();
 		}
 
-		Solution * asol = new Solution(observations[thisObs]);
+		Solution * asol = new Solution(observations.at(thisObs));
 		asol->nullMe();
 		asol->setValue(thisCell, 1);
 		asol->extent = 1;
 
 		asol->ndmScore = scoreGrid[thisCell];
 		
-		for (int j = 0; j < observations[0]->getSize(); j++) {
+		for (int j = 0; j < observations.at(0)->getSize(); j++) {
 			exclMap[j] = 0;
 		}
 		exclMap[thisCell] = 1;
 
 		for (int k = 0; k < observations.size(); k++) {
-			asol->sppAreas[k] = observations[k]->getValue(thisCell);
+			asol->sppAreas[k] = observations.at(k)->getValue(thisCell);
 		}
 
 		solExpansionAlt(asol, scoreGrid, exclMap, thisCell);
 
 		for (int i = 0; i < mySols.size(); i++){
-			if (equal(asol, mySols[i])) {
+			if (equal(asol, mySols.at(i))) {
 				breakOuter = true;
 				delete asol;
 				break;
@@ -94,21 +94,21 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 	int vecSi = mySols.size();
 	for (int i = 0; i < vecSi; i++) {
 		for (int j = i+1; j < vecSi; j++) {
-			if ( overlap(mySols[i], mySols[j]) ) {
+			if ( overlap(mySols.at(i), mySols.at(j)) ) {
 			
-				Solution * comp0 = new Solution(mySols[j]);
+				Solution * comp0 = new Solution(mySols.at(j));
 				comp0->origin = 1;
-				Solution * comp1 = new Solution(mySols[i]);
+				Solution * comp1 = new Solution(mySols.at(i));
 				comp1->origin = 1;
-				Solution * inter = new Solution(mySols[i]);
+				Solution * inter = new Solution(mySols.at(i));
 				inter->origin = 1;
 				inter->nullMe();
 
-				for (int c = 0; c < mySols[i]->getSize(); c++) {
+				for (int c = 0; c < mySols.at(i)->getSize(); c++) {
 
-					if (mySols[i]->getValue(c) > 0) {
+					if (mySols.at(i)->getValue(c) > 0) {
 
-						if (mySols[j]->getValue(c) > 0) {
+						if (mySols.at(j)->getValue(c) > 0) {
 						
 							comp0->setValue(c, 0);
 							comp1->setValue(c, 0);
@@ -123,7 +123,7 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 						
 						}
 
-					} else if (mySols[j]->getValue(c) > 0) {
+					} else if (mySols.at(j)->getValue(c) > 0) {
 						
 						comp0->extent += 1;
 						comp0->ndmScore += scoreGrid[c];
@@ -148,7 +148,7 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 					delete comp0;
 				} else {
 					for (int m = 0; m < mySols.size(); m++) {
-						if ( equal(comp0, mySols[m]) ) {
+						if ( equal(comp0, mySols.at(m)) ) {
 							delete comp0;
 							del0 = true;
 							break;
@@ -164,7 +164,7 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 					delete comp1;
 				} else {
 					for (int m = 0; m < mySols.size(); m++) {
-						if ( equal(comp1, mySols[m]) ) {
+						if ( equal(comp1, mySols.at(m)) ) {
 							delete comp1;
 							del1 = true;
 							break;
@@ -180,7 +180,7 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 					delete inter;
 				} else {
 					for (int m = 0; m < mySols.size(); m++) {
-						if ( equal(inter, mySols[m]) ) {
+						if ( equal(inter, mySols.at(m)) ) {
 							delete inter;
 							deli = true;
 							break;
@@ -199,7 +199,7 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 	// Checking if assessing aggregated scores before sorting takes too much time
 
 	for (int s = 0; s < mySols.size(); s++) {
-		complScore(mySols[s], observations, taxGroups, spp2groups, ndmWeight);
+		complScore(mySols.at(s), observations, taxGroups, spp2groups, ndmWeight);
 	}
 
 	sortSols(mySols, 0, (mySols.size() - 1), "aggregated");
@@ -213,13 +213,13 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 	int counter = 0;
 	for (int g = 0; g < groups.size(); g++) {
 		vector <Solution*> tmp;
-		for (int h = 0; h < groups[g].size(); h++) {
+		for (int h = 0; h < groups.at(g).size(); h++) {
 			if (counter < outSize) {
 				//complScore(mySols[groups[g][h]], observations, ndmWeight);
-				tmp.push_back(mySols[groups[g][h]]);
+				tmp.push_back(mySols.at(groups.at(g).at(h)));
 				counter += 1;
 			} else {
-				delete mySols[groups[g][h]];
+				delete mySols.at(groups.at(g).at(h));
 			}
 		}
 		if (tmp.size() > 0) {
@@ -238,17 +238,17 @@ void solExpansionAlt(Solution* solita, map<int, double> &scoringGrid, map<int,in
 
 	for (int n = 0; n < thisNeighs.size(); n++) {
 		
-		if (exclMap[thisNeighs[n]] == 0){
+		if (exclMap[ thisNeighs.at(n) ] == 0){
 
-			postscore = (solita->ndmScore * (double) solita->extent + scoringGrid[thisNeighs[n]]) / ((double) solita->extent + 1.0);
+			postscore = (solita->ndmScore * (double) solita->extent + scoringGrid[ thisNeighs.at(n) ]) / ((double) solita->extent + 1.0);
 
 			if (postscore > solita->ndmScore) { 
 
-				solita->setValue(thisNeighs[n], 1);
+				solita->setValue(thisNeighs.at(n), 1);
 				solita->ndmScore = postscore;
 				solita->extent += 1;
-				exclMap[thisNeighs[n]] = 1;
-				solExpansionAlt(solita, scoringGrid, exclMap, thisNeighs[n]);
+				exclMap[ thisNeighs.at(n) ] = 1;
+				solExpansionAlt(solita, scoringGrid, exclMap, thisNeighs.at(n));
 
 			}
 		}
@@ -289,7 +289,7 @@ void expand (vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<
 
 		if ((visited[i] == 0) && (i != border)) {
 
-			if (eps > kulczynski(observations[border], observations[i])) {
+			if (eps > kulczynski(observations.at(border), observations.at(i))) {
 
 				clusters[label].push_back(i);
 				visited[i] = 1;
@@ -307,10 +307,10 @@ void expand (vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<
 map<int, double> presGrid (vector <Mesh*> &observations){
 	map<int, double> out;
 
-	for (int c = 0; c < observations[0]->getSize(); c++){
+	for (int c = 0; c < observations.at(0)->getSize(); c++){
 		out[c] = 0.0;
 		for (int i = 0; i < observations.size(); i++){
-			out[c] += observations[i]->getValue(c);
+			out[c] += observations.at(i)->getValue(c);
 		}
 	}
 	return out;
@@ -333,8 +333,8 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 	}
 
 	for(int i = 0; i < observations.size(); i++){
-		string status = observations[i]->getThreatStatus();
-		vector <int> subcritA = observations[i]->getThreatSubcriteriaA();
+		string status = observations.at(i)->getThreatStatus();
+		vector <int> subcritA = observations.at(i)->getThreatSubcriteriaA();
 		bool properA = false;
 		int suppA = 0;
 		int suppB = 0;
@@ -345,12 +345,12 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 
 		for(int c = 0; c < rsearchSol->getSize(); c++){
 			if (rsearchSol->getValue(c) > 0){
-				popIncluded += observations[i]->getValue(c);
+				popIncluded += observations.at(i)->getValue(c);
 			}
 		}
 
 		for (int a = 0; a < subcritA.size(); a++){
-			if ((subcritA[a] == 1) || (subcritA[a] == 2) || (subcritA[a] == 4)) {
+			if ((subcritA.at(a) == 1) || (subcritA.at(a) == 2) || (subcritA.at(a) == 4)) {
 				properA = true;
 				break;
 			}
@@ -404,10 +404,10 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 		}
 
 		if ((taxGroups.size() > 0) && (spp2groups.size() > 0)) {
-			if ((popIncluded >= 0.01) && (observations[i]->getRange() <= taxGroups[spp2groups[i]][0])) {
+			if ((popIncluded >= 0.01) && (observations.at(i)->getRange() <= taxGroups[spp2groups[i]].at(0))) {
 				groupScore[spp2groups[i]] += 1;
 				groupSpp[spp2groups[i]].push_back(i);
-				if (groupScore[spp2groups[i]] >= taxGroups[spp2groups[i]][1]) {
+				if (groupScore[spp2groups[i]] >= taxGroups[spp2groups[i]].at(1)) {
 					suppB = 1;
 				}
 			}
@@ -419,7 +419,7 @@ void complScore (Solution * rsearchSol, vector <Mesh*> &observations, map<int, v
 
 	if ((taxGroups.size() > 0) && (spp2groups.size() > 0)) {
 		for (int j = 0; j < groupScore.size(); j++) {
-			if (groupScore[j] > taxGroups[j][1]) {
+			if (groupScore[j] > taxGroups[j].at(1)) {
 				for (int k = 0; k < groupSpp[j].size(); k++) {
 					rsearchSol->spp2crit[groupSpp[j][k]].push_back(6);
 					scoringSpp[groupSpp[j][k]] = 1;
@@ -445,26 +445,26 @@ vector< vector<int> > solSets (vector <Solution*> &initSols, vector<int> &setMap
 	int cc = -1;
 
 	for (int i = 0; i < initSols.size(); i++) {
-		if (visited[i] == 0) {
+		if (visited.at(i) == 0) {
 			vector<int> thisgroup;
-			visited[i] = 1;
+			visited.at(i) = 1;
 			thisgroup.push_back(i);
 			cc += 1;
-			setMap[i] = cc;
+			setMap.at(i) = cc;
 			
 			for (int j = i + 1; j < initSols.size(); j++) {
-				if (visited[j] == 0) {
+				if (visited.at(j) == 0) {
 					bool addme = true;
 					for (int k = 0; k < thisgroup.size(); k++) {
-						if (overlap(initSols[thisgroup[k]], initSols[j])) {
+						if (overlap(initSols.at(thisgroup.at(k)), initSols.at(j))) {
 							addme = false;
 							break;
 						}
 					}
 					if (addme == true) {
-						visited[j] = 1;
+						visited.at(j) = 1;
 						thisgroup.push_back(j);
-						setMap[j] = cc; 
+						setMap.at(j) = cc; 
 					}
 				}
 			}
@@ -498,38 +498,38 @@ void mergeSols (vector<Solution*> &population, int lower, int middle, int upper,
 	while ((middlish <= upper) && (lowerish <= middle)) {
 		
 		if (scoreType == "iucn") {
-			scorel = (double) population[lowerish]->score;
-			scorem = (double) population[middlish]->score;
+			scorel = (double) population.at(lowerish)->score;
+			scorem = (double) population.at(middlish)->score;
 		} else if (scoreType == "ndm") {
-			scorel = population[lowerish]->ndmScore;
-			scorem = population[middlish]->ndmScore;
+			scorel = population.at(lowerish)->ndmScore;
+			scorem = population.at(middlish)->ndmScore;
 		} else if (scoreType == "aggregated") {
-			scorel = population[lowerish]->aggrScore;
-			scorem = population[middlish]->aggrScore;
+			scorel = population.at(lowerish)->aggrScore;
+			scorem = population.at(middlish)->aggrScore;
 		}
 
 		if(scorel >= scorem) {
-			temp.push_back(population[lowerish]);
+			temp.push_back(population.at(lowerish));
 			lowerish++;
 		} else {
-			temp.push_back(population[middlish]);
+			temp.push_back(population.at(middlish));
 			middlish++;
 		}
 	
 	}
 
 	while (middlish <= upper) {
-		temp.push_back(population[middlish]);
+		temp.push_back(population.at(middlish));
 		middlish++;
 	}
 
 	while (lowerish <= middle) {
-		temp.push_back(population[lowerish]);
+		temp.push_back(population.at(lowerish));
 		lowerish++;
 	}
 
 	for (int i = lower; i <= upper; i++) {
-		population[i] = temp[i-lower];
+		population.at(i) = temp.at(i-lower);
 	}
 
 }
@@ -646,10 +646,10 @@ void islandCheck (Solution* solita, map <int, int> &checked, int cellIndx) {
 	vector <int> neighs = solita->getCellNeighs(cellIndx);
 	
 	for (int n = 0; n < neighs.size(); n++) {
-		if (checked[neighs[n]] == 0) {
-			checked[neighs[n]] = 1;
-			if (solita->getValue(neighs[n]) > 0) {
-				islandCheck(solita, checked, neighs[n]);
+		if (checked[ neighs.at(n) ] == 0) {
+			checked[ neighs.at(n) ] = 1;
+			if (solita->getValue(neighs.at(n)) > 0) {
+				islandCheck(solita, checked, neighs.at(n));
 			}
 		}	
 	}
