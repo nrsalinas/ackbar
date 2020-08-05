@@ -9,6 +9,36 @@ using std::map;
 #ifndef DATA_HPP
 #define DATA_HPP
 
+class Cell {
+
+	public:
+
+		Cell(double invalue = -1, int ingeometry = 0, double inxCentroid = 0.0, double inyCentroid = 0.0);
+	    ~Cell();
+		void setValue(double theVal);
+		double getValue();
+
+		void newNeigh(Cell * theNei);
+		Cell * getNeigh(int index);
+		int neighSize();
+
+		double storedCorners();
+		void addCorner(double lon, double lat);
+		double getCorner(int index);
+
+
+	private:
+
+	    double value;
+	    unsigned neighs; // number of neighbors
+	    int geometry; // 0 = square, 1 = hexagonal, 2 = triangular
+	    double xCentroid;
+	    double yCentroid;
+	    Cell * neiPoints[6]; // array of neighbors' pointers
+	    vector<double> corners; // corner coordinates. For each corner, first figure given is longitude, then latitude.
+
+};
+
 
 class Mesh {
 
@@ -18,6 +48,7 @@ class Mesh {
 		Mesh(int size, string inname = "NN", string threatCat = "LC");
 		~Mesh();
 
+		void newCell(Cell * theCell);
 		void setName(string newName);
 		int getSize();
 		string getName();
@@ -51,16 +82,15 @@ class Mesh {
 		double range;
 
 		/****************************************
-		 * Change implementation so neighborhood 
+		 * Chenge implementation so neighborhood 
 		 * is a square matrix of know 
 		 * dimensions when Mesh is instantiated
 		 * *************************************/
-	    vector< vector<int> > neighborhood; 
+	    vector<vector<int> > neighborhood; 
 	    
 		string threatStatus; // 'CR', 'EN', or 'VU'
 	    vector<int> threatSubcriteriaA; // 1, 2, 3, or 4
-		//vector<Cell*> cellColl;
-		vector<double> values;
+		vector<Cell*> cellColl;
 		double means[2];
 		double stadevs[2];
 

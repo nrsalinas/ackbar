@@ -1,48 +1,101 @@
 #include "data.hpp"
 
+Cell::Cell(double invalue, int ingeometry, double inxCentroid, double inyCentroid){
+	value = invalue;
+	neighs = 0;
+	geometry = ingeometry;
+	xCentroid = inxCentroid;
+	yCentroid = inyCentroid;
+}
+
+Cell::~Cell(){
+}
+
+// This is ot used directly in search, only the Mesh wrapper
+void Cell::setValue(double theVal){ 
+	value = theVal;
+}
+
+// This is ot used directly in search, only the Mesh wrapper
+double Cell::getValue(){
+	return value;
+}
+
+void Cell::newNeigh(Cell * theNei){
+	int nextIndex = neighs;
+	neighs += 1;
+	neiPoints[nextIndex] = theNei;
+}
+
+int Cell::neighSize(){
+	return neighs;
+}
+
+Cell * Cell::getNeigh(int index){
+	return neiPoints[index];
+}
+
+double Cell::storedCorners(){
+	double out = (double) corners.size() / 2.0;
+	return out;
+}
+
+void Cell::addCorner(double lon, double lat){
+	corners.push_back(lon);
+	corners.push_back(lat);
+}
+
+double Cell::getCorner(int index){
+	return corners[index];
+}
+
+/*****************************************************/
+
 Mesh::Mesh(){
 }
 
 Mesh::Mesh(int size, string inname, string threatCat){
 
-	values.resize(size);
-	neighborhood.resize(size);
-	for (int i = 0; i < size; i++) {
-		neighborhood[i].resize(size);
-		for (int j = 0; j < size; j++) {
-			neighborhood[i][j] = 0;
-		}
+	// This can be replaced with a vector of doubles
+	cellColl.resize(size);
+	for (int i = 0; i < size; i++){
+		cellColl[i] = new Cell(0.0);
 	}
+
+	neighborhood.resize(size);
+	
 	name = inname;
+	
 	threatStatus = threatCat;
 }
 
 Mesh::~Mesh(){
+	for (int i = 0; i < cellColl.size(); i++){
+		delete cellColl[i];
+	}
+}
+
+void Mesh::newCell(Cell * theCell){ // Is this use in search.cpp? -> No!
+	cellColl.push_back(theCell);
 }
 
 void Mesh::setValue(int index, double value){
-	values[index] = value;
+	cellColl[index]->setValue(value);
 }
 
 double Mesh::getValue(int index){
-	return values[index];
+	return cellColl[index]->getValue();
 }
 
-/*
 void Mesh::resetNeighborhood(){ // Not used in search.cpp
-	neighborhood.resize(values.size());
-	for (int i = 0; i < values.size(); i++){
+	neighborhood.resize(cellColl.size());
+	for (int i = 0; i < cellColl.size(); i++){
 		neighborhood[i].resize(0);
 	}
 }
-*/
 
 void Mesh::linkNeighs(int indexA, int indexB){ 
-	// indexes in vector values
-	neighborhood[indexA][indexB] = 1;
-	neighborhood[indexB][indexA] = 1;
-
-	/*
+	// indexes in vector cellColl
 	bool AinB = false;
 	bool BinA = false;
 
@@ -67,22 +120,18 @@ void Mesh::linkNeighs(int indexA, int indexB){
 	if (AinB == false) {
 		neighborhood[indexB].push_back(indexA);
 	}
-	*/
+
 }
 
-vector< vector<int> > Mesh::getNeighborhood(){ //not used in search.cpp
-	vector< vector<int> > out;
+vector<vector<int> > Mesh::getNeighborhood(){ //not used in search.cpp
+	vector<vector<int> > out;
 	out = neighborhood;
 	return out;
 }
 
 vector<int> Mesh::getCellNeighs(int index){
 	vector <int> out;
-	for (int i = 0; i < neighborhood[index].size(); i++) {
-		if (neighborhood[index][i] > 0) {
-			out.push_back(i);
-		}
-	}
+	out = neighborhood[index];
 	return out;
 }
 
@@ -105,7 +154,7 @@ string Mesh::getName(){
 }
 
 int Mesh::getSize(){
-	return values.size();
+	return cellColl.size();
 }
 
 void Mesh::setRange(double newRange){
@@ -139,8 +188,8 @@ vector<int> Mesh::getThreatSubcriteriaA(){
 
 bool Mesh::isNull(){
 	bool out = true;
-	for (int i = 0; i < values.size(); i++){
-		if (values[i] > 0){
+	for (int i = 0; i < cellColl.size(); i++){
+		if (cellColl[i]->getValue() > 0){
 			out = false;
 			break;
 		}
@@ -149,23 +198,24 @@ bool Mesh::isNull(){
 }
 
 void Mesh::nullMe () {
-	for (int i = 0; i < values.size(); i++){
-		values[i] = 0;
+	for (int i = 0; i < cellColl.size(); i++){
+		cellColl[i]->setValue(0);
 	}
 }
 
 void Mesh::randomize(){
-	for (int i = 0; i < values.size(); i++){
-		values[i] = (double) (rand() % 2) ;
+	for (int i = 0; i < cellColl.size(); i++){
+		cellColl[i]->setValue( (double) (rand() % 2) );
 	}
 }
 
 
 Mesh * Mesh::copy(){
-	Mesh * thisCopy = new Mesh(this->values.size());
-	//thisCopy->values.resize( values.size() );
-	for (int i = 0; i < values.size(); i++){
-		thisCopy->values[i] = values[i];
+	Mesh * thisCopy = new Mesh(this->cellColl.size());
+	thisCopy->cellColl.resize( cellColl.size() );
+	for (int i = 0; i < cellColl.size(); i++){
+		thisCopy->cellColl[i] = new Cell;
+		thisCopy->cellColl[i]->setValue(cellColl[i]->getValue());
 	}
 	thisCopy->neighsFromList( this->getNeighborhood() );
 
