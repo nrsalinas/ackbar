@@ -1,16 +1,16 @@
-#include <iostream>
-#include <vector>
-#include <map>
 #include "data.cpp"
 #include "search.cpp"
 #include "sim.cpp"
+
+#include <iostream>
+#include <vector>
+#include <map>
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::vector;
 using std::map;
-
 
 void printMe (Mesh* amesh, int side) {
 	int index;
@@ -34,7 +34,7 @@ int main(){
 	vector<Mesh*> obs;
 	vector< vector<Solution*> > sols;
 	obs = overTiles2(tileSide, 3, 100);
-	for (int i = 0; i < obs.size(); i++) {
+	for (uint i = 0; i < obs.size(); i++) {
 		obs[i]->setRange(1000);
 	}
 	int midi = obs.size() / 2;
@@ -49,7 +49,7 @@ int main(){
 	for (int i = 0; i < midi; i++) {
 		s2g[i] = 0;
 	}
-	for (int i = midi; i < obs.size(); i++) {
+	for (uint i = midi; i < obs.size(); i++) {
 		s2g[i] = 1;
 	}
 
@@ -59,12 +59,12 @@ int main(){
 
 	/* for (it = clusters.begin(); it != clusters.end(); it++) {
 		cout << "Cluster " << it->first << ":" << endl;
-		for (int i = 0; i < it->second.size(); i++){
+		for (uint i = 0; i < it->second.size(); i++){
 			cout << "  " << it->second[i] << endl;
 		}
 	} */
 
-	for (int q = 0; q < obs.size(); q++) {
+	for (uint q = 0; q < obs.size(); q++) {
 		cout << "Tile " << q << endl;
 		printMe(obs[q], tileSide);
 		cout << endl;
@@ -78,9 +78,9 @@ int main(){
 	int nuis;
 	bool isco;
 	
-	for (int q = 0; q < sols.size(); q++) {
+	for (uint q = 0; q < sols.size(); q++) {
 		cout << "Group " << q << endl;
-		for (int r = 0; r < sols[q].size(); r++) {
+		for (uint r = 0; r < sols[q].size(); r++) {
 			nuis = islandNumber(sols[q][r]);
 			isco = isContinuous(sols[q][r]);
 
@@ -97,13 +97,13 @@ int main(){
 	}
 
 
-	for (int x = 0; x < obs.size(); x++){
+	for (uint x = 0; x < obs.size(); x++){
 		delete obs[x];
 	}
 
 	
-	for (int x = 0; x < sols.size(); x++){
-		for (int y = 0; y < sols[x].size(); y++) {
+	for (uint x = 0; x < sols.size(); x++){
+		for (uint y = 0; y < sols[x].size(); y++) {
 			delete sols[x][y];
 		}
 	}

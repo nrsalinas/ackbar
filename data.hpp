@@ -9,6 +9,8 @@ using std::map;
 #ifndef DATA_HPP
 #define DATA_HPP
 
+typedef unsigned int uint;
+
 
 class Mesh {
 
@@ -46,19 +48,12 @@ class Mesh {
 
 	private:
 
-	    int geometry; // 0 = square, 1 = hexagonal, 2 = triangular
-	    string name;
+		int geometry; // 0 = square, 1 = hexagonal, 2 = triangular
+		string name;
 		double range;
-
-		/****************************************
-		 * Change implementation so neighborhood 
-		 * is a square matrix of know 
-		 * dimensions when Mesh is instantiated
-		 * *************************************/
-	    vector< vector<int> > neighborhood; 
-	    
+		vector< vector<int> > neighborhood; 	    
 		string threatStatus; // 'CR', 'EN', or 'VU'
-	    vector<int> threatSubcriteriaA; // 1, 2, 3, or 4
+		vector<int> threatSubcriteriaA; // 1, 2, 3, or 4
 		//vector<Cell*> cellColl;
 		vector<double> values;
 		double means[2];
@@ -97,5 +92,6 @@ class Solution : public Mesh {
 		map<int, double> sppAreas;
 
 };
+
 
 #endif

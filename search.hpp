@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "data.hpp"
 
 using std::cout;
 using std::cin;
@@ -12,6 +13,8 @@ using std::map;
 
 #ifndef SEARCH_HPP
 #define SEARCH_HPP
+
+typedef unsigned int uint;
 
 // main search functions
 
@@ -26,7 +29,7 @@ void solExpansionAlt (Solution* solita, map<int, double> &scoringGrid, map<int,i
 
 map<int, vector<int> > dbscan (vector<Mesh*> &observations, double eps);
 
-void expand (vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<int, int> &visited, int label, int border, double eps);
+void expand (vector<Mesh*> &observations, map<int, vector<int> > &clusters, map<int, int> &visited, int label, uint border, double eps);
 
 
 // scoring

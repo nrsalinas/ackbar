@@ -115,8 +115,6 @@ return out;
 }
 
 
-
-
 vector<Mesh*> overTiles (int size, int tilesxtype, int staProb) {
 	// staProp should be int 0-99
 	vector<Mesh*> out;
@@ -193,7 +191,6 @@ vector<Mesh*> overTiles (int size, int tilesxtype, int staProb) {
 	return out;
 
 	}
-
 
 
 vector<Mesh*> nestedTiles (int size, int tilesxtype, int staProb) {
