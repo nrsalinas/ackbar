@@ -29,6 +29,9 @@ import os
 import datetime
 import re
 
+import fileio
+import pydata
+
 version =  "0.1"
 logfile = ""
 paramPass = True
@@ -56,9 +59,10 @@ today = datetime.datetime.now()
 outfileRootDefault = today.strftime("Ackbar_output_%Y%m%d_%H%M%S")
 bufferLog = "Ackbar ver. {0}\nAnalysis executed on {1}\n\n".format(version, today)
 helloLog = '''
-********	Ackbar ver. {0}	********
+********************    Ackbar ver. {0}    ********************
 
-A Python program to update and delimit Key Biodiversity Areas.
+A Python program to assist the delimitation and update of Key 
+Biodiversity Areas.
 
 Usage:
 
@@ -84,6 +88,8 @@ else:
 	elif os.path.isfile(sys.argv[1]):
 
 		with open(sys.argv[1], 'r') as config:
+
+			# Simple check of config file info, then parse it into parameters dictionary
 
 			for line in config:
 
@@ -138,7 +144,7 @@ else:
 
 						parameters[par_name] = par_val
 		
-
+		## Check presence/absence of parameters
 		# Check mandatory params
 		for manpar in ["distribution_file", "iucn_file", "cell_size"]:
 
@@ -148,6 +154,7 @@ else:
 
 		kba_pars = 0
 
+		# optional parameters
 		for kbap in ["kba_species_file", "kba_directory", "kba_index"]:
 			if not parameters[kbap] is None:
 				kba_pars += 1
@@ -156,12 +163,16 @@ else:
 
 			raise ValueError("Configuration file error: not all the parameters required for including existing KBA were set (`kba_species_file`, `kba_directory`, and `kba_index`). Alternatively, ALL three parameters can be left blank to conduct an analysis without considering previous KBA information.")
 
-		if (parameters["taxonomic_groups_file"] is None and not parameters["taxonomic_groups_file"] is None) or \
-			(not parameters["taxonomic_groups_file"] is None and parameters["taxonomic_groups_file"] is None):
+		if (not parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]) or \
+			(parameters["taxonomic_groups_file"] and not parameters["taxonomic_assignments_file"]):
 
 			raise ValueError("Configuration file error: only one of the taxonomic groups parameters has been set (`taxonomic_groups_file` and `taxonomic_assignments_file`). Both are required to assess criterion B2. Alternatively, both can be left blanck to conduct an analysis without applying criterion B2.")
 
-		# optional parameters
+		
+		## Check parsed values are valid
+
+		
+
 		if parameters["outfile_root"] is None:
 			parameters["outfile_root"] = outfileRootDefault
 
@@ -186,12 +197,57 @@ else:
 		bufferLog += "Parameters set for the analysis:\n\n"
 
 		for par in parameters:
-#			print(par, " = ", parameters[par])
+			#print(par, " = ", parameters[par])
 			bufferLog += "{0} = {1}\n".format(par, parameters[par])
 
-		print(bufferLog)
 
+	if 1 == 1:
 
+		data = fileio.InputData(parameters["distribution_file"])
+		data.iucnFile(parameters["iucn_file"])
 
+		bufferLog += "\nNumber of species in distribution file: {0}\n\n".format(len(data.points))
+
+		no_points = [x for x in data.iucn if not x in data.points]
+		if len(no_points) > 0:
+			bufferLog += "\nIUCN file contains {0} species with no data points:\n".format(len(no_points))
+			for sp in no_points:
+				bufferLog += "\t{0}\n".format(sp)
+
+		no_iucn = [x for x in data.points if not x in data.iucn]
+		if len(no_iucn) > 0:
+			bufferLog += "\nIUCN file lacks {0} species present in the distribution file:\n".format(len(no_iucn))
+			for sp in no_iucn:
+				bufferLog += "\t{0}\n".format(sp)
+		
+
+		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
+			data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
+			
+
+			no_points = [x for x in data.taxonGroups if not x in data.points]
+			if len(no_points) > 0:
+				bufferLog += "\nTaxon group assignments file contains {0} species with no data points:\n".format(len(no_points))
+				for sp in no_points:
+					bufferLog += "\t{0}\n".format(sp)
+
+			no_groups = [x for x in data.points if not x in data.taxonGroups]
+			if len(no_groups) > 0:
+				bufferLog += "\nTaxon group assignments file lacks {0} present in the distribution file (The analysis will not be executed until you fix this):\n".format(len(no_groups))
+				for sp in no_groups:
+					bufferLog += "\t{0}\n".format(sp)
+
+			groupAssign = {}
+			for x in data.taxonGroups:
+				groupAssign[data.taxonGroups[x]['group']] = 0
+			miss_groups = [x for x in groupAssign.keys() if not x in data.taxonGroupsInfo.keys()]
+
+			if len(miss_groups) > 0:
+				bufferLog += "\nTaxonomic groups missing in the taxonomic groups file:\n"
+				for y in miss_groups:
+					bufferLog += "\t{0}\n".format(y)
+		
+
+	print(bufferLog)
 
 exit(0)
