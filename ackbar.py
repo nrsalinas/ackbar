@@ -89,7 +89,7 @@ else:
 
 		with open(sys.argv[1], 'r') as config:
 
-			# Simple check of config file info, then parse it into parameters dictionary
+			# Parse config info into `parameters` dictionary
 
 			for line in config:
 
@@ -100,50 +100,14 @@ else:
 
 				if len(line) > 5:
 
-					par_name = re.sub(r'\s*=.*', '', line)
-					par_val = re.sub(r'.*=\s*', '', line)
+					par_name = re.sub(r'\s*=.*$', '', line, flags=re.DOTALL)
+					par_val = re.sub(r'^.*=\s*', '', line, flags=re.DOTALL)
 
 					if par_name and par_val and par_name in parameters:
 					
-						if re.search(r'_file$', par_name):
-
-							if not os.path.isfile(par_val):
-
-								raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` is not a file).'.format(par_name, par_val))
-
-						if re.search(r'_directory$', par_name):
-
-							if not os.path.isdir(par_val):
-
-								raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` is not a directory).'.format(par_name, par_val))
-
-						if par_name in ["cell_size", "offset_lat", "offset_lon", "eps", "congruency_factor", "iters", "max_kba"]:
-
-							try:
-								par_val = float(par_val)
-
-							except ValueError as te:
-								mess = str(te)
-
-								if mess.startswith('could not convert string to float'):
-									raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` should be a number).'.format(par_name, par_val))
-
-								else:
-									raise
-
-							if par_name in ["iters", "max_kba"]:
-
-								if par_val % 1 > 0:
-
-									raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` should be an integer).'.format(par_name, par_val))
-
-							if par_name == "cell_size" and ((par_val < 0) or (par_val > 10)):
-
-								raise ValueError("Configuration file error: `cell_size` value seems out of logical or practical range (`{0}`)".format(par_val))
-
-
 						parameters[par_name] = par_val
 		
+
 		## Check presence/absence of parameters
 		# Check mandatory params
 		for manpar in ["distribution_file", "iucn_file", "cell_size"]:
@@ -154,7 +118,7 @@ else:
 
 		kba_pars = 0
 
-		# optional parameters
+		# Optional parameters
 		for kbap in ["kba_species_file", "kba_directory", "kba_index"]:
 			if not parameters[kbap] is None:
 				kba_pars += 1
@@ -171,7 +135,52 @@ else:
 		
 		## Check parsed values are valid
 
+		for fpar in filter(lambda x: re.search(r'_file$', x), parameters.keys()):
+
+			if parameters[fpar] and not os.path.isfile(parameters[fpar]):
+
+				raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` is not a file).'.format(fpar, parameters[fpar]))
+
+		for dpar in filter(lambda x: re.search(r'_directory$', x), parameters.keys()):
 		
+			if parameters[dpar] and not os.path.isdir(parameters[dpar]):
+
+				raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` is not a directory).'.format(dpar, parameters[dpar]))
+
+
+		for par_name in ["cell_size", "offset_lat", "offset_lon", "eps", "congruency_factor", "iters", "max_kba"]:
+
+			par_val = parameters[par_name]
+
+			if par_val:
+
+				try:
+					par_val = float(par_val)
+
+				except ValueError as te:
+					mess = str(te)
+
+					if mess.startswith('could not convert string to float'):
+						raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` should be a number).'.format(par_name, par_val))
+
+					else:
+						raise
+
+				if par_val < 0:
+					raise ValueError("Configuration file error: parameter `{0}` should be a positive number.".format(par_name))
+
+				if par_name in ["iters", "max_kba"] and par_val % 1 > 0:
+
+					raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` should be an integer).'.format(par_name, par_val))
+
+				if par_name == "cell_size" and par_val > 10:
+
+					raise ValueError("Configuration file error: `cell_size` value seems out of logical or practical range (`{0}`)".format(par_val))
+
+				if par_name == "max_kba" and par_val < 1:
+
+					raise ValueError("Configuration file error: `max_kba` value seems out of practical range (`{0}`)".format(par_val))
+
 
 		if parameters["outfile_root"] is None:
 			parameters["outfile_root"] = outfileRootDefault
@@ -201,52 +210,50 @@ else:
 			bufferLog += "{0} = {1}\n".format(par, parameters[par])
 
 
-	if 1 == 1:
+	data = fileio.InputData(parameters["distribution_file"])
+	data.iucnFile(parameters["iucn_file"])
 
-		data = fileio.InputData(parameters["distribution_file"])
-		data.iucnFile(parameters["iucn_file"])
+	bufferLog += "\nNumber of species in distribution file: {0}\n\n".format(len(data.points))
 
-		bufferLog += "\nNumber of species in distribution file: {0}\n\n".format(len(data.points))
+	no_points = [x for x in data.iucn if not x in data.points]
+	if len(no_points) > 0:
+		bufferLog += "\nIUCN file contains {0} species with no data points:\n".format(len(no_points))
+		for sp in no_points:
+			bufferLog += "\t{0}\n".format(sp)
 
-		no_points = [x for x in data.iucn if not x in data.points]
+	no_iucn = [x for x in data.points if not x in data.iucn]
+	if len(no_iucn) > 0:
+		bufferLog += "\nIUCN file lacks {0} species present in the distribution file:\n".format(len(no_iucn))
+		for sp in no_iucn:
+			bufferLog += "\t{0}\n".format(sp)
+	
+
+	if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
+		data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
+		
+
+		no_points = [x for x in data.taxonGroups if not x in data.points]
 		if len(no_points) > 0:
-			bufferLog += "\nIUCN file contains {0} species with no data points:\n".format(len(no_points))
+			bufferLog += "\nTaxon group assignments file contains {0} species with no data points:\n".format(len(no_points))
 			for sp in no_points:
 				bufferLog += "\t{0}\n".format(sp)
 
-		no_iucn = [x for x in data.points if not x in data.iucn]
-		if len(no_iucn) > 0:
-			bufferLog += "\nIUCN file lacks {0} species present in the distribution file:\n".format(len(no_iucn))
-			for sp in no_iucn:
+		no_groups = [x for x in data.points if not x in data.taxonGroups]
+		if len(no_groups) > 0:
+			bufferLog += "\nTaxon group assignments file lacks {0} present in the distribution file (The analysis will not be executed until you fix this):\n".format(len(no_groups))
+			for sp in no_groups:
 				bufferLog += "\t{0}\n".format(sp)
-		
 
-		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
-			data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
-			
+		groupAssign = {}
+		for x in data.taxonGroups:
+			groupAssign[data.taxonGroups[x]['group']] = 0
+		miss_groups = [x for x in groupAssign.keys() if not x in data.taxonGroupsInfo.keys()]
 
-			no_points = [x for x in data.taxonGroups if not x in data.points]
-			if len(no_points) > 0:
-				bufferLog += "\nTaxon group assignments file contains {0} species with no data points:\n".format(len(no_points))
-				for sp in no_points:
-					bufferLog += "\t{0}\n".format(sp)
-
-			no_groups = [x for x in data.points if not x in data.taxonGroups]
-			if len(no_groups) > 0:
-				bufferLog += "\nTaxon group assignments file lacks {0} present in the distribution file (The analysis will not be executed until you fix this):\n".format(len(no_groups))
-				for sp in no_groups:
-					bufferLog += "\t{0}\n".format(sp)
-
-			groupAssign = {}
-			for x in data.taxonGroups:
-				groupAssign[data.taxonGroups[x]['group']] = 0
-			miss_groups = [x for x in groupAssign.keys() if not x in data.taxonGroupsInfo.keys()]
-
-			if len(miss_groups) > 0:
-				bufferLog += "\nTaxonomic groups missing in the taxonomic groups file:\n"
-				for y in miss_groups:
-					bufferLog += "\t{0}\n".format(y)
-		
+		if len(miss_groups) > 0:
+			bufferLog += "\nTaxonomic groups missing in the taxonomic groups file:\n"
+			for y in miss_groups:
+				bufferLog += "\t{0}\n".format(y)
+	
 
 	print(bufferLog)
 
