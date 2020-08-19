@@ -9,7 +9,7 @@ from functools import partial
 
 class KBA(object):
 	"""
-	Reader of shapefiles.
+	Shapefile reader.
 
 	- path (str): Path to folders containing shapefiles to read.
 
@@ -124,7 +124,10 @@ class KBA(object):
 
 
 	def new_spp_table(self, filename):
-
+		"""
+		Writes out a simple csv file indicating new trigger species to previously
+		delimited KBA.
+		"""
 		crmap = {0: 'A1a', 1: 'A1b', 2: 'A1c', 3: 'A1d', 4: 'A1e', 5: 'B1', 6: 'B2'}
 		bffr = '{0},Species,Criteria\n'.format(self.index_field)
 

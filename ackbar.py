@@ -31,6 +31,7 @@ import re
 
 import fileio
 import pydata
+import shapes
 
 version =  "0.1"
 logfile = ""
@@ -49,6 +50,7 @@ parameters = {
 	"cell_size" : None,
 	"offset_lat" : None,
 	"offset_lon" : None,
+	"pop_max_distance": None,
 	"eps" : None,
 	"iters" : None,
 	"max_kba" : None,
@@ -148,7 +150,7 @@ else:
 				raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` is not a directory).'.format(dpar, parameters[dpar]))
 
 
-		for par_name in ["cell_size", "offset_lat", "offset_lon", "eps", "congruency_factor", "iters", "max_kba"]:
+		for par_name in ["cell_size", "offset_lat", "offset_lon", "eps", "congruency_factor", "iters", "max_kba", "pop_max_distance"]:
 
 			par_val = parameters[par_name]
 
@@ -181,6 +183,8 @@ else:
 
 					raise ValueError("Configuration file error: `max_kba` value seems out of practical range (`{0}`)".format(par_val))
 
+				parameters[par_name] = par_val
+
 
 		if parameters["outfile_root"] is None:
 			parameters["outfile_root"] = outfileRootDefault
@@ -210,6 +214,8 @@ else:
 			bufferLog += "{0} = {1}\n".format(par, parameters[par])
 
 
+	################################################################
+
 	data = fileio.InputData(parameters["distribution_file"])
 	data.iucnFile(parameters["iucn_file"])
 
@@ -229,9 +235,9 @@ else:
 	
 
 	if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
+
 		data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
 		
-
 		no_points = [x for x in data.taxonGroups if not x in data.points]
 		if len(no_points) > 0:
 			bufferLog += "\nTaxon group assignments file contains {0} species with no data points:\n".format(len(no_points))
@@ -255,6 +261,42 @@ else:
 				bufferLog += "\t{0}\n".format(y)
 	
 
-	print(bufferLog)
+	if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
+
+		old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
+
+		old_kbas.spp_inclusion(data)
+
+		new_trigger_file = parameters["outfile_root"] + "_trigger_spp_previous_KBA.csv"
+		old_kbas.new_spp_table(new_trigger_file)
+
+
+	tiles = data.getTiles(parameters["cell_size"], offsetLat = parameters["offset_lat"], 
+		offsetLon = parameters["offset_lon"], maxDist = parameters["pop_max_distance"])
+
+
+	if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
+
+		#
+		# Check if data.groupDict and data.spp2groupDict are appropriate dicts
+		#
+
+		mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
+			parameters["max_kba"], parameters["congruency_factor"], data.groupDict, 
+			data.spp2groupDict)
+
+	else:
+
+		mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
+			parameters["max_kba"], parameters["congruency_factor"])
+
+	if len(mysols) > 0 and len(mysols[0]) > 0:
+
+		sol_dir = parameters["outfile_root"] + "_solution_shapefiles"
+		shapes.solution2shape(mysols, data, sol_dir)
+
+	logname = parameters["outfile_root"] + "_log.txt"
+	with open(logname, "w") as logh:
+		logh.write(bufferLog)
 
 exit(0)

@@ -342,12 +342,12 @@ class InputData(object):
 				self.iucn[na] = {'category': 'NE', 'subcritA': []}
 
 
-	def mergePoints(self, taxonName, minDist):
+	def mergePoints(self, taxonName, maxDist):
 		"""
 		Merge points using DBSCAN. Cluster scheme is store in values of points
 		dictionary.
 		"""
-		clusters = self.dbscan(taxonName, minDist)
+		clusters = self.dbscan(taxonName, maxDist)
 
 		totPops = len(clusters)
 		for cl in clusters:
@@ -408,7 +408,7 @@ class InputData(object):
 		return d
 
 
-	def getTiles(self, cellSize, offsetLat = 0.0, offsetLon = 0.0, minDist = 0.0):
+	def getTiles(self, cellSize, offsetLat = 0.0, offsetLon = 0.0, maxDist = 0.0):
 		"""
 		Create basic data structures required for the analysis from a collection
 		of distributional points. Returns a list of data.Tile objects.
@@ -418,7 +418,7 @@ class InputData(object):
 		- cellSize (int or float): Size of the cells making up the lattice. If
 		the grid is made up of squares, `cellSize` will be the side of the square.
 
-		- minDist (float): Maximum distance (km) to consider two localities 
+		- maxDist (float): Maximum distance (km) to consider two localities 
 		the same population.
 
 		"""
@@ -453,7 +453,7 @@ class InputData(object):
 		for taxon in self.points:
 
 			# Join points that are too close to be different populations
-			totPops = self.mergePoints(taxon, minDist)
+			totPops = self.mergePoints(taxon, maxDist)
 			grid = [[0 for x in range(totCols)] for x in range(totRows)]
 
 			for lon,lat in self.points[taxon]:
