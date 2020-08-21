@@ -100,7 +100,6 @@ cdef class Solutionpy:
 	def critB(self, newCritB):
 		self.thissol.critB = newCritB
 
-
 	@property
 	def score(self):
 		return self.thissol.score

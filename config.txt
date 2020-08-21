@@ -1,24 +1,30 @@
+##################################################
+# Parameters to add:
+# - shape projection (KBA shapefiles)
+# - file encoding
+##################################################
+
 distribution_file = arecaceae.csv
 iucn_file = arecaceae_categories.csv
-taxonomic_groups_file = arecaceae_group_diversity.csv
-taxonomic_assignments_file = arecaceae_groups_assignments.csv
+
+#taxonomic_groups_file = arecaceae_group_diversity.csv
+#taxonomic_assignments_file = arecaceae_groups_assignments.csv
+
 kba_species_file = Colombia_IBA_trigger_species.csv
-
 kba_directory = /home/nelson/Dropbox/Humboldt/Postdoc/KBA_by_IUCN/Colombia_KBA
-
 kba_index = SitRecID
 
-exclusion_directory = # optional
-
 outfile_root = devtest
+overwrite_output = True
 
-cell_size = 3
-offset_lat = 0
-offset_lon = 0
+cell_size = 0.5
+offset_lat = 0.2
+offset_lon = 0.2
 
-pop_max_distance = 5 # Km
+pop_max_distance = 0 # Km
 
 eps = 0.2
-iters = 100
+iters = 1000
 max_kba = 20
 congruency_factor = 1
+

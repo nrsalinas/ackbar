@@ -26,6 +26,7 @@
 
 import sys
 import os
+import shutil
 import datetime
 import re
 
@@ -37,6 +38,8 @@ version =  "0.1"
 logfile = ""
 paramPass = True
 
+critmap = {0: "A1a", 1: "A1b", 2: "A1c", 3: "A1d",4 : "A1e", 5: "B1", 6: "B2"}
+
 parameters = {
 	"distribution_file" : None,
 	"iucn_file" : None,
@@ -47,6 +50,7 @@ parameters = {
 	"kba_index" : None,
 	"exclusion_directory" : None,
 	"outfile_root" : None,
+	"overwrite_output" : None,
 	"cell_size" : None,
 	"offset_lat" : None,
 	"offset_lon" : None,
@@ -134,6 +138,10 @@ else:
 
 			raise ValueError("Configuration file error: only one of the taxonomic groups parameters has been set (`taxonomic_groups_file` and `taxonomic_assignments_file`). Both are required to assess criterion B2. Alternatively, both can be left blanck to conduct an analysis without applying criterion B2.")
 
+		#
+		# Check taxonomic group pars are parsed together
+		#
+		
 		
 		## Check parsed values are valid
 
@@ -159,6 +167,24 @@ else:
 				try:
 					par_val = float(par_val)
 
+					if par_val < 0:
+						raise ValueError("Configuration file error: parameter `{0}` should be a positive number.".format(par_name))
+
+					if par_name in ["iters", "max_kba"] and par_val % 1 > 0:
+
+						raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` should be an integer).'.format(par_name, par_val))
+
+					if par_name == "cell_size" and par_val > 10:
+
+						raise ValueError("Configuration file error: `cell_size` value seems out of logical or practical range (`{0}`)".format(par_val))
+
+					if par_name == "max_kba" and par_val < 1:
+
+						raise ValueError("Configuration file error: `max_kba` value seems out of practical range (`{0}`)".format(par_val))
+
+					parameters[par_name] = par_val
+
+
 				except ValueError as te:
 					mess = str(te)
 
@@ -168,22 +194,23 @@ else:
 					else:
 						raise
 
-				if par_val < 0:
-					raise ValueError("Configuration file error: parameter `{0}` should be a positive number.".format(par_name))
 
-				if par_name in ["iters", "max_kba"] and par_val % 1 > 0:
+		if type(parameters["overwrite_output"]) == str:
+			
+			if re.search(r'true', parameters["overwrite_output"], re.I):
+				parameters["overwrite_output"] = True
 
-					raise ValueError('Configuration file error: parameter `{0}` has not a valid value (`{1}` should be an integer).'.format(par_name, par_val))
+			elif re.search(r'False', parameters["overwrite_output"], re.I):
+				parameters["overwrite_output"] = False
 
-				if par_name == "cell_size" and par_val > 10:
+			else:
+				mss = "\nConfiguration file error: value parsed as `overwrite_output` value is not valid ({0}). Parameter will be set as False.\n".format(parameters["overwrite_output"])
+				parameters["overwrite_output"] = False
+				bufferLog += mss
+				print(mss, file=sys.stderr)
 
-					raise ValueError("Configuration file error: `cell_size` value seems out of logical or practical range (`{0}`)".format(par_val))
-
-				if par_name == "max_kba" and par_val < 1:
-
-					raise ValueError("Configuration file error: `max_kba` value seems out of practical range (`{0}`)".format(par_val))
-
-				parameters[par_name] = par_val
+		else:
+			parameters["overwrite_output"] = False
 
 
 		if parameters["outfile_root"] is None:
@@ -207,11 +234,39 @@ else:
 		if parameters["congruency_factor"] is None:
 			parameters["congruency_factor"] = 1
 
+		if parameters["pop_max_distance"] is None:
+			parameters["pop_max_distance"] = 0
+
 		bufferLog += "Parameters set for the analysis:\n\n"
 
 		for par in parameters:
 			#print(par, " = ", parameters[par])
 			bufferLog += "{0} = {1}\n".format(par, parameters[par])
+
+	#print(bufferLog)
+
+	### Output file/directory names
+
+	new_trigger_file = parameters["outfile_root"] + "_trigger_spp_previous_KBA.csv"
+	sol_dir = parameters["outfile_root"] + "_solution_shapefiles"
+	logfile = parameters["outfile_root"] + "_log.txt"
+
+	output_names = [new_trigger_file, sol_dir, logfile]
+
+	### Check output files/directories exists
+
+	if parameters["overwrite_output"] == True:
+		for name in output_names:
+			if os.path.exists(name):
+				if os.path.isfile(name):
+					os.remove(name)
+				elif os.path.isdir(name):
+					shutil.rmtree(name)
+
+	else:
+		for name in output_names:
+			if os.path.exists(name):
+				raise OSError("A file/directory named {0} already exists.".format(name))
 
 
 	################################################################
@@ -220,6 +275,10 @@ else:
 	data.iucnFile(parameters["iucn_file"])
 
 	bufferLog += "\nNumber of species in distribution file: {0}\n\n".format(len(data.points))
+	bufferLog += "\nUnique datapoints per species:\n\n"
+
+	for sp in sorted(data.points):
+		bufferLog += "{0}: {1}\n".format(sp, len(data.points[sp]))
 
 	no_points = [x for x in data.iucn if not x in data.points]
 	if len(no_points) > 0:
@@ -264,10 +323,7 @@ else:
 	if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
 
 		old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
-
 		old_kbas.spp_inclusion(data)
-
-		new_trigger_file = parameters["outfile_root"] + "_trigger_spp_previous_KBA.csv"
 		old_kbas.new_spp_table(new_trigger_file)
 
 
@@ -290,13 +346,27 @@ else:
 		mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
 			parameters["max_kba"], parameters["congruency_factor"])
 
+	for ig, group in enumerate(mysols):
+
+		bufferLog += "\nSolution group {0}\n".format(ig)
+
+		for isol, sol in enumerate(group):
+
+			bufferLog += "\n\tSolution {0}:\n".format(isol)
+
+			for spinx in sorted(sol.spp2crit, key = lambda x : tiles[x].getName()):
+
+				bufferLog += "\t\t{0}: ".format(tiles[spinx].getName())
+				tcrits = map(lambda x:  critmap[x], sol.spp2crit[spinx])
+				tcritsstr = " ".join(map(str, tcrits))
+				bufferLog += " {0}\n".format(tcritsstr)
+
+
 	if len(mysols) > 0 and len(mysols[0]) > 0:
 
-		sol_dir = parameters["outfile_root"] + "_solution_shapefiles"
 		shapes.solution2shape(mysols, data, sol_dir)
 
-	logname = parameters["outfile_root"] + "_log.txt"
-	with open(logname, "w") as logh:
+	with open(logfile, "w") as logh:
 		logh.write(bufferLog)
 
 exit(0)

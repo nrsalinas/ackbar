@@ -17,7 +17,7 @@ class KBA(object):
 	KBAs (`kba`) or areas to exclude from the analyses for other reasons (`exclusion`). 
 	"""
 
-	def __init__(self, path, index_field, encoding = 'utf8', name_field = None):
+	def __init__(self, path, index_field, encoding = 'utf8'):
 
 		self.source_directory = None
 		self.polys = {}

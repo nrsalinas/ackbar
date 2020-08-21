@@ -94,7 +94,7 @@ class InputData(object):
 
 
 	def groupFiles(self, assignments_file, diversity_file):
-		
+		"""Process information from files and store it in data strectures."""
 		log = '' # log buffer
 		assignments = False
 		taxonCol = None
@@ -104,6 +104,10 @@ class InputData(object):
 		globsppCol = None
 		rangeThresCol = None
 		self.taxonGroups = {x: None for x in self.points.keys()}
+		#######
+		self.groupDict = {}
+		self.spp2groupDict = {}
+
 
 		with open(assignments_file, 'r') as afile:
 			
@@ -227,10 +231,7 @@ class InputData(object):
 
 		
 		# Integer dictionaries for search routine functions
-
-		self.groupDict = {}
-		self.spp2groupDict = {}
-
+		"""
 		for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
 		
 			mran = self.taxonGroupsInfo[gr]['range_threshold']
@@ -241,7 +242,9 @@ class InputData(object):
 		
 			self.groupDict[igr] = (mran, mspp)
 
-
+		#
+		# spp order should be Tiles order = self.points order
+		#
 		for ispp, spp in enumerate(sorted(self.taxonGroups.keys())):
 		
 			tgr = self.taxonGroups[spp]['group']
@@ -253,7 +256,39 @@ class InputData(object):
 					break
 		
 			self.spp2groupDict[ispp] = tgr
+		"""
 
+	def groups_search(self):
+		"""Set dictionaries of taxonomic group info required for search function."""
+		self.groupDict = {}
+		self.spp2groupDict = {}
+		
+		# Integer dictionaries for search routine functions
+
+		for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
+		
+			mran = self.taxonGroupsInfo[gr]['range_threshold']
+			mspp = int(self.taxonGroupsInfo[gr]['global_species'] * 0.0002)
+		
+			if mspp < 2:
+				mspp = 2
+		
+			self.groupDict[igr] = (mran, mspp)
+
+		#
+		# spp order should be Tiles order = self.points order
+		#
+		for ispp, spp in enumerate(sorted(self.taxonGroups.keys())):
+		
+			tgr = self.taxonGroups[spp]['group']
+		
+			for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
+		
+				if tgr == gr:
+					tgr = igr
+					break
+		
+			self.spp2groupDict[ispp] = tgr
 
 
 	def iucnFile(self, filename):
@@ -454,6 +489,7 @@ class InputData(object):
 
 			# Join points that are too close to be different populations
 			totPops = self.mergePoints(taxon, maxDist)
+
 			grid = [[0 for x in range(totCols)] for x in range(totRows)]
 
 			for lon,lat in self.points[taxon]:
