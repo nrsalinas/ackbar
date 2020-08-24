@@ -10,6 +10,8 @@ from shapely.geometry import Point, Polygon, MultiPolygon, mapping
 
 import shapes
 
+from B2_recommended_thresholds import groups as uicn_groups
+
 
 class InputData(object):
 	"""
@@ -94,7 +96,10 @@ class InputData(object):
 
 
 	def groupFiles(self, assignments_file, diversity_file):
-		"""Process information from files and store it in data strectures."""
+		"""
+		Process information from files and store it in data strectures.
+		Only stores data of taxa included in distribution file.
+		"""
 		log = '' # log buffer
 		assignments = False
 		taxonCol = None
@@ -102,12 +107,10 @@ class InputData(object):
 		rangeCol = None
 		groupBisCol = None
 		globsppCol = None
+		minsppCol = None
 		rangeThresCol = None
-		self.taxonGroups = {x: None for x in self.points.keys()}
-		#######
-		self.groupDict = {}
-		self.spp2groupDict = {}
-
+		self.taxonGroups = {}#{x: None for x in self.points.keys()}
+		self.taxonGroupsInfo = {}
 
 		with open(assignments_file, 'r') as afile:
 			
@@ -153,23 +156,33 @@ class InputData(object):
 					group = re.sub(r'^\s+', '', row[groupCol])
 					group = re.sub(r'\s+$', '', row[groupCol])
 
+					#
+					# Verificar si es un umbral minimo que tiene sentido
+					#
 					if len(group) < 4:
 						raise IOError("`{0}` does not seem an actual taxonomic membership".format(group))
 
 					taxon = re.sub(r'^\s+', '', row[taxonCol])
 					taxon = re.sub(r'\s+$', '', row[taxonCol])
 
-					if not taxon in self.taxonGroups:
-						terr = '`{0}` not included in distribution file\n'.format(taxon)
-						print(terr, file = sys.stderr)
-						log += terr
-				
-					if not self.taxonGroups[taxon] is None:
+					if taxon in self.taxonGroups:
 						raise IOError("Taxon duplicated in group file (`{0}`)".format(taxon))
 
 					else:
 						self.taxonGroups[taxon] = {'group': group, 'range_size': rangeS}
-						self.taxonGroupsInfo[group] = None
+						#self.taxonGroupsInfo[group] = None
+
+						if rangeS is None and taxon in self.points:
+						
+							point_list = [x for x in self.points[taxon].keys()]
+							tarea = shapes.area_estimator(point_list)
+							self.taxonGroups[taxon]['range_size'] = tarea
+
+		for taxon in self.points:
+
+			if taxon not in self.taxonGroups:
+				raise IOError("`{0}` not included in taxonomic group assignment file".format(taxon))
+
 
 		with open(diversity_file, 'r') as dhandle:
 
@@ -189,25 +202,35 @@ class InputData(object):
 							globsppCol = ic
 							continue
 
+						if re.search('min_species', cell, flags=re.I):
+							minsppCol = ic
+							continue
+
 						if re.search('range_threshold', cell, flags=re.I):
 							rangeThresCol = ic
 							continue
 
-					if groupBisCol is None or globsppCol is None:
-						raise IOError("Input file `{0}`: column labels do not follow the required format (headers should be `Group`, `Global_species`, and `Range_threshold`).".format(assignments_file))
+					if groupBisCol is None or (globsppCol is None and minsppCol is None):
+						raise IOError("Input file `{0}`: column labels do not follow the required format (headers should be `Group`, `Global_species`, `Min_species`, and `Range_threshold`).".format(assignments_file))
 
 				else:
 
 					tgroup = row[groupBisCol]
 					tsp = row[globsppCol]
 					range_thr = None
+					min_spp = None
 
 					if rangeThresCol:
 						range_thr = row[rangeThresCol]
 						if len(range_thr) > 0:
 							range_thr = float(range_thr)
 						else:
-							range_thr = 10000.0 
+							range_thr = 10000.0
+
+					if minsppCol:
+						min_spp = row[minsppCol]
+						if len(min_spp) > 0:
+							min_spp = float(min_spp)
 
 					if len(tsp) > 0:
 						tsp = int(tsp)
@@ -216,79 +239,75 @@ class InputData(object):
 						tsp = None
 
 					if tgroup in self.taxonGroupsInfo:
-						self.taxonGroupsInfo[tgroup] = {'range_threshold': range_thr, 'global_species': tsp}
+						raise IOError("Group duplicated in group diversity file (`{0}`)".format(tgroup))
 
 					else:
-						raise IOError("Taxon `{0}` not included in group assignment file.".format(tgroup))
-
-		for sp in self.points:
-
-			if not self.taxonGroups[sp]['range_size']:
-			
-				point_list = [x for x in self.points[sp].keys()]
-				tarea = shapes.area_estimator(point_list)
-				self.taxonGroups[sp]['range_size'] = tarea
+						self.taxonGroupsInfo[tgroup] = {
+							'range_threshold': range_thr,
+							'global_species': tsp,
+							'min_spp' : min_spp}
 
 		
-		# Integer dictionaries for search routine functions
-		"""
-		for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
-		
-			mran = self.taxonGroupsInfo[gr]['range_threshold']
-			mspp = int(self.taxonGroupsInfo[gr]['global_species'] * 0.0002)
-		
-			if mspp < 2:
-				mspp = 2
-		
-			self.groupDict[igr] = (mran, mspp)
-
-		#
-		# spp order should be Tiles order = self.points order
-		#
-		for ispp, spp in enumerate(sorted(self.taxonGroups.keys())):
-		
-			tgr = self.taxonGroups[spp]['group']
-		
-			for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
-		
-				if tgr == gr:
-					tgr = igr
-					break
-		
-			self.spp2groupDict[ispp] = tgr
-		"""
-
-	def groups_search(self):
+	def groups2search(self):
 		"""Set dictionaries of taxonomic group info required for search function."""
 		self.groupDict = {}
 		self.spp2groupDict = {}
-		
-		# Integer dictionaries for search routine functions
+
+		# Append groups from recommended IUCN list to group dictionaries
+		for taxon in self.points:
+
+			if taxon in self.taxonGroups:
+
+				tgroup = self.taxonGroups[taxon]['group']
+
+				if not tgroup in self.taxonGroupsInfo:
+
+					if tgroup in uicn_groups:
+
+						self.taxonGroupsInfo[tgroup] = {
+							'range_threshold': uicn_groups['range_threshold'], 
+							'global_species': None, 
+							'min_spp': uicn_groups['range_threshold']}
+
+					else:
+
+						raise IOError("Taxonomic group `{0}` included in neither the group diversity file nor the official IUCN taxonomic group list.".format(tgroup))
+
+			else:
+
+				raise IOError("Taxon `{0}` not included in taxonomic group assignment file.".format(taxon))
+
+		for ita, taxon in enumerate(self.points):
+
+			if taxon in self.taxonGroups:
+				
+				tgr = self.taxonGroups[taxon]['group']
+				grouppy = None
+
+				for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
+			
+					if tgr == gr:
+						grouppy = igr
+						break
+				
+				if grouppy:
+					self.spp2groupDict[ita] = tgr
 
 		for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
 		
+			mspp = None
 			mran = self.taxonGroupsInfo[gr]['range_threshold']
-			mspp = int(self.taxonGroupsInfo[gr]['global_species'] * 0.0002)
+
+			if self.taxonGroupsInfo[gr]['min_spp']:
+				mspp = self.taxonGroupsInfo[gr]['min_spp']
+
+			else:
+				mspp = int(self.taxonGroupsInfo[gr]['global_species'] * 0.0002)
 		
 			if mspp < 2:
 				mspp = 2
 		
 			self.groupDict[igr] = (mran, mspp)
-
-		#
-		# spp order should be Tiles order = self.points order
-		#
-		for ispp, spp in enumerate(sorted(self.taxonGroups.keys())):
-		
-			tgr = self.taxonGroups[spp]['group']
-		
-			for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
-		
-				if tgr == gr:
-					tgr = igr
-					break
-		
-			self.spp2groupDict[ispp] = tgr
 
 
 	def iucnFile(self, filename):
