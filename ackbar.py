@@ -34,6 +34,20 @@ import fileio
 import pydata
 import shapes
 
+oper_sys = None
+
+if sys.platform.startswith('linux'):
+	oper_sys = 'linux'
+
+elif sys.platform.startswith('darwin'):
+	oper_sys = 'darwin'
+
+elif sys.platform.startswith('win32'):
+	oper_sys = 'windows'
+
+else:
+	raise OSError('Operating system not supported. Currently, Ackbar only runs on Linux.')
+
 version =  "0.1"
 logfile = ""
 paramPass = True
@@ -58,7 +72,10 @@ parameters = {
 	"eps" : None,
 	"iters" : None,
 	"max_kba" : None,
-	"congruency_factor" : None
+	"congruency_factor" : None,
+	"delimiter" : None,
+	"lineterminator" : None,
+	"quotechar" : None
 	}
 
 today = datetime.datetime.now()
@@ -86,10 +103,22 @@ elif len(sys.argv) == 1:
 	print(helloLog)
 
 else:
-
+	
 	if sys.argv[1] == '--help' or sys.argv[1] == '-h':
-		# Long help prompt
-		pass
+		print("\nlong prompt\n")
+		
+	elif sys.argv[1] == '--iucn_default_groups' or sys.argv[1] == '-i':
+		
+		from B2_recommended_thresholds import groups as iucn_groups
+
+		for group in sorted(iucn_groups):
+
+			print(group)
+			
+			for k in iucn_groups[group]:
+
+				if not iucn_groups[group][k] is None:
+					print('\t{0}: {1}'.format(k, iucn_groups[group][k]))
 
 	elif os.path.isfile(sys.argv[1]):
 
@@ -108,11 +137,12 @@ else:
 
 					par_name = re.sub(r'\s*=.*$', '', line, flags=re.DOTALL)
 					par_val = re.sub(r'^.*=\s*', '', line, flags=re.DOTALL)
+					#print(par_name, par_val)
 
 					if par_name and par_val and par_name in parameters:
 					
 						parameters[par_name] = par_val
-		
+						#print(par_name , par_val )
 
 		## Check presence/absence of parameters
 		# Check mandatory params
@@ -143,7 +173,7 @@ else:
 		#
 		
 		
-		## Check parsed values are valid
+		# Check parsed values are valid
 
 		for fpar in filter(lambda x: re.search(r'_file$', x), parameters.keys()):
 
@@ -243,130 +273,149 @@ else:
 			#print(par, " = ", parameters[par])
 			bufferLog += "{0} = {1}\n".format(par, parameters[par])
 
-	#print(bufferLog)
+		#print(bufferLog)
 
-	### Output file/directory names
+		### Output file/directory names
 
-	new_trigger_file = parameters["outfile_root"] + "_trigger_spp_previous_KBA.csv"
-	sol_dir = parameters["outfile_root"] + "_solution_shapefiles"
-	logfile = parameters["outfile_root"] + "_log.txt"
+		new_trigger_file = parameters["outfile_root"] + "_trigger_spp_previous_KBA.csv"
+		sol_dir = parameters["outfile_root"] + "_solution_shapefiles"
+		logfile = parameters["outfile_root"] + "_log.txt"
 
-	output_names = [new_trigger_file, sol_dir, logfile]
+		output_names = [new_trigger_file, sol_dir, logfile]
 
-	### Check output files/directories exists
+		### Check output files/directories exists
 
-	if parameters["overwrite_output"] == True:
-		for name in output_names:
-			if os.path.exists(name):
-				if os.path.isfile(name):
-					os.remove(name)
-				elif os.path.isdir(name):
-					shutil.rmtree(name)
+		if parameters["overwrite_output"] == True:
+			for name in output_names:
+				if os.path.exists(name):
+					if os.path.isfile(name):
+						os.remove(name)
+					elif os.path.isdir(name):
+						shutil.rmtree(name)
 
-	else:
-		for name in output_names:
-			if os.path.exists(name):
-				raise OSError("A file/directory named {0} already exists.".format(name))
+		else:
+			for name in output_names:
+				if os.path.exists(name):
+					raise OSError("A file/directory named {0} already exists.".format(name))
 
 
-	################################################################
+		################################################################
 
-	data = fileio.InputData(parameters["distribution_file"])
-	data.iucnFile(parameters["iucn_file"])
+		data = fileio.InputData(parameters["distribution_file"])
+		data.iucnFile(parameters["iucn_file"])
 
-	bufferLog += "\nNumber of species in distribution file: {0}\n\n".format(len(data.points))
-	bufferLog += "\nUnique datapoints per species:\n\n"
+		bufferLog += "\nNumber of species in distribution file: {0}\n\n".format(len(data.points))
+		bufferLog += "\nUnique datapoints per species:\n\n"
 
-	for sp in sorted(data.points):
-		bufferLog += "{0}: {1}\n".format(sp, len(data.points[sp]))
+		for sp in sorted(data.points):
+			bufferLog += "{0}: {1}\n".format(sp, len(data.points[sp]))
 
-	no_points = [x for x in data.iucn if not x in data.points]
-	if len(no_points) > 0:
-		bufferLog += "\nIUCN file contains {0} species with no data points:\n".format(len(no_points))
-		for sp in no_points:
-			bufferLog += "\t{0}\n".format(sp)
-
-	no_iucn = [x for x in data.points if not x in data.iucn]
-	if len(no_iucn) > 0:
-		bufferLog += "\nIUCN file lacks {0} species present in the distribution file:\n".format(len(no_iucn))
-		for sp in no_iucn:
-			bufferLog += "\t{0}\n".format(sp)
-	
-
-	if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
-
-		data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
-		
-		no_points = [x for x in data.taxonGroups if not x in data.points]
+		no_points = [x for x in data.iucn if not x in data.points]
 		if len(no_points) > 0:
-			bufferLog += "\nTaxon group assignments file contains {0} species with no data points:\n".format(len(no_points))
+			bufferLog += "\nIUCN file contains {0} species with no data points:\n".format(len(no_points))
 			for sp in no_points:
 				bufferLog += "\t{0}\n".format(sp)
 
-		no_groups = [x for x in data.points if not x in data.taxonGroups]
-		if len(no_groups) > 0:
-			bufferLog += "\nTaxon group assignments file lacks {0} present in the distribution file (The analysis will not be executed until you fix this):\n".format(len(no_groups))
-			for sp in no_groups:
+		no_iucn = [x for x in data.points if not x in data.iucn]
+		if len(no_iucn) > 0:
+			bufferLog += "\nIUCN file lacks {0} species present in the distribution file:\n".format(len(no_iucn))
+			for sp in no_iucn:
 				bufferLog += "\t{0}\n".format(sp)
+		
 
-		groupAssign = {}
-		for x in data.taxonGroups:
-			groupAssign[data.taxonGroups[x]['group']] = 0
-		miss_groups = [x for x in groupAssign.keys() if not x in data.taxonGroupsInfo.keys()]
+		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
 
-		if len(miss_groups) > 0:
-			bufferLog += "\nTaxonomic groups missing in the taxonomic groups file:\n"
-			for y in miss_groups:
-				bufferLog += "\t{0}\n".format(y)
-	
+			data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
+			
+			no_points = [x for x in data.taxonGroups if not x in data.points]
+			if len(no_points) > 0:
+				bufferLog += "\nTaxon group assignments file contains {0} species with no data points:\n".format(len(no_points))
+				for sp in no_points:
+					bufferLog += "\t{0}\n".format(sp)
 
-	if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
+			no_groups = [x for x in data.points if not x in data.taxonGroups]
+			if len(no_groups) > 0:
+				bufferLog += "\nTaxon group assignments file lacks {0} present in the distribution file (The analysis will not be executed until you fix this):\n".format(len(no_groups))
+				for sp in no_groups:
+					bufferLog += "\t{0}\n".format(sp)
 
-		old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
-		old_kbas.spp_inclusion(data)
-		old_kbas.new_spp_table(new_trigger_file)
+			groupAssign = {}
+			for x in data.taxonGroups:
+				groupAssign[data.taxonGroups[x]['group']] = 0
+			miss_groups = [x for x in groupAssign.keys() if not x in data.taxonGroupsInfo.keys()]
 
+			if len(miss_groups) > 0:
+				bufferLog += "\nTaxonomic groups missing in the taxonomic groups file:\n"
+				for y in miss_groups:
+					bufferLog += "\t{0}\n".format(y)
+		
 
-	tiles = data.getTiles(parameters["cell_size"], offsetLat = parameters["offset_lat"], 
-		offsetLon = parameters["offset_lon"], maxDist = parameters["pop_max_distance"])
+		if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
 
-
-	if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
-
-		#
-		# Check if data.groupDict and data.spp2groupDict are appropriate dicts
-		#
-
-		mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
-			parameters["max_kba"], parameters["congruency_factor"], data.groupDict, 
-			data.spp2groupDict)
-
-	else:
-
-		mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
-			parameters["max_kba"], parameters["congruency_factor"])
-
-	for ig, group in enumerate(mysols):
-
-		bufferLog += "\nSolution group {0}\n".format(ig)
-
-		for isol, sol in enumerate(group):
-
-			bufferLog += "\n\tSolution {0}:\n".format(isol)
-
-			for spinx in sorted(sol.spp2crit, key = lambda x : tiles[x].getName()):
-
-				bufferLog += "\t\t{0}: ".format(tiles[spinx].getName())
-				tcrits = map(lambda x:  critmap[x], sol.spp2crit[spinx])
-				tcritsstr = " ".join(map(str, tcrits))
-				bufferLog += " {0}\n".format(tcritsstr)
+			old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
+			old_kbas.spp_inclusion(data)
+			old_kbas.new_spp_table(new_trigger_file)
 
 
-	if len(mysols) > 0 and len(mysols[0]) > 0:
+		tiles = data.getTiles(parameters["cell_size"], offsetLat = parameters["offset_lat"], 
+			offsetLon = parameters["offset_lon"], maxDist = parameters["pop_max_distance"])
 
-		shapes.solution2shape(mysols, data, sol_dir)
 
-	with open(logfile, "w") as logh:
-		logh.write(bufferLog)
+		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
+
+			#
+			# Check if data.groupDict and data.spp2groupDict are appropriate dicts
+			#
+
+			mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
+				parameters["max_kba"], parameters["congruency_factor"], data.groupDict, 
+				data.spp2groupDict)
+
+		else:
+
+			mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
+				parameters["max_kba"], parameters["congruency_factor"])
+
+		if len(mysols) > 0 and len(mysols[0]) > 0:
+
+			shapes.solution2shape(mysols, data, sol_dir)
+
+		for ig, group in enumerate(mysols):
+
+			bufferLog += "\nSolution group {0}\n".format(ig)
+			#critmap = {0: "A1a", 1: "A1b", 2: "A1c", 3: "A1d",4 : "A1e", 5: "B1", 6: "B2"}
+			ttable = "Taxon,Solution," + ",".join(critmap.values()) + "\n"
+
+			for isol, sol in enumerate(group):
+
+				bufferLog += "\n\tSolution {0}:\n".format(isol)
+
+				for spinx in sorted(sol.spp2crit, key = lambda x : tiles[x].getName()):
+
+					bufferLog += "\t\t{0}: ".format(tiles[spinx].getName())
+					ttable += "{0},{1}".format( tiles[spinx].getName() , isol )
+					tcrits = list(map(lambda x:  critmap[x], sol.spp2crit[spinx]))
+					tcritsstr = " ".join(map(str, tcrits))
+					bufferLog += " {0}\n".format(tcritsstr)
+					#print(tcrits)
+					for k in critmap:
+				
+						if critmap[k] in tcrits:
+							ttable += ",1"
+				
+						else:
+							ttable += ",0"
+
+					ttable += "\n"
+
+			tablename = sol_dir + "/" + "group_{0}.csv".format(ig)
+			#print (tablename)
+			with open(tablename, "w") as thandle:
+				thandle.write(ttable)
+
+
+
+		with open(logfile, "w") as logh:
+			logh.write(bufferLog)
 
 exit(0)

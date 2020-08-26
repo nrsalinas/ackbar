@@ -10,14 +10,14 @@ iucn_file = arecaceae_categories.csv
 #taxonomic_groups_file = arecaceae_group_diversity.csv
 #taxonomic_assignments_file = arecaceae_groups_assignments.csv
 
-kba_species_file = Colombia_IBA_trigger_species.csv
-kba_directory = /home/nelson/Dropbox/Humboldt/Postdoc/KBA_by_IUCN/Colombia_KBA
-kba_index = SitRecID
+#kba_species_file = Colombia_IBA_trigger_species.csv
+#kba_directory = /home/nelson/Dropbox/Humboldt/Postdoc/KBA_by_IUCN/Colombia_KBA
+#kba_index = SitRecID
 
 outfile_root = devtest
 overwrite_output = True
 
-cell_size = 0.5
+cell_size = 1
 offset_lat = 0.2
 offset_lon = 0.2
 
@@ -28,3 +28,8 @@ iters = 1000
 max_kba = 20
 congruency_factor = 1
 
+
+# csv files options
+delimiter = , # \t or ; are also popular
+lineterminator = \n # \r or \r\n  are the other valid options
+quotechar = " # ' or ` are also common

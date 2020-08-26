@@ -10,7 +10,7 @@ from shapely.geometry import Point, Polygon, MultiPolygon, mapping
 
 import shapes
 
-from B2_recommended_thresholds import groups as uicn_groups
+from B2_recommended_thresholds import groups as iucn_groups
 
 
 class InputData(object):
@@ -18,7 +18,7 @@ class InputData(object):
 	Input data processor class. Class constructor requires a csv file (str) with
 	three columns: longitude, latitude, and taxon name.
 	"""
-	def __init__(self, infile):
+	def __init__(self, infile, csv_pars = None):
 		self.points = {} # values are population fractions
 		self.iucn = {} # taxon to (Category, subcriteriaA)
 		self.minLatitude = 91.0
@@ -35,12 +35,24 @@ class InputData(object):
 		self.index_reg = {}
 		self.taxonGroups = {}
 		self.taxonGroupsInfo = {}
+		self.csv_params = {}
 		lineCounter = 0
 		latCol = int()
 		lonCol = int()
 
+		if type(csv_pars) == dict:
+
+			if "delimiter" in csv_pars:
+				self.csv_params["delimiter"] = csv_pars["delimiter"]
+
+			if "lineterminator" in csv_pars:
+				self.csv_params["lineterminator"] = csv_pars["lineterminator"]
+			
+			if "quotechar" in csv_pars:
+				self.csv_params["quotechar"] = csv_pars["quotechar"]
+
 		with open(infile,'r') as fil:
-			table = csv.reader(fil)
+			table = csv.reader(fil, **self.csv_params)
 			for row in table:
 				lineCounter += 1
 				if lineCounter == 1 and (re.search(r"[^0-9\.\-]",row[1]) or re.search(r"[^0-9\.\-]",row[2])):
@@ -73,7 +85,7 @@ class InputData(object):
 				lon = float(row[lonCol])
 
 				if len(row[0]) > 105:
-					raise IOError("`{0}` exceeds the maximum taxon name size, 105 chars (line {0} in file `{1}`)".format(row[0],lineCounter, infile))
+					raise IOError("`{0}` exceeds the maximum taxon name size, 105 chars (line {1} in file `{2}`)".format(row[0],lineCounter, infile))
 
 				if row[0] in self.points:
 					self.points[row[0]][(lon,lat)] = 1
@@ -114,7 +126,7 @@ class InputData(object):
 
 		with open(assignments_file, 'r') as afile:
 			
-			table = csv.reader(afile)
+			table = csv.reader(afile, **self.csv_params)
 			
 			for irow , row in enumerate(table):
 				
@@ -186,7 +198,7 @@ class InputData(object):
 
 		with open(diversity_file, 'r') as dhandle:
 
-			table = csv.reader(dhandle)
+			table = csv.reader(dhandle, **self.csv_params)
 			
 			for irow , row in enumerate(table):
 				
@@ -262,12 +274,20 @@ class InputData(object):
 
 				if not tgroup in self.taxonGroupsInfo:
 
-					if tgroup in uicn_groups:
+					if tgroup in iucn_groups:
+
+						thres = None
+
+						if iucn_groups[tgroup]['range_threshold'] is None:
+							thres = 10000
+
+						else:
+							thres = iucn_groups[tgroup]['range_threshold']
 
 						self.taxonGroupsInfo[tgroup] = {
-							'range_threshold': uicn_groups['range_threshold'], 
+							'range_threshold': thres, 
 							'global_species': None, 
-							'min_spp': uicn_groups['range_threshold']}
+							'min_spp': iucn_groups[tgroup]['min_spp']}
 
 					else:
 
@@ -279,19 +299,21 @@ class InputData(object):
 
 		for ita, taxon in enumerate(self.points):
 
-			if taxon in self.taxonGroups:
-				
-				tgr = self.taxonGroups[taxon]['group']
-				grouppy = None
+			tgr = self.taxonGroups[taxon]['group']
+			grouppy = None
 
-				for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
-			
-					if tgr == gr:
-						grouppy = igr
-						break
+			for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
 				
-				if grouppy:
-					self.spp2groupDict[ita] = tgr
+				if tgr == gr:
+					
+					grouppy = igr
+					break
+			
+			if grouppy is None:
+				print('{0} not in self.points'.format(taxon))
+
+			else:
+				self.spp2groupDict[ita] = grouppy
 
 		for igr, gr in enumerate(sorted(self.taxonGroupsInfo.keys())):
 		
@@ -321,7 +343,7 @@ class InputData(object):
 		validCats = ['CR', 'EN', 'VU', 'NT', 'LC', 'DD', 'NE']
 
 		with open(filename,'r') as fil:
-			table = csv.reader(fil)
+			table = csv.reader(fil, **self.csv_params)
 			for row in table:
 				lineCounter += 1
 				if lineCounter == 1:
@@ -426,8 +448,9 @@ class InputData(object):
 				visited[pivot] = 1
 				clusters[pivot] = [pivot]
 				self.expand(taxon, clusters, pivot, pivot, visited, eps)
-
+		#
 		# I don think the following loop will be necessary
+		#
 		for q in self.points[taxon]:
 			qIsAlone = 1
 			for key in clusters:
