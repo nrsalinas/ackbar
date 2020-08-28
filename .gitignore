@@ -1,6 +1,6 @@
 __pycache__
 test
-build*
+build/*
 ackbar_lib/pydata.cpython-37m-x86_64-linux-gnu.so
 .ipynb_checkpoints
 .vscode
