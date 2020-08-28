@@ -14,22 +14,23 @@ Documentation
 *************
 
 Detailed documentation (rationale, installation, and usage) is hosted at the 
-github `wiki <https://github.com/nrsalinas/ackbar/wiki>`_ of the project.
+Github `wiki <https://github.com/nrsalinas/ackbar/wiki>`_ of the project.
 
 *************
 Requirements
 *************
 
 - A Python 3 interpreter.
-- C compiler.
-- Shapely.
-- Fiona.
+- C/C++ compiler.
+- `Shapely <https://pypi.org/project/Shapely/>`_.
+- `Fiona <https://pypi.org/project/Fiona/>`_.
+- Atention to detail.
 
 *************
 Installation
 *************
 
-Ackbar can be installed through pip:::
+Ackbar can be installed through pip::
 
 	pip install ackbar
 
@@ -38,23 +39,27 @@ Usage
 *****
 
 All parameters are parsed through a configuration file, which should be the sole
-argument:::
+argument::
 
 	ackbar.py config.txt
 
 Config file parameters are fully explained in the project 
 `wiki <https://github.com/nrsalinas/ackbar/wiki>`_ page.
 
-*******
+*********************
 License
-*******
+*********************
 
-GNU General Public License v. 3.
+Copyright 2020 Nelson R. Salinas
+
+Ackbar is available under the GNU General Public License version 3. See LICENSE.md
+for more information. 
+
 
 *******
 Contact
 *******
 
-Nelson R. Salinas
-Insituto de Investigación de Recursos Biológicos Alexander von Humboldt
-nsalinas@humboldt.org.co   
+| Nelson R. Salinas  
+| Instituto de Investigación de Recursos Biológicos Alexander von Humboldt  
+| nsalinas@humboldt.org.co   
