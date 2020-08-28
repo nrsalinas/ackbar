@@ -14,7 +14,7 @@ Documentation
 *************
 
 Detailed documentation (rationale, installation, and usage) is hosted at the 
-github `wiki <https://github.com/nrsalinas/ackbar/wiki>` of the project.
+github `wiki <https://github.com/nrsalinas/ackbar/wiki>`_ of the project.
 
 *************
 Requirements
@@ -43,7 +43,7 @@ argument:::
 	ackbar.py config.txt
 
 Config file parameters are fully explained in the project 
-`wiki <https://github.com/nrsalinas/ackbar/wiki>` page.
+`wiki <https://github.com/nrsalinas/ackbar/wiki>`_ page.
 
 *******
 License
