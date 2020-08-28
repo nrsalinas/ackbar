@@ -4,21 +4,22 @@
 {
     "distutils": {
         "depends": [
-            "data.cpp",
-            "data.hpp",
-            "search.cpp",
-            "search.hpp"
+            "ackbar/data.cpp",
+            "ackbar/data.hpp",
+            "ackbar/search.cpp",
+            "ackbar/search.hpp"
         ],
         "include_dirs": [
-            "."
+            "ackbar",
+            "./ackbar"
         ],
         "language": "c++",
-        "name": "pydata",
+        "name": "ackbar.pydata",
         "sources": [
-            "pydata.pyx"
+            "ackbar/pydata.pyx"
         ]
     },
-    "module_name": "pydata"
+    "module_name": "ackbar.pydata"
 }
 END: Cython Metadata */
 
@@ -626,8 +627,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__pydata
-#define __PYX_HAVE_API__pydata
+#define __PYX_HAVE__ackbar__pydata
+#define __PYX_HAVE_API__ackbar__pydata
 /* Early includes */
 #include "ios"
 #include "new"
@@ -850,13 +851,13 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "pydata.pyx",
+  "ackbar/pydata.pyx",
   "stringsource",
 };
 
 /*--- Type declarations ---*/
-struct __pyx_obj_6pydata_Meshpy;
-struct __pyx_obj_6pydata_Solutionpy;
+struct __pyx_obj_6ackbar_6pydata_Meshpy;
+struct __pyx_obj_6ackbar_6pydata_Solutionpy;
 
 /* "pydata.pxd":59
  * 
@@ -866,28 +867,29 @@ struct __pyx_obj_6pydata_Solutionpy;
  * 
  */
 typedef std::vector<Solution *>  __pyx_t_6pydata_vesol;
+typedef std::vector<Solution *>  __pyx_t_6ackbar_6pydata_vesol;
 
-/* "pydata.pyx":5
- * from pydata cimport Mesh
+/* "ackbar/pydata.pyx":7
+ * from pydata cimport Solution
  * 
  * cdef class Meshpy:             # <<<<<<<<<<<<<<
  * 
  * 	cdef Mesh * thismesh
  */
-struct __pyx_obj_6pydata_Meshpy {
+struct __pyx_obj_6ackbar_6pydata_Meshpy {
   PyObject_HEAD
   Mesh *thismesh;
 };
 
 
-/* "pydata.pyx":72
+/* "ackbar/pydata.pyx":74
  * 
  * 
  * cdef class Solutionpy:             # <<<<<<<<<<<<<<
  * 
  * 	cdef Solution * thissol
  */
-struct __pyx_obj_6pydata_Solutionpy {
+struct __pyx_obj_6ackbar_6pydata_Solutionpy {
   PyObject_HEAD
   Solution *thissol;
   double originX;
@@ -1374,8 +1376,10 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 /* Module declarations from 'libcpp' */
 
 /* Module declarations from 'pydata' */
-static PyTypeObject *__pyx_ptype_6pydata_Meshpy = 0;
-static PyTypeObject *__pyx_ptype_6pydata_Solutionpy = 0;
+
+/* Module declarations from 'ackbar.pydata' */
+static PyTypeObject *__pyx_ptype_6ackbar_6pydata_Meshpy = 0;
+static PyTypeObject *__pyx_ptype_6ackbar_6pydata_Solutionpy = 0;
 static std::string __pyx_convert_string_from_py_std__in_string(PyObject *); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyObject_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyUnicode_string_to_py_std__in_string(std::string const &); /*proto*/
@@ -1387,11 +1391,11 @@ static PyObject *__pyx_convert_map_to_py_int____std_3a__3a_vector_3c_int_3e___(s
 static std::vector<int>  __pyx_convert_vector_from_py_int(PyObject *); /*proto*/
 static std::map<int,std::vector<int> >  __pyx_convert_map_from_py_int__and_std_3a__3a_vector_3c_int_3e___(PyObject *); /*proto*/
 static std::map<int,int>  __pyx_convert_map_from_py_int__and_int(PyObject *); /*proto*/
-#define __Pyx_MODULE_NAME "pydata"
-extern int __pyx_module_is_main_pydata;
-int __pyx_module_is_main_pydata = 0;
+#define __Pyx_MODULE_NAME "ackbar.pydata"
+extern int __pyx_module_is_main_ackbar__pydata;
+int __pyx_module_is_main_ackbar__pydata = 0;
 
-/* Implementation of 'pydata' */
+/* Implementation of 'ackbar.pydata' */
 static PyObject *__pyx_builtin_IndexError;
 static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_range;
@@ -1422,7 +1426,6 @@ static const char __pyx_k_indexB[] = "indexB";
 static const char __pyx_k_inname[] = "inname";
 static const char __pyx_k_mother[] = "mother";
 static const char __pyx_k_nullMe[] = "nullMe";
-static const char __pyx_k_pydata[] = "pydata";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_spp2gr[] = "spp2gr";
 static const char __pyx_k_theVal[] = "theVal";
@@ -1441,11 +1444,12 @@ static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_Solutionpy[] = "Solutionpy";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_maxOutSize[] = "maxOutSize";
-static const char __pyx_k_pydata_pyx[] = "pydata.pyx";
 static const char __pyx_k_spp2groups[] = "spp2groups";
+static const char __pyx_k_ackbar_pydata[] = "ackbar.pydata";
 static const char __pyx_k_metasearchAlt[] = "metasearchAlt";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
+static const char __pyx_k_ackbar_pydata_pyx[] = "ackbar/pydata.pyx";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_Index_0_out_of_range[] = "Index {0} out of range";
 static const char __pyx_k_If_parsed_parameters_taxGr_and_s[] = "If parsed, parameters `taxGr` and `spp2gr` should be dictionaries.";
@@ -1459,6 +1463,8 @@ static PyObject *__pyx_kp_u_Solution_object_has_negative_val;
 static PyObject *__pyx_n_s_Solutionpy;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_ValueError;
+static PyObject *__pyx_n_s_ackbar_pydata;
+static PyObject *__pyx_kp_s_ackbar_pydata_pyx;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_eps;
 static PyObject *__pyx_n_s_format;
@@ -1487,8 +1493,6 @@ static PyObject *__pyx_n_s_obs;
 static PyObject *__pyx_n_s_out;
 static PyObject *__pyx_n_s_pout;
 static PyObject *__pyx_n_s_psol;
-static PyObject *__pyx_n_s_pydata;
-static PyObject *__pyx_kp_s_pydata_pyx;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
@@ -1506,56 +1510,56 @@ static PyObject *__pyx_n_s_thisMesh;
 static PyObject *__pyx_n_s_threatCat;
 static PyObject *__pyx_n_s_tmp;
 static PyObject *__pyx_n_s_ve;
-static int __pyx_pf_6pydata_6Meshpy___cinit__(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_size, PyObject *__pyx_v_inname, PyObject *__pyx_v_threatCat); /* proto */
-static void __pyx_pf_6pydata_6Meshpy_2__dealloc__(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_index, float __pyx_v_theVal); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_index); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_8getSize(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_10setName(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, PyObject *__pyx_v_newName); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_12getName(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_14setRange(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, float __pyx_v_newRange); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_16getRange(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_18isNull(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_22linkNeighs(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_indexA, int __pyx_v_indexB); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_24setThreatStatus(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, PyObject *__pyx_v_newStatus); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_28newThreatSubcriteriaA(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_subcri); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_30getThreatSubcriteriaA(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_32randomize(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_34__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6pydata_Meshpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_6Meshpy_36__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6pydata_10Solutionpy___cinit__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, struct __pyx_obj_6pydata_Meshpy *__pyx_v_mother); /* proto */
-static void __pyx_pf_6pydata_10Solutionpy_2__dealloc__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_5critA___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static int __pyx_pf_6pydata_10Solutionpy_5critA_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newCritA); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_5critB___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static int __pyx_pf_6pydata_10Solutionpy_5critB_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newCritB); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_5score___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static int __pyx_pf_6pydata_10Solutionpy_5score_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newScore); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_8ndmScore___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_9aggrScore___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_6extent___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_6origin___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_8spp2crit___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_4getSize(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, int __pyx_v_index, float __pyx_v_theVal); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, int __pyx_v_index); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_10isNull(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_12nullMe(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_14randomize(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_7originX___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static int __pyx_pf_6pydata_10Solutionpy_7originX_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_7originY___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static int __pyx_pf_6pydata_10Solutionpy_7originY_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_8cellSize___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static int __pyx_pf_6pydata_10Solutionpy_8cellSize_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6pydata_10Solutionpy_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obs, double __pyx_v_eps, int __pyx_v_iters, int __pyx_v_maxOutSize, double __pyx_v_ndmWeight, PyObject *__pyx_v_taxGr, PyObject *__pyx_v_spp2gr); /* proto */
-static PyObject *__pyx_tp_new_6pydata_Meshpy(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_6pydata_Solutionpy(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static int __pyx_pf_6ackbar_6pydata_6Meshpy___cinit__(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_size, PyObject *__pyx_v_inname, PyObject *__pyx_v_threatCat); /* proto */
+static void __pyx_pf_6ackbar_6pydata_6Meshpy_2__dealloc__(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_4setValue(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_index, float __pyx_v_theVal); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_6getValue(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_index); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_8getSize(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_10setName(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, PyObject *__pyx_v_newName); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_12getName(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_14setRange(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, float __pyx_v_newRange); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_16getRange(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_18isNull(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_22linkNeighs(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_indexA, int __pyx_v_indexB); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_24setThreatStatus(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, PyObject *__pyx_v_newStatus); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_28newThreatSubcriteriaA(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_subcri); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_30getThreatSubcriteriaA(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_32randomize(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_34__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_36__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy___cinit__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_mother); /* proto */
+static void __pyx_pf_6ackbar_6pydata_10Solutionpy_2__dealloc__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_5critA___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_5critA_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newCritA); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_5critB___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_5critB_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newCritB); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_5score___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_5score_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newScore); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_8ndmScore___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_9aggrScore___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_6extent___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_6origin___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_8spp2crit___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_4getSize(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, int __pyx_v_index, float __pyx_v_theVal); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, int __pyx_v_index); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_10isNull(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_12nullMe(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_14randomize(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_7originX___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_7originX_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_7originY___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_7originY_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_8cellSize___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_8cellSize_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6ackbar_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obs, double __pyx_v_eps, int __pyx_v_iters, int __pyx_v_maxOutSize, double __pyx_v_ndmWeight, PyObject *__pyx_v_taxGr, PyObject *__pyx_v_spp2gr); /* proto */
+static PyObject *__pyx_tp_new_6ackbar_6pydata_Meshpy(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_6ackbar_6pydata_Solutionpy(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_tuple_;
@@ -1568,7 +1572,7 @@ static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_codeobj__8;
 /* Late includes */
 
-/* "pydata.pyx":9
+/* "ackbar/pydata.pyx":11
  * 	cdef Mesh * thismesh
  * 
  * 	def __cinit__(self, int size, str inname, str threatCat):             # <<<<<<<<<<<<<<
@@ -1577,8 +1581,8 @@ static PyObject *__pyx_codeobj__8;
  */
 
 /* Python wrapper */
-static int __pyx_pw_6pydata_6Meshpy_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_6pydata_6Meshpy_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_6ackbar_6pydata_6Meshpy_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_6ackbar_6pydata_6Meshpy_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_size;
   PyObject *__pyx_v_inname = 0;
   PyObject *__pyx_v_threatCat = 0;
@@ -1610,17 +1614,17 @@ static int __pyx_pw_6pydata_6Meshpy_1__cinit__(PyObject *__pyx_v_self, PyObject 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_inname)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 1); __PYX_ERR(0, 9, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 1); __PYX_ERR(0, 11, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_threatCat)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 2); __PYX_ERR(0, 9, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 2); __PYX_ERR(0, 11, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 9, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 11, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1629,21 +1633,21 @@ static int __pyx_pw_6pydata_6Meshpy_1__cinit__(PyObject *__pyx_v_self, PyObject 
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_size = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
+    __pyx_v_size = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
     __pyx_v_inname = ((PyObject*)values[1]);
     __pyx_v_threatCat = ((PyObject*)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 9, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 11, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Meshpy.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_inname), (&PyUnicode_Type), 1, "inname", 1))) __PYX_ERR(0, 9, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_threatCat), (&PyUnicode_Type), 1, "threatCat", 1))) __PYX_ERR(0, 9, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6pydata_6Meshpy___cinit__(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), __pyx_v_size, __pyx_v_inname, __pyx_v_threatCat);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_inname), (&PyUnicode_Type), 1, "inname", 1))) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_threatCat), (&PyUnicode_Type), 1, "threatCat", 1))) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy___cinit__(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), __pyx_v_size, __pyx_v_inname, __pyx_v_threatCat);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1654,7 +1658,7 @@ static int __pyx_pw_6pydata_6Meshpy_1__cinit__(PyObject *__pyx_v_self, PyObject 
   return __pyx_r;
 }
 
-static int __pyx_pf_6pydata_6Meshpy___cinit__(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_size, PyObject *__pyx_v_inname, PyObject *__pyx_v_threatCat) {
+static int __pyx_pf_6ackbar_6pydata_6Meshpy___cinit__(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_size, PyObject *__pyx_v_inname, PyObject *__pyx_v_threatCat) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1663,7 +1667,7 @@ static int __pyx_pf_6pydata_6Meshpy___cinit__(struct __pyx_obj_6pydata_Meshpy *_
   Mesh *__pyx_t_4;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pydata.pyx":13
+  /* "ackbar/pydata.pyx":15
  * 		#cdef string n = inname.encode('utf-8')
  * 		#cdef string tc = threatCat.encode('utf-8')
  * 		self.thismesh = new Mesh(size, inname.encode('utf-8'), threatCat.encode('utf-8'))             # <<<<<<<<<<<<<<
@@ -1672,29 +1676,29 @@ static int __pyx_pf_6pydata_6Meshpy___cinit__(struct __pyx_obj_6pydata_Meshpy *_
  */
   if (unlikely(__pyx_v_inname == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "encode");
-    __PYX_ERR(0, 13, __pyx_L1_error)
+    __PYX_ERR(0, 15, __pyx_L1_error)
   }
-  __pyx_t_1 = PyUnicode_AsUTF8String(__pyx_v_inname); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_AsUTF8String(__pyx_v_inname); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_v_threatCat == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "encode");
-    __PYX_ERR(0, 13, __pyx_L1_error)
+    __PYX_ERR(0, 15, __pyx_L1_error)
   }
-  __pyx_t_1 = PyUnicode_AsUTF8String(__pyx_v_threatCat); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_AsUTF8String(__pyx_v_threatCat); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_3 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   try {
     __pyx_t_4 = new Mesh(__pyx_v_size, __pyx_t_2, __pyx_t_3);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 13, __pyx_L1_error)
+    __PYX_ERR(0, 15, __pyx_L1_error)
   }
   __pyx_v_self->thismesh = __pyx_t_4;
 
-  /* "pydata.pyx":9
+  /* "ackbar/pydata.pyx":11
  * 	cdef Mesh * thismesh
  * 
  * 	def __cinit__(self, int size, str inname, str threatCat):             # <<<<<<<<<<<<<<
@@ -1707,14 +1711,14 @@ static int __pyx_pf_6pydata_6Meshpy___cinit__(struct __pyx_obj_6pydata_Meshpy *_
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":15
+/* "ackbar/pydata.pyx":17
  * 		self.thismesh = new Mesh(size, inname.encode('utf-8'), threatCat.encode('utf-8'))
  * 
  * 	def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -1723,21 +1727,21 @@ static int __pyx_pf_6pydata_6Meshpy___cinit__(struct __pyx_obj_6pydata_Meshpy *_
  */
 
 /* Python wrapper */
-static void __pyx_pw_6pydata_6Meshpy_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
-static void __pyx_pw_6pydata_6Meshpy_3__dealloc__(PyObject *__pyx_v_self) {
+static void __pyx_pw_6ackbar_6pydata_6Meshpy_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
+static void __pyx_pw_6ackbar_6pydata_6Meshpy_3__dealloc__(PyObject *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__ (wrapper)", 0);
-  __pyx_pf_6pydata_6Meshpy_2__dealloc__(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_pf_6ackbar_6pydata_6Meshpy_2__dealloc__(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-static void __pyx_pf_6pydata_6Meshpy_2__dealloc__(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static void __pyx_pf_6ackbar_6pydata_6Meshpy_2__dealloc__(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "pydata.pyx":16
+  /* "ackbar/pydata.pyx":18
  * 
  * 	def __dealloc__(self):
  * 		del self.thismesh             # <<<<<<<<<<<<<<
@@ -1746,7 +1750,7 @@ static void __pyx_pf_6pydata_6Meshpy_2__dealloc__(struct __pyx_obj_6pydata_Meshp
  */
   delete __pyx_v_self->thismesh;
 
-  /* "pydata.pyx":15
+  /* "ackbar/pydata.pyx":17
  * 		self.thismesh = new Mesh(size, inname.encode('utf-8'), threatCat.encode('utf-8'))
  * 
  * 	def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -1758,7 +1762,7 @@ static void __pyx_pf_6pydata_6Meshpy_2__dealloc__(struct __pyx_obj_6pydata_Meshp
   __Pyx_RefNannyFinishContext();
 }
 
-/* "pydata.pyx":18
+/* "ackbar/pydata.pyx":20
  * 		del self.thismesh
  * 
  * 	def setValue(self, int index, float theVal):             # <<<<<<<<<<<<<<
@@ -1767,8 +1771,8 @@ static void __pyx_pf_6pydata_6Meshpy_2__dealloc__(struct __pyx_obj_6pydata_Meshp
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_5setValue(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_5setValue(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_5setValue(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_5setValue(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_index;
   float __pyx_v_theVal;
   PyObject *__pyx_r = 0;
@@ -1797,11 +1801,11 @@ static PyObject *__pyx_pw_6pydata_6Meshpy_5setValue(PyObject *__pyx_v_self, PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_theVal)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("setValue", 1, 2, 2, 1); __PYX_ERR(0, 18, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("setValue", 1, 2, 2, 1); __PYX_ERR(0, 20, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "setValue") < 0)) __PYX_ERR(0, 18, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "setValue") < 0)) __PYX_ERR(0, 20, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1809,25 +1813,25 @@ static PyObject *__pyx_pw_6pydata_6Meshpy_5setValue(PyObject *__pyx_v_self, PyOb
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L3_error)
-    __pyx_v_theVal = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_theVal == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L3_error)
+    __pyx_v_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L3_error)
+    __pyx_v_theVal = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_theVal == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("setValue", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 18, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("setValue", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 20, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Meshpy.setValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.setValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_4setValue(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), __pyx_v_index, __pyx_v_theVal);
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_4setValue(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), __pyx_v_index, __pyx_v_theVal);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_index, float __pyx_v_theVal) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_4setValue(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_index, float __pyx_v_theVal) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -1838,7 +1842,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Mes
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("setValue", 0);
 
-  /* "pydata.pyx":19
+  /* "ackbar/pydata.pyx":21
  * 
  * 	def setValue(self, int index, float theVal):
  * 		if index < 0 or index >= self.thismesh.getSize():             # <<<<<<<<<<<<<<
@@ -1856,16 +1860,16 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Mes
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "pydata.pyx":20
+    /* "ackbar/pydata.pyx":22
  * 	def setValue(self, int index, float theVal):
  * 		if index < 0 or index >= self.thismesh.getSize():
  * 			raise IndexError("Index {0} out of range".format(index))             # <<<<<<<<<<<<<<
  * 		else:
  * 			self.thismesh.setValue(index, theVal)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Index_0_out_of_range, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Index_0_out_of_range, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 22, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -1880,17 +1884,17 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Mes
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 20, __pyx_L1_error)
+    __PYX_ERR(0, 22, __pyx_L1_error)
 
-    /* "pydata.pyx":19
+    /* "ackbar/pydata.pyx":21
  * 
  * 	def setValue(self, int index, float theVal):
  * 		if index < 0 or index >= self.thismesh.getSize():             # <<<<<<<<<<<<<<
@@ -1899,7 +1903,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Mes
  */
   }
 
-  /* "pydata.pyx":22
+  /* "ackbar/pydata.pyx":24
  * 			raise IndexError("Index {0} out of range".format(index))
  * 		else:
  * 			self.thismesh.setValue(index, theVal)             # <<<<<<<<<<<<<<
@@ -1910,7 +1914,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Mes
     __pyx_v_self->thismesh->setValue(__pyx_v_index, __pyx_v_theVal);
   }
 
-  /* "pydata.pyx":18
+  /* "ackbar/pydata.pyx":20
  * 		del self.thismesh
  * 
  * 	def setValue(self, int index, float theVal):             # <<<<<<<<<<<<<<
@@ -1926,7 +1930,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Mes
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pydata.Meshpy.setValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.setValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1934,7 +1938,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Mes
   return __pyx_r;
 }
 
-/* "pydata.pyx":24
+/* "ackbar/pydata.pyx":26
  * 			self.thismesh.setValue(index, theVal)
  * 
  * 	def getValue(self, int index):             # <<<<<<<<<<<<<<
@@ -1943,29 +1947,29 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_4setValue(struct __pyx_obj_6pydata_Mes
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_7getValue(PyObject *__pyx_v_self, PyObject *__pyx_arg_index); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_7getValue(PyObject *__pyx_v_self, PyObject *__pyx_arg_index) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_7getValue(PyObject *__pyx_v_self, PyObject *__pyx_arg_index); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_7getValue(PyObject *__pyx_v_self, PyObject *__pyx_arg_index) {
   int __pyx_v_index;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getValue (wrapper)", 0);
   assert(__pyx_arg_index); {
-    __pyx_v_index = __Pyx_PyInt_As_int(__pyx_arg_index); if (unlikely((__pyx_v_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L3_error)
+    __pyx_v_index = __Pyx_PyInt_As_int(__pyx_arg_index); if (unlikely((__pyx_v_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Meshpy.getValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.getValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_6getValue(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), ((int)__pyx_v_index));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_6getValue(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), ((int)__pyx_v_index));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_index) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_6getValue(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_index) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -1976,7 +1980,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Mes
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("getValue", 0);
 
-  /* "pydata.pyx":25
+  /* "ackbar/pydata.pyx":27
  * 
  * 	def getValue(self, int index):
  * 		if index < 0 or index >= self.thismesh.getSize():             # <<<<<<<<<<<<<<
@@ -1994,16 +1998,16 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Mes
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "pydata.pyx":26
+    /* "ackbar/pydata.pyx":28
  * 	def getValue(self, int index):
  * 		if index < 0 or index >= self.thismesh.getSize():
  * 			raise IndexError("Index {0} out of range".format(index))             # <<<<<<<<<<<<<<
  * 		else:
  * 			return self.thismesh.getValue(index)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Index_0_out_of_range, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Index_0_out_of_range, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -2018,17 +2022,17 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Mes
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 26, __pyx_L1_error)
+    __PYX_ERR(0, 28, __pyx_L1_error)
 
-    /* "pydata.pyx":25
+    /* "ackbar/pydata.pyx":27
  * 
  * 	def getValue(self, int index):
  * 		if index < 0 or index >= self.thismesh.getSize():             # <<<<<<<<<<<<<<
@@ -2037,7 +2041,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Mes
  */
   }
 
-  /* "pydata.pyx":28
+  /* "ackbar/pydata.pyx":30
  * 			raise IndexError("Index {0} out of range".format(index))
  * 		else:
  * 			return self.thismesh.getValue(index)             # <<<<<<<<<<<<<<
@@ -2046,14 +2050,14 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Mes
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->thismesh->getValue(__pyx_v_index)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->thismesh->getValue(__pyx_v_index)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_r = __pyx_t_4;
     __pyx_t_4 = 0;
     goto __pyx_L0;
   }
 
-  /* "pydata.pyx":24
+  /* "ackbar/pydata.pyx":26
  * 			self.thismesh.setValue(index, theVal)
  * 
  * 	def getValue(self, int index):             # <<<<<<<<<<<<<<
@@ -2067,7 +2071,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Mes
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pydata.Meshpy.getValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.getValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2075,7 +2079,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Mes
   return __pyx_r;
 }
 
-/* "pydata.pyx":30
+/* "ackbar/pydata.pyx":32
  * 			return self.thismesh.getValue(index)
  * 
  * 	def getSize(self):             # <<<<<<<<<<<<<<
@@ -2084,25 +2088,25 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_6getValue(struct __pyx_obj_6pydata_Mes
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_9getSize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_9getSize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_9getSize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_9getSize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getSize (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_8getSize(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_8getSize(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_8getSize(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_8getSize(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("getSize", 0);
 
-  /* "pydata.pyx":31
+  /* "ackbar/pydata.pyx":33
  * 
  * 	def getSize(self):
  * 		return self.thismesh.getSize()             # <<<<<<<<<<<<<<
@@ -2110,13 +2114,13 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_8getSize(struct __pyx_obj_6pydata_Mesh
  * 	def setName(self, str newName):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thismesh->getSize()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thismesh->getSize()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":30
+  /* "ackbar/pydata.pyx":32
  * 			return self.thismesh.getValue(index)
  * 
  * 	def getSize(self):             # <<<<<<<<<<<<<<
@@ -2127,7 +2131,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_8getSize(struct __pyx_obj_6pydata_Mesh
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.getSize", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.getSize", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2135,7 +2139,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_8getSize(struct __pyx_obj_6pydata_Mesh
   return __pyx_r;
 }
 
-/* "pydata.pyx":33
+/* "ackbar/pydata.pyx":35
  * 		return self.thismesh.getSize()
  * 
  * 	def setName(self, str newName):             # <<<<<<<<<<<<<<
@@ -2144,13 +2148,13 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_8getSize(struct __pyx_obj_6pydata_Mesh
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_11setName(PyObject *__pyx_v_self, PyObject *__pyx_v_newName); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_11setName(PyObject *__pyx_v_self, PyObject *__pyx_v_newName) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_11setName(PyObject *__pyx_v_self, PyObject *__pyx_v_newName); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_11setName(PyObject *__pyx_v_self, PyObject *__pyx_v_newName) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("setName (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_newName), (&PyUnicode_Type), 1, "newName", 1))) __PYX_ERR(0, 33, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_10setName(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), ((PyObject*)__pyx_v_newName));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_newName), (&PyUnicode_Type), 1, "newName", 1))) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_10setName(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), ((PyObject*)__pyx_v_newName));
 
   /* function exit code */
   goto __pyx_L0;
@@ -2161,14 +2165,14 @@ static PyObject *__pyx_pw_6pydata_6Meshpy_11setName(PyObject *__pyx_v_self, PyOb
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_10setName(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, PyObject *__pyx_v_newName) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_10setName(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, PyObject *__pyx_v_newName) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   std::string __pyx_t_2;
   __Pyx_RefNannySetupContext("setName", 0);
 
-  /* "pydata.pyx":34
+  /* "ackbar/pydata.pyx":36
  * 
  * 	def setName(self, str newName):
  * 		self.thismesh.setName(newName.encode('utf-8'))             # <<<<<<<<<<<<<<
@@ -2177,15 +2181,15 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_10setName(struct __pyx_obj_6pydata_Mes
  */
   if (unlikely(__pyx_v_newName == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "encode");
-    __PYX_ERR(0, 34, __pyx_L1_error)
+    __PYX_ERR(0, 36, __pyx_L1_error)
   }
-  __pyx_t_1 = PyUnicode_AsUTF8String(__pyx_v_newName); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_AsUTF8String(__pyx_v_newName); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->thismesh->setName(__pyx_t_2);
 
-  /* "pydata.pyx":33
+  /* "ackbar/pydata.pyx":35
  * 		return self.thismesh.getSize()
  * 
  * 	def setName(self, str newName):             # <<<<<<<<<<<<<<
@@ -2198,7 +2202,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_10setName(struct __pyx_obj_6pydata_Mes
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.setName", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.setName", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2206,7 +2210,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_10setName(struct __pyx_obj_6pydata_Mes
   return __pyx_r;
 }
 
-/* "pydata.pyx":36
+/* "ackbar/pydata.pyx":38
  * 		self.thismesh.setName(newName.encode('utf-8'))
  * 
  * 	def getName(self):             # <<<<<<<<<<<<<<
@@ -2215,26 +2219,26 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_10setName(struct __pyx_obj_6pydata_Mes
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_13getName(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_13getName(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_13getName(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_13getName(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getName (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_12getName(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_12getName(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_12getName(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_12getName(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   std::string __pyx_v_nm;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("getName", 0);
 
-  /* "pydata.pyx":37
+  /* "ackbar/pydata.pyx":39
  * 
  * 	def getName(self):
  * 		nm = self.thismesh.getName()             # <<<<<<<<<<<<<<
@@ -2243,7 +2247,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_12getName(struct __pyx_obj_6pydata_Mes
  */
   __pyx_v_nm = __pyx_v_self->thismesh->getName();
 
-  /* "pydata.pyx":38
+  /* "ackbar/pydata.pyx":40
  * 	def getName(self):
  * 		nm = self.thismesh.getName()
  * 		return nm.decode('utf-8')             # <<<<<<<<<<<<<<
@@ -2251,13 +2255,13 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_12getName(struct __pyx_obj_6pydata_Mes
  * 	def setRange(self, float newRange):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_decode_cpp_string(__pyx_v_nm, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_decode_cpp_string(__pyx_v_nm, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":36
+  /* "ackbar/pydata.pyx":38
  * 		self.thismesh.setName(newName.encode('utf-8'))
  * 
  * 	def getName(self):             # <<<<<<<<<<<<<<
@@ -2268,7 +2272,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_12getName(struct __pyx_obj_6pydata_Mes
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.getName", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.getName", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2276,7 +2280,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_12getName(struct __pyx_obj_6pydata_Mes
   return __pyx_r;
 }
 
-/* "pydata.pyx":40
+/* "ackbar/pydata.pyx":42
  * 		return nm.decode('utf-8')
  * 
  * 	def setRange(self, float newRange):             # <<<<<<<<<<<<<<
@@ -2285,34 +2289,34 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_12getName(struct __pyx_obj_6pydata_Mes
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_15setRange(PyObject *__pyx_v_self, PyObject *__pyx_arg_newRange); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_15setRange(PyObject *__pyx_v_self, PyObject *__pyx_arg_newRange) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_15setRange(PyObject *__pyx_v_self, PyObject *__pyx_arg_newRange); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_15setRange(PyObject *__pyx_v_self, PyObject *__pyx_arg_newRange) {
   float __pyx_v_newRange;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("setRange (wrapper)", 0);
   assert(__pyx_arg_newRange); {
-    __pyx_v_newRange = __pyx_PyFloat_AsFloat(__pyx_arg_newRange); if (unlikely((__pyx_v_newRange == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
+    __pyx_v_newRange = __pyx_PyFloat_AsFloat(__pyx_arg_newRange); if (unlikely((__pyx_v_newRange == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Meshpy.setRange", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.setRange", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_14setRange(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), ((float)__pyx_v_newRange));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_14setRange(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), ((float)__pyx_v_newRange));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_14setRange(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, float __pyx_v_newRange) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_14setRange(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, float __pyx_v_newRange) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("setRange", 0);
 
-  /* "pydata.pyx":41
+  /* "ackbar/pydata.pyx":43
  * 
  * 	def setRange(self, float newRange):
  * 		self.thismesh.setRange(newRange)             # <<<<<<<<<<<<<<
@@ -2321,7 +2325,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_14setRange(struct __pyx_obj_6pydata_Me
  */
   __pyx_v_self->thismesh->setRange(__pyx_v_newRange);
 
-  /* "pydata.pyx":40
+  /* "ackbar/pydata.pyx":42
  * 		return nm.decode('utf-8')
  * 
  * 	def setRange(self, float newRange):             # <<<<<<<<<<<<<<
@@ -2336,7 +2340,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_14setRange(struct __pyx_obj_6pydata_Me
   return __pyx_r;
 }
 
-/* "pydata.pyx":43
+/* "ackbar/pydata.pyx":45
  * 		self.thismesh.setRange(newRange)
  * 
  * 	def getRange(self):             # <<<<<<<<<<<<<<
@@ -2345,25 +2349,25 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_14setRange(struct __pyx_obj_6pydata_Me
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_17getRange(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_17getRange(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_17getRange(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_17getRange(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getRange (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_16getRange(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_16getRange(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_16getRange(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_16getRange(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("getRange", 0);
 
-  /* "pydata.pyx":44
+  /* "ackbar/pydata.pyx":46
  * 
  * 	def getRange(self):
  * 		return self.thismesh.getRange()             # <<<<<<<<<<<<<<
@@ -2371,13 +2375,13 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_16getRange(struct __pyx_obj_6pydata_Me
  * 	def isNull(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->thismesh->getRange()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->thismesh->getRange()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":43
+  /* "ackbar/pydata.pyx":45
  * 		self.thismesh.setRange(newRange)
  * 
  * 	def getRange(self):             # <<<<<<<<<<<<<<
@@ -2388,7 +2392,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_16getRange(struct __pyx_obj_6pydata_Me
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.getRange", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.getRange", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2396,7 +2400,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_16getRange(struct __pyx_obj_6pydata_Me
   return __pyx_r;
 }
 
-/* "pydata.pyx":46
+/* "ackbar/pydata.pyx":48
  * 		return self.thismesh.getRange()
  * 
  * 	def isNull(self):             # <<<<<<<<<<<<<<
@@ -2405,25 +2409,25 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_16getRange(struct __pyx_obj_6pydata_Me
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_19isNull(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_19isNull(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_19isNull(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_19isNull(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("isNull (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_18isNull(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_18isNull(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_18isNull(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_18isNull(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("isNull", 0);
 
-  /* "pydata.pyx":47
+  /* "ackbar/pydata.pyx":49
  * 
  * 	def isNull(self):
  * 		return self.thismesh.isNull()             # <<<<<<<<<<<<<<
@@ -2431,13 +2435,13 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_18isNull(struct __pyx_obj_6pydata_Mesh
  * 	def nullMe(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->thismesh->isNull()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->thismesh->isNull()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":46
+  /* "ackbar/pydata.pyx":48
  * 		return self.thismesh.getRange()
  * 
  * 	def isNull(self):             # <<<<<<<<<<<<<<
@@ -2448,7 +2452,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_18isNull(struct __pyx_obj_6pydata_Mesh
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.isNull", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.isNull", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2456,7 +2460,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_18isNull(struct __pyx_obj_6pydata_Mesh
   return __pyx_r;
 }
 
-/* "pydata.pyx":49
+/* "ackbar/pydata.pyx":51
  * 		return self.thismesh.isNull()
  * 
  * 	def nullMe(self):             # <<<<<<<<<<<<<<
@@ -2465,19 +2469,19 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_18isNull(struct __pyx_obj_6pydata_Mesh
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_21nullMe(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_21nullMe(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_21nullMe(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_21nullMe(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("nullMe (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_20nullMe(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_20nullMe(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2485,16 +2489,16 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6pydata_Mesh
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("nullMe", 0);
 
-  /* "pydata.pyx":50
+  /* "ackbar/pydata.pyx":52
  * 
  * 	def nullMe(self):
  * 		self.thisMesh.nullMe()             # <<<<<<<<<<<<<<
  * 
  * 	def linkNeighs(self, int indexA, int indexB):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_thisMesh); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_thisMesh); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_nullMe); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_nullMe); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -2509,12 +2513,12 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6pydata_Mesh
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pydata.pyx":49
+  /* "ackbar/pydata.pyx":51
  * 		return self.thismesh.isNull()
  * 
  * 	def nullMe(self):             # <<<<<<<<<<<<<<
@@ -2529,7 +2533,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6pydata_Mesh
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pydata.Meshpy.nullMe", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.nullMe", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2537,7 +2541,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6pydata_Mesh
   return __pyx_r;
 }
 
-/* "pydata.pyx":52
+/* "ackbar/pydata.pyx":54
  * 		self.thisMesh.nullMe()
  * 
  * 	def linkNeighs(self, int indexA, int indexB):             # <<<<<<<<<<<<<<
@@ -2546,8 +2550,8 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_20nullMe(struct __pyx_obj_6pydata_Mesh
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_23linkNeighs(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_23linkNeighs(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_23linkNeighs(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_23linkNeighs(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_indexA;
   int __pyx_v_indexB;
   PyObject *__pyx_r = 0;
@@ -2576,11 +2580,11 @@ static PyObject *__pyx_pw_6pydata_6Meshpy_23linkNeighs(PyObject *__pyx_v_self, P
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_indexB)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("linkNeighs", 1, 2, 2, 1); __PYX_ERR(0, 52, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("linkNeighs", 1, 2, 2, 1); __PYX_ERR(0, 54, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "linkNeighs") < 0)) __PYX_ERR(0, 52, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "linkNeighs") < 0)) __PYX_ERR(0, 54, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2588,30 +2592,30 @@ static PyObject *__pyx_pw_6pydata_6Meshpy_23linkNeighs(PyObject *__pyx_v_self, P
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_indexA = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_indexA == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L3_error)
-    __pyx_v_indexB = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_indexB == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L3_error)
+    __pyx_v_indexA = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_indexA == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 54, __pyx_L3_error)
+    __pyx_v_indexB = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_indexB == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 54, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("linkNeighs", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 52, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("linkNeighs", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 54, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Meshpy.linkNeighs", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.linkNeighs", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_22linkNeighs(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), __pyx_v_indexA, __pyx_v_indexB);
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_22linkNeighs(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), __pyx_v_indexA, __pyx_v_indexB);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_22linkNeighs(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_indexA, int __pyx_v_indexB) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_22linkNeighs(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_indexA, int __pyx_v_indexB) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("linkNeighs", 0);
 
-  /* "pydata.pyx":53
+  /* "ackbar/pydata.pyx":55
  * 
  * 	def linkNeighs(self, int indexA, int indexB):
  * 		self.thismesh.linkNeighs(indexA, indexB)             # <<<<<<<<<<<<<<
@@ -2620,7 +2624,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_22linkNeighs(struct __pyx_obj_6pydata_
  */
   __pyx_v_self->thismesh->linkNeighs(__pyx_v_indexA, __pyx_v_indexB);
 
-  /* "pydata.pyx":52
+  /* "ackbar/pydata.pyx":54
  * 		self.thisMesh.nullMe()
  * 
  * 	def linkNeighs(self, int indexA, int indexB):             # <<<<<<<<<<<<<<
@@ -2635,7 +2639,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_22linkNeighs(struct __pyx_obj_6pydata_
   return __pyx_r;
 }
 
-/* "pydata.pyx":55
+/* "ackbar/pydata.pyx":57
  * 		self.thismesh.linkNeighs(indexA, indexB)
  * 
  * 	def setThreatStatus(self, str newStatus):             # <<<<<<<<<<<<<<
@@ -2644,13 +2648,13 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_22linkNeighs(struct __pyx_obj_6pydata_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_25setThreatStatus(PyObject *__pyx_v_self, PyObject *__pyx_v_newStatus); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_25setThreatStatus(PyObject *__pyx_v_self, PyObject *__pyx_v_newStatus) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_25setThreatStatus(PyObject *__pyx_v_self, PyObject *__pyx_v_newStatus); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_25setThreatStatus(PyObject *__pyx_v_self, PyObject *__pyx_v_newStatus) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("setThreatStatus (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_newStatus), (&PyUnicode_Type), 1, "newStatus", 1))) __PYX_ERR(0, 55, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_24setThreatStatus(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), ((PyObject*)__pyx_v_newStatus));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_newStatus), (&PyUnicode_Type), 1, "newStatus", 1))) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_24setThreatStatus(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), ((PyObject*)__pyx_v_newStatus));
 
   /* function exit code */
   goto __pyx_L0;
@@ -2661,14 +2665,14 @@ static PyObject *__pyx_pw_6pydata_6Meshpy_25setThreatStatus(PyObject *__pyx_v_se
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_24setThreatStatus(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, PyObject *__pyx_v_newStatus) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_24setThreatStatus(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, PyObject *__pyx_v_newStatus) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   std::string __pyx_t_2;
   __Pyx_RefNannySetupContext("setThreatStatus", 0);
 
-  /* "pydata.pyx":56
+  /* "ackbar/pydata.pyx":58
  * 
  * 	def setThreatStatus(self, str newStatus):
  * 		self.thismesh.setThreatStatus(newStatus.encode('utf-8'))             # <<<<<<<<<<<<<<
@@ -2677,15 +2681,15 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_24setThreatStatus(struct __pyx_obj_6py
  */
   if (unlikely(__pyx_v_newStatus == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "encode");
-    __PYX_ERR(0, 56, __pyx_L1_error)
+    __PYX_ERR(0, 58, __pyx_L1_error)
   }
-  __pyx_t_1 = PyUnicode_AsUTF8String(__pyx_v_newStatus); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_AsUTF8String(__pyx_v_newStatus); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_string_from_py_std__in_string(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->thismesh->setThreatStatus(__pyx_t_2);
 
-  /* "pydata.pyx":55
+  /* "ackbar/pydata.pyx":57
  * 		self.thismesh.linkNeighs(indexA, indexB)
  * 
  * 	def setThreatStatus(self, str newStatus):             # <<<<<<<<<<<<<<
@@ -2698,7 +2702,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_24setThreatStatus(struct __pyx_obj_6py
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.setThreatStatus", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.setThreatStatus", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2706,7 +2710,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_24setThreatStatus(struct __pyx_obj_6py
   return __pyx_r;
 }
 
-/* "pydata.pyx":58
+/* "ackbar/pydata.pyx":60
  * 		self.thismesh.setThreatStatus(newStatus.encode('utf-8'))
  * 
  * 	def getThreatStatus(self):             # <<<<<<<<<<<<<<
@@ -2715,26 +2719,26 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_24setThreatStatus(struct __pyx_obj_6py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_27getThreatStatus(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_27getThreatStatus(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_27getThreatStatus(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_27getThreatStatus(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getThreatStatus (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_26getThreatStatus(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_26getThreatStatus(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   std::string __pyx_v_st;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("getThreatStatus", 0);
 
-  /* "pydata.pyx":59
+  /* "ackbar/pydata.pyx":61
  * 
  * 	def getThreatStatus(self):
  * 		st = self.thismesh.getThreatStatus()             # <<<<<<<<<<<<<<
@@ -2743,7 +2747,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6py
  */
   __pyx_v_st = __pyx_v_self->thismesh->getThreatStatus();
 
-  /* "pydata.pyx":60
+  /* "ackbar/pydata.pyx":62
  * 	def getThreatStatus(self):
  * 		st = self.thismesh.getThreatStatus()
  * 		return st.decode('utf-8')             # <<<<<<<<<<<<<<
@@ -2751,13 +2755,13 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6py
  * 	def newThreatSubcriteriaA(self, int subcri):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_decode_cpp_string(__pyx_v_st, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_decode_cpp_string(__pyx_v_st, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":58
+  /* "ackbar/pydata.pyx":60
  * 		self.thismesh.setThreatStatus(newStatus.encode('utf-8'))
  * 
  * 	def getThreatStatus(self):             # <<<<<<<<<<<<<<
@@ -2768,7 +2772,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6py
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.getThreatStatus", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.getThreatStatus", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2776,7 +2780,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6py
   return __pyx_r;
 }
 
-/* "pydata.pyx":62
+/* "ackbar/pydata.pyx":64
  * 		return st.decode('utf-8')
  * 
  * 	def newThreatSubcriteriaA(self, int subcri):             # <<<<<<<<<<<<<<
@@ -2785,34 +2789,34 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_26getThreatStatus(struct __pyx_obj_6py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_29newThreatSubcriteriaA(PyObject *__pyx_v_self, PyObject *__pyx_arg_subcri); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_29newThreatSubcriteriaA(PyObject *__pyx_v_self, PyObject *__pyx_arg_subcri) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_29newThreatSubcriteriaA(PyObject *__pyx_v_self, PyObject *__pyx_arg_subcri); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_29newThreatSubcriteriaA(PyObject *__pyx_v_self, PyObject *__pyx_arg_subcri) {
   int __pyx_v_subcri;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("newThreatSubcriteriaA (wrapper)", 0);
   assert(__pyx_arg_subcri); {
-    __pyx_v_subcri = __Pyx_PyInt_As_int(__pyx_arg_subcri); if (unlikely((__pyx_v_subcri == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L3_error)
+    __pyx_v_subcri = __Pyx_PyInt_As_int(__pyx_arg_subcri); if (unlikely((__pyx_v_subcri == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Meshpy.newThreatSubcriteriaA", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.newThreatSubcriteriaA", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_28newThreatSubcriteriaA(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), ((int)__pyx_v_subcri));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_28newThreatSubcriteriaA(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), ((int)__pyx_v_subcri));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_28newThreatSubcriteriaA(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, int __pyx_v_subcri) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_28newThreatSubcriteriaA(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, int __pyx_v_subcri) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("newThreatSubcriteriaA", 0);
 
-  /* "pydata.pyx":63
+  /* "ackbar/pydata.pyx":65
  * 
  * 	def newThreatSubcriteriaA(self, int subcri):
  * 		self.thismesh.newThreatSubcriteriaA(subcri)             # <<<<<<<<<<<<<<
@@ -2821,7 +2825,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_28newThreatSubcriteriaA(struct __pyx_o
  */
   __pyx_v_self->thismesh->newThreatSubcriteriaA(__pyx_v_subcri);
 
-  /* "pydata.pyx":62
+  /* "ackbar/pydata.pyx":64
  * 		return st.decode('utf-8')
  * 
  * 	def newThreatSubcriteriaA(self, int subcri):             # <<<<<<<<<<<<<<
@@ -2836,7 +2840,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_28newThreatSubcriteriaA(struct __pyx_o
   return __pyx_r;
 }
 
-/* "pydata.pyx":65
+/* "ackbar/pydata.pyx":67
  * 		self.thismesh.newThreatSubcriteriaA(subcri)
  * 
  * 	def getThreatSubcriteriaA(self):             # <<<<<<<<<<<<<<
@@ -2845,25 +2849,25 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_28newThreatSubcriteriaA(struct __pyx_o
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_31getThreatSubcriteriaA(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_31getThreatSubcriteriaA(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_31getThreatSubcriteriaA(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_31getThreatSubcriteriaA(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getThreatSubcriteriaA (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_30getThreatSubcriteriaA(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_30getThreatSubcriteriaA(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_30getThreatSubcriteriaA(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_30getThreatSubcriteriaA(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("getThreatSubcriteriaA", 0);
 
-  /* "pydata.pyx":66
+  /* "ackbar/pydata.pyx":68
  * 
  * 	def getThreatSubcriteriaA(self):
  * 		return self.thismesh.getThreatSubcriteriaA()             # <<<<<<<<<<<<<<
@@ -2871,13 +2875,13 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_30getThreatSubcriteriaA(struct __pyx_o
  * 	def randomize(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_int(__pyx_v_self->thismesh->getThreatSubcriteriaA()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_int(__pyx_v_self->thismesh->getThreatSubcriteriaA()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":65
+  /* "ackbar/pydata.pyx":67
  * 		self.thismesh.newThreatSubcriteriaA(subcri)
  * 
  * 	def getThreatSubcriteriaA(self):             # <<<<<<<<<<<<<<
@@ -2888,7 +2892,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_30getThreatSubcriteriaA(struct __pyx_o
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.getThreatSubcriteriaA", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.getThreatSubcriteriaA", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2896,7 +2900,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_30getThreatSubcriteriaA(struct __pyx_o
   return __pyx_r;
 }
 
-/* "pydata.pyx":68
+/* "ackbar/pydata.pyx":70
  * 		return self.thismesh.getThreatSubcriteriaA()
  * 
  * 	def randomize(self):             # <<<<<<<<<<<<<<
@@ -2905,24 +2909,24 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_30getThreatSubcriteriaA(struct __pyx_o
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_33randomize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_33randomize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_33randomize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_33randomize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("randomize (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_32randomize(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_32randomize(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_32randomize(struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_32randomize(struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("randomize", 0);
 
-  /* "pydata.pyx":69
+  /* "ackbar/pydata.pyx":71
  * 
  * 	def randomize(self):
  * 		self.thismesh.randomize()             # <<<<<<<<<<<<<<
@@ -2931,7 +2935,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_32randomize(struct __pyx_obj_6pydata_M
  */
   __pyx_v_self->thismesh->randomize();
 
-  /* "pydata.pyx":68
+  /* "ackbar/pydata.pyx":70
  * 		return self.thismesh.getThreatSubcriteriaA()
  * 
  * 	def randomize(self):             # <<<<<<<<<<<<<<
@@ -2953,19 +2957,19 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_32randomize(struct __pyx_obj_6pydata_M
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_35__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_35__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_35__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_35__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_34__reduce_cython__(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_34__reduce_cython__(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_34__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6pydata_Meshpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_34__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2992,7 +2996,7 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_34__reduce_cython__(CYTHON_UNUSED stru
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -3007,19 +3011,19 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_34__reduce_cython__(CYTHON_UNUSED stru
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_6Meshpy_37__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_6pydata_6Meshpy_37__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_37__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_6Meshpy_37__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_6Meshpy_36__setstate_cython__(((struct __pyx_obj_6pydata_Meshpy *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_6Meshpy_36__setstate_cython__(((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_6Meshpy_36__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6pydata_Meshpy *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6ackbar_6pydata_6Meshpy_36__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3046,14 +3050,14 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_36__setstate_cython__(CYTHON_UNUSED st
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Meshpy.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Meshpy.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":79
+/* "ackbar/pydata.pyx":81
  * 	cdef public double cellSize
  * 
  * 	def __cinit__(self, Meshpy mother):             # <<<<<<<<<<<<<<
@@ -3062,9 +3066,9 @@ static PyObject *__pyx_pf_6pydata_6Meshpy_36__setstate_cython__(CYTHON_UNUSED st
  */
 
 /* Python wrapper */
-static int __pyx_pw_6pydata_10Solutionpy_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_6pydata_10Solutionpy_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6pydata_Meshpy *__pyx_v_mother = 0;
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_mother = 0;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
@@ -3087,25 +3091,25 @@ static int __pyx_pw_6pydata_10Solutionpy_1__cinit__(PyObject *__pyx_v_self, PyOb
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 79, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 81, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_mother = ((struct __pyx_obj_6pydata_Meshpy *)values[0]);
+    __pyx_v_mother = ((struct __pyx_obj_6ackbar_6pydata_Meshpy *)values[0]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 79, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 81, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mother), __pyx_ptype_6pydata_Meshpy, 1, "mother", 0))) __PYX_ERR(0, 79, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy___cinit__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), __pyx_v_mother);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mother), __pyx_ptype_6ackbar_6pydata_Meshpy, 1, "mother", 0))) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy___cinit__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), __pyx_v_mother);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3116,13 +3120,13 @@ static int __pyx_pw_6pydata_10Solutionpy_1__cinit__(PyObject *__pyx_v_self, PyOb
   return __pyx_r;
 }
 
-static int __pyx_pf_6pydata_10Solutionpy___cinit__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, struct __pyx_obj_6pydata_Meshpy *__pyx_v_mother) {
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy___cinit__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_mother) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   Solution *__pyx_t_1;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pydata.pyx":81
+  /* "ackbar/pydata.pyx":83
  * 	def __cinit__(self, Meshpy mother):
  * 
  * 		self.thissol = new Solution(mother.thismesh)             # <<<<<<<<<<<<<<
@@ -3133,11 +3137,11 @@ static int __pyx_pf_6pydata_10Solutionpy___cinit__(struct __pyx_obj_6pydata_Solu
     __pyx_t_1 = new Solution(__pyx_v_mother->thismesh);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 81, __pyx_L1_error)
+    __PYX_ERR(0, 83, __pyx_L1_error)
   }
   __pyx_v_self->thissol = __pyx_t_1;
 
-  /* "pydata.pyx":79
+  /* "ackbar/pydata.pyx":81
  * 	cdef public double cellSize
  * 
  * 	def __cinit__(self, Meshpy mother):             # <<<<<<<<<<<<<<
@@ -3149,14 +3153,14 @@ static int __pyx_pf_6pydata_10Solutionpy___cinit__(struct __pyx_obj_6pydata_Solu
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":83
+/* "ackbar/pydata.pyx":85
  * 		self.thissol = new Solution(mother.thismesh)
  * 
  * 	def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -3165,21 +3169,21 @@ static int __pyx_pf_6pydata_10Solutionpy___cinit__(struct __pyx_obj_6pydata_Solu
  */
 
 /* Python wrapper */
-static void __pyx_pw_6pydata_10Solutionpy_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
-static void __pyx_pw_6pydata_10Solutionpy_3__dealloc__(PyObject *__pyx_v_self) {
+static void __pyx_pw_6ackbar_6pydata_10Solutionpy_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
+static void __pyx_pw_6ackbar_6pydata_10Solutionpy_3__dealloc__(PyObject *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__ (wrapper)", 0);
-  __pyx_pf_6pydata_10Solutionpy_2__dealloc__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_pf_6ackbar_6pydata_10Solutionpy_2__dealloc__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-static void __pyx_pf_6pydata_10Solutionpy_2__dealloc__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static void __pyx_pf_6ackbar_6pydata_10Solutionpy_2__dealloc__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "pydata.pyx":84
+  /* "ackbar/pydata.pyx":86
  * 
  * 	def __dealloc__(self):
  * 		del self.thissol             # <<<<<<<<<<<<<<
@@ -3188,7 +3192,7 @@ static void __pyx_pf_6pydata_10Solutionpy_2__dealloc__(struct __pyx_obj_6pydata_
  */
   delete __pyx_v_self->thissol;
 
-  /* "pydata.pyx":83
+  /* "ackbar/pydata.pyx":85
  * 		self.thissol = new Solution(mother.thismesh)
  * 
  * 	def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -3200,7 +3204,7 @@ static void __pyx_pf_6pydata_10Solutionpy_2__dealloc__(struct __pyx_obj_6pydata_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "pydata.pyx":87
+/* "ackbar/pydata.pyx":89
  * 
  * 	@property
  * 	def critA(self):             # <<<<<<<<<<<<<<
@@ -3209,25 +3213,25 @@ static void __pyx_pf_6pydata_10Solutionpy_2__dealloc__(struct __pyx_obj_6pydata_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_5critA_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_5critA_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_5critA_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_5critA_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_5critA___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_5critA___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_5critA___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_5critA___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pydata.pyx":88
+  /* "ackbar/pydata.pyx":90
  * 	@property
  * 	def critA(self):
  * 		return self.thissol.critA             # <<<<<<<<<<<<<<
@@ -3235,13 +3239,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5critA___get__(struct __pyx_obj_6
  * 	@critA.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->critA); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->critA); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":87
+  /* "ackbar/pydata.pyx":89
  * 
  * 	@property
  * 	def critA(self):             # <<<<<<<<<<<<<<
@@ -3252,7 +3256,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5critA___get__(struct __pyx_obj_6
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.critA.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.critA.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3260,7 +3264,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5critA___get__(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "pydata.pyx":91
+/* "ackbar/pydata.pyx":93
  * 
  * 	@critA.setter
  * 	def critA(self, newCritA):             # <<<<<<<<<<<<<<
@@ -3269,35 +3273,35 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5critA___get__(struct __pyx_obj_6
  */
 
 /* Python wrapper */
-static int __pyx_pw_6pydata_10Solutionpy_5critA_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newCritA); /*proto*/
-static int __pyx_pw_6pydata_10Solutionpy_5critA_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newCritA) {
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_5critA_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newCritA); /*proto*/
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_5critA_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newCritA) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_5critA_2__set__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_newCritA));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_5critA_2__set__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_newCritA));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6pydata_10Solutionpy_5critA_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newCritA) {
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_5critA_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newCritA) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pydata.pyx":92
+  /* "ackbar/pydata.pyx":94
  * 	@critA.setter
  * 	def critA(self, newCritA):
  * 		self.thissol.critA = newCritA             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_newCritA); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_newCritA); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L1_error)
   __pyx_v_self->thissol->critA = __pyx_t_1;
 
-  /* "pydata.pyx":91
+  /* "ackbar/pydata.pyx":93
  * 
  * 	@critA.setter
  * 	def critA(self, newCritA):             # <<<<<<<<<<<<<<
@@ -3309,14 +3313,14 @@ static int __pyx_pf_6pydata_10Solutionpy_5critA_2__set__(struct __pyx_obj_6pydat
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.critA.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.critA.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":96
+/* "ackbar/pydata.pyx":98
  * 
  * 	@property
  * 	def critB(self):             # <<<<<<<<<<<<<<
@@ -3325,25 +3329,25 @@ static int __pyx_pf_6pydata_10Solutionpy_5critA_2__set__(struct __pyx_obj_6pydat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_5critB_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_5critB_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_5critB_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_5critB_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_5critB___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_5critB___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_5critB___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_5critB___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pydata.pyx":97
+  /* "ackbar/pydata.pyx":99
  * 	@property
  * 	def critB(self):
  * 		return self.thissol.critB             # <<<<<<<<<<<<<<
@@ -3351,13 +3355,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5critB___get__(struct __pyx_obj_6
  * 	@critB.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->critB); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->critB); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":96
+  /* "ackbar/pydata.pyx":98
  * 
  * 	@property
  * 	def critB(self):             # <<<<<<<<<<<<<<
@@ -3368,7 +3372,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5critB___get__(struct __pyx_obj_6
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.critB.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.critB.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3376,7 +3380,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5critB___get__(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "pydata.pyx":100
+/* "ackbar/pydata.pyx":102
  * 
  * 	@critB.setter
  * 	def critB(self, newCritB):             # <<<<<<<<<<<<<<
@@ -3385,35 +3389,35 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5critB___get__(struct __pyx_obj_6
  */
 
 /* Python wrapper */
-static int __pyx_pw_6pydata_10Solutionpy_5critB_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newCritB); /*proto*/
-static int __pyx_pw_6pydata_10Solutionpy_5critB_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newCritB) {
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_5critB_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newCritB); /*proto*/
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_5critB_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newCritB) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_5critB_2__set__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_newCritB));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_5critB_2__set__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_newCritB));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6pydata_10Solutionpy_5critB_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newCritB) {
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_5critB_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newCritB) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pydata.pyx":101
+  /* "ackbar/pydata.pyx":103
  * 	@critB.setter
  * 	def critB(self, newCritB):
  * 		self.thissol.critB = newCritB             # <<<<<<<<<<<<<<
  * 
- * 
+ * 	@property
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_newCritB); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_newCritB); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
   __pyx_v_self->thissol->critB = __pyx_t_1;
 
-  /* "pydata.pyx":100
+  /* "ackbar/pydata.pyx":102
  * 
  * 	@critB.setter
  * 	def critB(self, newCritB):             # <<<<<<<<<<<<<<
@@ -3425,14 +3429,14 @@ static int __pyx_pf_6pydata_10Solutionpy_5critB_2__set__(struct __pyx_obj_6pydat
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.critB.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.critB.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":105
+/* "ackbar/pydata.pyx":106
  * 
  * 	@property
  * 	def score(self):             # <<<<<<<<<<<<<<
@@ -3441,25 +3445,25 @@ static int __pyx_pf_6pydata_10Solutionpy_5critB_2__set__(struct __pyx_obj_6pydat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_5score_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_5score_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_5score_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_5score_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_5score___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_5score___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_5score___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_5score___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pydata.pyx":106
+  /* "ackbar/pydata.pyx":107
  * 	@property
  * 	def score(self):
  * 		return self.thissol.score             # <<<<<<<<<<<<<<
@@ -3467,13 +3471,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5score___get__(struct __pyx_obj_6
  * 	@score.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->score); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->score); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":105
+  /* "ackbar/pydata.pyx":106
  * 
  * 	@property
  * 	def score(self):             # <<<<<<<<<<<<<<
@@ -3484,7 +3488,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5score___get__(struct __pyx_obj_6
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.score.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.score.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3492,7 +3496,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5score___get__(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "pydata.pyx":109
+/* "ackbar/pydata.pyx":110
  * 
  * 	@score.setter
  * 	def score(self, newScore):             # <<<<<<<<<<<<<<
@@ -3501,35 +3505,35 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_5score___get__(struct __pyx_obj_6
  */
 
 /* Python wrapper */
-static int __pyx_pw_6pydata_10Solutionpy_5score_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newScore); /*proto*/
-static int __pyx_pw_6pydata_10Solutionpy_5score_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newScore) {
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_5score_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newScore); /*proto*/
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_5score_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_newScore) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_5score_2__set__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_newScore));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_5score_2__set__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_newScore));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6pydata_10Solutionpy_5score_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newScore) {
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_5score_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_newScore) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pydata.pyx":110
+  /* "ackbar/pydata.pyx":111
  * 	@score.setter
  * 	def score(self, newScore):
  * 		self.thissol.score = newScore             # <<<<<<<<<<<<<<
  * 
  * 	@property
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_newScore); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_newScore); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L1_error)
   __pyx_v_self->thissol->score = __pyx_t_1;
 
-  /* "pydata.pyx":109
+  /* "ackbar/pydata.pyx":110
  * 
  * 	@score.setter
  * 	def score(self, newScore):             # <<<<<<<<<<<<<<
@@ -3541,14 +3545,14 @@ static int __pyx_pf_6pydata_10Solutionpy_5score_2__set__(struct __pyx_obj_6pydat
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.score.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.score.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":113
+/* "ackbar/pydata.pyx":114
  * 
  * 	@property
  * 	def ndmScore(self):             # <<<<<<<<<<<<<<
@@ -3557,25 +3561,25 @@ static int __pyx_pf_6pydata_10Solutionpy_5score_2__set__(struct __pyx_obj_6pydat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_8ndmScore_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_8ndmScore_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_8ndmScore_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_8ndmScore_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_8ndmScore___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_8ndmScore___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_8ndmScore___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_8ndmScore___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pydata.pyx":114
+  /* "ackbar/pydata.pyx":115
  * 	@property
  * 	def ndmScore(self):
  * 		return self.thissol.ndmScore             # <<<<<<<<<<<<<<
@@ -3583,13 +3587,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8ndmScore___get__(struct __pyx_ob
  * 	@property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->thissol->ndmScore); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->thissol->ndmScore); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":113
+  /* "ackbar/pydata.pyx":114
  * 
  * 	@property
  * 	def ndmScore(self):             # <<<<<<<<<<<<<<
@@ -3600,7 +3604,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8ndmScore___get__(struct __pyx_ob
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.ndmScore.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.ndmScore.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3608,7 +3612,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8ndmScore___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "pydata.pyx":117
+/* "ackbar/pydata.pyx":118
  * 
  * 	@property
  * 	def aggrScore(self):             # <<<<<<<<<<<<<<
@@ -3617,25 +3621,25 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8ndmScore___get__(struct __pyx_ob
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_9aggrScore_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_9aggrScore_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_9aggrScore_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_9aggrScore_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_9aggrScore___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_9aggrScore___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_9aggrScore___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_9aggrScore___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pydata.pyx":118
+  /* "ackbar/pydata.pyx":119
  * 	@property
  * 	def aggrScore(self):
  * 		return self.thissol.aggrScore             # <<<<<<<<<<<<<<
@@ -3643,13 +3647,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_9aggrScore___get__(struct __pyx_o
  * 	@property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->thissol->aggrScore); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->thissol->aggrScore); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":117
+  /* "ackbar/pydata.pyx":118
  * 
  * 	@property
  * 	def aggrScore(self):             # <<<<<<<<<<<<<<
@@ -3660,7 +3664,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_9aggrScore___get__(struct __pyx_o
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.aggrScore.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.aggrScore.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3668,7 +3672,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_9aggrScore___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "pydata.pyx":121
+/* "ackbar/pydata.pyx":122
  * 
  * 	@property
  * 	def extent(self):             # <<<<<<<<<<<<<<
@@ -3677,25 +3681,25 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_9aggrScore___get__(struct __pyx_o
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_6extent_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_6extent_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_6extent_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_6extent_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_6extent___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_6extent___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_6extent___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_6extent___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pydata.pyx":122
+  /* "ackbar/pydata.pyx":123
  * 	@property
  * 	def extent(self):
  * 		return self.thissol.extent             # <<<<<<<<<<<<<<
@@ -3703,13 +3707,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6extent___get__(struct __pyx_obj_
  * 	@property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->extent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->extent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":121
+  /* "ackbar/pydata.pyx":122
  * 
  * 	@property
  * 	def extent(self):             # <<<<<<<<<<<<<<
@@ -3720,7 +3724,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6extent___get__(struct __pyx_obj_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.extent.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.extent.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3728,7 +3732,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6extent___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "pydata.pyx":125
+/* "ackbar/pydata.pyx":126
  * 
  * 	@property
  * 	def origin(self):             # <<<<<<<<<<<<<<
@@ -3737,25 +3741,25 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6extent___get__(struct __pyx_obj_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_6origin_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_6origin_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_6origin_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_6origin_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_6origin___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_6origin___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_6origin___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_6origin___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pydata.pyx":126
+  /* "ackbar/pydata.pyx":127
  * 	@property
  * 	def origin(self):
  * 		return self.thissol.origin             # <<<<<<<<<<<<<<
@@ -3763,13 +3767,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6origin___get__(struct __pyx_obj_
  * 	@property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->origin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->origin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":125
+  /* "ackbar/pydata.pyx":126
  * 
  * 	@property
  * 	def origin(self):             # <<<<<<<<<<<<<<
@@ -3780,7 +3784,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6origin___get__(struct __pyx_obj_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.origin.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.origin.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3788,7 +3792,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6origin___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "pydata.pyx":129
+/* "ackbar/pydata.pyx":130
  * 
  * 	@property
  * 	def spp2crit(self):             # <<<<<<<<<<<<<<
@@ -3797,25 +3801,25 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6origin___get__(struct __pyx_obj_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_8spp2crit_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_8spp2crit_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_8spp2crit_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_8spp2crit_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_8spp2crit___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_8spp2crit___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_8spp2crit___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_8spp2crit___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pydata.pyx":130
+  /* "ackbar/pydata.pyx":131
  * 	@property
  * 	def spp2crit(self):
  * 		return self.thissol.spp2crit             # <<<<<<<<<<<<<<
@@ -3823,13 +3827,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8spp2crit___get__(struct __pyx_ob
  * 	def getSize(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_map_to_py_int____std_3a__3a_vector_3c_int_3e___(__pyx_v_self->thissol->spp2crit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_map_to_py_int____std_3a__3a_vector_3c_int_3e___(__pyx_v_self->thissol->spp2crit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":129
+  /* "ackbar/pydata.pyx":130
  * 
  * 	@property
  * 	def spp2crit(self):             # <<<<<<<<<<<<<<
@@ -3840,7 +3844,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8spp2crit___get__(struct __pyx_ob
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.spp2crit.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.spp2crit.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3848,7 +3852,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8spp2crit___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "pydata.pyx":132
+/* "ackbar/pydata.pyx":133
  * 		return self.thissol.spp2crit
  * 
  * 	def getSize(self):             # <<<<<<<<<<<<<<
@@ -3857,25 +3861,25 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8spp2crit___get__(struct __pyx_ob
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_5getSize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_5getSize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_5getSize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_5getSize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getSize (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_4getSize(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_4getSize(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_4getSize(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_4getSize(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("getSize", 0);
 
-  /* "pydata.pyx":133
+  /* "ackbar/pydata.pyx":134
  * 
  * 	def getSize(self):
  * 		return self.thissol.getSize()             # <<<<<<<<<<<<<<
@@ -3883,13 +3887,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_4getSize(struct __pyx_obj_6pydata
  * 	def setValue(self, int index, float theVal):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->getSize()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->thissol->getSize()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":132
+  /* "ackbar/pydata.pyx":133
  * 		return self.thissol.spp2crit
  * 
  * 	def getSize(self):             # <<<<<<<<<<<<<<
@@ -3900,7 +3904,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_4getSize(struct __pyx_obj_6pydata
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.getSize", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.getSize", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3908,7 +3912,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_4getSize(struct __pyx_obj_6pydata
   return __pyx_r;
 }
 
-/* "pydata.pyx":135
+/* "ackbar/pydata.pyx":136
  * 		return self.thissol.getSize()
  * 
  * 	def setValue(self, int index, float theVal):             # <<<<<<<<<<<<<<
@@ -3917,8 +3921,8 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_4getSize(struct __pyx_obj_6pydata
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_7setValue(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_7setValue(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_7setValue(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_7setValue(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_index;
   float __pyx_v_theVal;
   PyObject *__pyx_r = 0;
@@ -3947,11 +3951,11 @@ static PyObject *__pyx_pw_6pydata_10Solutionpy_7setValue(PyObject *__pyx_v_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_theVal)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("setValue", 1, 2, 2, 1); __PYX_ERR(0, 135, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("setValue", 1, 2, 2, 1); __PYX_ERR(0, 136, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "setValue") < 0)) __PYX_ERR(0, 135, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "setValue") < 0)) __PYX_ERR(0, 136, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3959,25 +3963,25 @@ static PyObject *__pyx_pw_6pydata_10Solutionpy_7setValue(PyObject *__pyx_v_self,
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
-    __pyx_v_theVal = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_theVal == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
+    __pyx_v_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L3_error)
+    __pyx_v_theVal = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_theVal == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("setValue", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 135, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("setValue", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 136, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.setValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.setValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_6setValue(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), __pyx_v_index, __pyx_v_theVal);
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_6setValue(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), __pyx_v_index, __pyx_v_theVal);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, int __pyx_v_index, float __pyx_v_theVal) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, int __pyx_v_index, float __pyx_v_theVal) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -3988,7 +3992,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydat
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("setValue", 0);
 
-  /* "pydata.pyx":136
+  /* "ackbar/pydata.pyx":137
  * 
  * 	def setValue(self, int index, float theVal):
  * 		if index < 0 or index >= self.thissol.getSize():             # <<<<<<<<<<<<<<
@@ -4006,16 +4010,16 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydat
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "pydata.pyx":137
+    /* "ackbar/pydata.pyx":138
  * 	def setValue(self, int index, float theVal):
  * 		if index < 0 or index >= self.thissol.getSize():
  * 			raise IndexError("Index {0} out of range".format(index))             # <<<<<<<<<<<<<<
  * 		else:
  * 			self.thissol.setValue(index, theVal)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Index_0_out_of_range, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Index_0_out_of_range, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -4030,17 +4034,17 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydat
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 137, __pyx_L1_error)
+    __PYX_ERR(0, 138, __pyx_L1_error)
 
-    /* "pydata.pyx":136
+    /* "ackbar/pydata.pyx":137
  * 
  * 	def setValue(self, int index, float theVal):
  * 		if index < 0 or index >= self.thissol.getSize():             # <<<<<<<<<<<<<<
@@ -4049,7 +4053,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydat
  */
   }
 
-  /* "pydata.pyx":139
+  /* "ackbar/pydata.pyx":140
  * 			raise IndexError("Index {0} out of range".format(index))
  * 		else:
  * 			self.thissol.setValue(index, theVal)             # <<<<<<<<<<<<<<
@@ -4060,7 +4064,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydat
     __pyx_v_self->thissol->setValue(__pyx_v_index, __pyx_v_theVal);
   }
 
-  /* "pydata.pyx":135
+  /* "ackbar/pydata.pyx":136
  * 		return self.thissol.getSize()
  * 
  * 	def setValue(self, int index, float theVal):             # <<<<<<<<<<<<<<
@@ -4076,7 +4080,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydat
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pydata.Solutionpy.setValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.setValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4084,7 +4088,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydat
   return __pyx_r;
 }
 
-/* "pydata.pyx":141
+/* "ackbar/pydata.pyx":142
  * 			self.thissol.setValue(index, theVal)
  * 
  * 	def getValue(self, int index):             # <<<<<<<<<<<<<<
@@ -4093,29 +4097,29 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_6setValue(struct __pyx_obj_6pydat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_9getValue(PyObject *__pyx_v_self, PyObject *__pyx_arg_index); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_9getValue(PyObject *__pyx_v_self, PyObject *__pyx_arg_index) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_9getValue(PyObject *__pyx_v_self, PyObject *__pyx_arg_index); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_9getValue(PyObject *__pyx_v_self, PyObject *__pyx_arg_index) {
   int __pyx_v_index;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getValue (wrapper)", 0);
   assert(__pyx_arg_index); {
-    __pyx_v_index = __Pyx_PyInt_As_int(__pyx_arg_index); if (unlikely((__pyx_v_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L3_error)
+    __pyx_v_index = __Pyx_PyInt_As_int(__pyx_arg_index); if (unlikely((__pyx_v_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 142, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.getValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.getValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_8getValue(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), ((int)__pyx_v_index));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_8getValue(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), ((int)__pyx_v_index));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, int __pyx_v_index) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, int __pyx_v_index) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -4126,7 +4130,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydat
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("getValue", 0);
 
-  /* "pydata.pyx":142
+  /* "ackbar/pydata.pyx":143
  * 
  * 	def getValue(self, int index):
  * 		if index < 0 or index >= self.thissol.getSize():             # <<<<<<<<<<<<<<
@@ -4144,16 +4148,16 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydat
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "pydata.pyx":143
+    /* "ackbar/pydata.pyx":144
  * 	def getValue(self, int index):
  * 		if index < 0 or index >= self.thissol.getSize():
  * 			raise IndexError("Index {0} out of range".format(index))             # <<<<<<<<<<<<<<
  * 		else:
  * 			return self.thissol.getValue(index)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Index_0_out_of_range, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_u_Index_0_out_of_range, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 144, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -4168,17 +4172,17 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydat
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 143, __pyx_L1_error)
+    __PYX_ERR(0, 144, __pyx_L1_error)
 
-    /* "pydata.pyx":142
+    /* "ackbar/pydata.pyx":143
  * 
  * 	def getValue(self, int index):
  * 		if index < 0 or index >= self.thissol.getSize():             # <<<<<<<<<<<<<<
@@ -4187,7 +4191,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydat
  */
   }
 
-  /* "pydata.pyx":145
+  /* "ackbar/pydata.pyx":146
  * 			raise IndexError("Index {0} out of range".format(index))
  * 		else:
  * 			return self.thissol.getValue(index)             # <<<<<<<<<<<<<<
@@ -4196,14 +4200,14 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydat
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->thissol->getValue(__pyx_v_index)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->thissol->getValue(__pyx_v_index)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_r = __pyx_t_4;
     __pyx_t_4 = 0;
     goto __pyx_L0;
   }
 
-  /* "pydata.pyx":141
+  /* "ackbar/pydata.pyx":142
  * 			self.thissol.setValue(index, theVal)
  * 
  * 	def getValue(self, int index):             # <<<<<<<<<<<<<<
@@ -4217,7 +4221,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydat
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pydata.Solutionpy.getValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.getValue", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4225,7 +4229,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydat
   return __pyx_r;
 }
 
-/* "pydata.pyx":147
+/* "ackbar/pydata.pyx":148
  * 			return self.thissol.getValue(index)
  * 
  * 	def isNull(self):             # <<<<<<<<<<<<<<
@@ -4234,25 +4238,25 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8getValue(struct __pyx_obj_6pydat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_11isNull(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_11isNull(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_11isNull(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_11isNull(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("isNull (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_10isNull(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_10isNull(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_10isNull(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_10isNull(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("isNull", 0);
 
-  /* "pydata.pyx":148
+  /* "ackbar/pydata.pyx":149
  * 
  * 	def isNull(self):
  * 		return self.thissol.isNull()             # <<<<<<<<<<<<<<
@@ -4260,13 +4264,13 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_10isNull(struct __pyx_obj_6pydata
  * 	def nullMe(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->thissol->isNull()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->thissol->isNull()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pydata.pyx":147
+  /* "ackbar/pydata.pyx":148
  * 			return self.thissol.getValue(index)
  * 
  * 	def isNull(self):             # <<<<<<<<<<<<<<
@@ -4277,7 +4281,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_10isNull(struct __pyx_obj_6pydata
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.isNull", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.isNull", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4285,7 +4289,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_10isNull(struct __pyx_obj_6pydata
   return __pyx_r;
 }
 
-/* "pydata.pyx":150
+/* "ackbar/pydata.pyx":151
  * 		return self.thissol.isNull()
  * 
  * 	def nullMe(self):             # <<<<<<<<<<<<<<
@@ -4294,24 +4298,24 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_10isNull(struct __pyx_obj_6pydata
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_13nullMe(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_13nullMe(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_13nullMe(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_13nullMe(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("nullMe (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_12nullMe(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_12nullMe(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_12nullMe(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_12nullMe(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("nullMe", 0);
 
-  /* "pydata.pyx":151
+  /* "ackbar/pydata.pyx":152
  * 
  * 	def nullMe(self):
  * 		self.thissol.nullMe()             # <<<<<<<<<<<<<<
@@ -4320,7 +4324,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_12nullMe(struct __pyx_obj_6pydata
  */
   __pyx_v_self->thissol->nullMe();
 
-  /* "pydata.pyx":150
+  /* "ackbar/pydata.pyx":151
  * 		return self.thissol.isNull()
  * 
  * 	def nullMe(self):             # <<<<<<<<<<<<<<
@@ -4335,7 +4339,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_12nullMe(struct __pyx_obj_6pydata
   return __pyx_r;
 }
 
-/* "pydata.pyx":153
+/* "ackbar/pydata.pyx":154
  * 		self.thissol.nullMe()
  * 
  * 	def randomize(self):             # <<<<<<<<<<<<<<
@@ -4344,24 +4348,24 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_12nullMe(struct __pyx_obj_6pydata
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_15randomize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_15randomize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_15randomize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_15randomize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("randomize (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_14randomize(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_14randomize(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_14randomize(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_14randomize(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("randomize", 0);
 
-  /* "pydata.pyx":154
+  /* "ackbar/pydata.pyx":155
  * 
  * 	def randomize(self):
  * 		self.thissol.randomize()             # <<<<<<<<<<<<<<
@@ -4370,7 +4374,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_14randomize(struct __pyx_obj_6pyd
  */
   __pyx_v_self->thissol->randomize();
 
-  /* "pydata.pyx":153
+  /* "ackbar/pydata.pyx":154
  * 		self.thissol.nullMe()
  * 
  * 	def randomize(self):             # <<<<<<<<<<<<<<
@@ -4385,7 +4389,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_14randomize(struct __pyx_obj_6pyd
   return __pyx_r;
 }
 
-/* "pydata.pyx":156
+/* "ackbar/pydata.pyx":157
  * 		self.thissol.randomize()
  * 
  * 	def toBitList(self):             # <<<<<<<<<<<<<<
@@ -4394,19 +4398,19 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_14randomize(struct __pyx_obj_6pyd
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_17toBitList(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_17toBitList(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_17toBitList(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_17toBitList(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("toBitList (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_16toBitList(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_16toBitList(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_v_out = NULL;
   PyObject *__pyx_v_c = NULL;
   PyObject *__pyx_r = NULL;
@@ -4421,26 +4425,26 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("toBitList", 0);
 
-  /* "pydata.pyx":157
+  /* "ackbar/pydata.pyx":158
  * 
  * 	def toBitList(self):
  * 		out = []             # <<<<<<<<<<<<<<
  * 		for c in range(self.getSize()):
  * 			if self.getValue(c) > 0:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_out = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pydata.pyx":158
+  /* "ackbar/pydata.pyx":159
  * 	def toBitList(self):
  * 		out = []
  * 		for c in range(self.getSize()):             # <<<<<<<<<<<<<<
  * 			if self.getValue(c) > 0:
  * 				out.append(1)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getSize); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getSize); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4454,19 +4458,19 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
     __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 159, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -4474,17 +4478,17 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -4494,7 +4498,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 158, __pyx_L1_error)
+          else __PYX_ERR(0, 159, __pyx_L1_error)
         }
         break;
       }
@@ -4503,14 +4507,14 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
     __Pyx_XDECREF_SET(__pyx_v_c, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pydata.pyx":159
+    /* "ackbar/pydata.pyx":160
  * 		out = []
  * 		for c in range(self.getSize()):
  * 			if self.getValue(c) > 0:             # <<<<<<<<<<<<<<
  * 				out.append(1)
  * 			elif self.getValue(c) == 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getValue); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getValue); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4524,25 +4528,25 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
     }
     __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_v_c) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_c);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (__pyx_t_7) {
 
-      /* "pydata.pyx":160
+      /* "ackbar/pydata.pyx":161
  * 		for c in range(self.getSize()):
  * 			if self.getValue(c) > 0:
  * 				out.append(1)             # <<<<<<<<<<<<<<
  * 			elif self.getValue(c) == 0:
  * 				out.append(0)
  */
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_out, __pyx_int_1); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 160, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_out, __pyx_int_1); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 161, __pyx_L1_error)
 
-      /* "pydata.pyx":159
+      /* "ackbar/pydata.pyx":160
  * 		out = []
  * 		for c in range(self.getSize()):
  * 			if self.getValue(c) > 0:             # <<<<<<<<<<<<<<
@@ -4552,14 +4556,14 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
       goto __pyx_L5;
     }
 
-    /* "pydata.pyx":161
+    /* "ackbar/pydata.pyx":162
  * 			if self.getValue(c) > 0:
  * 				out.append(1)
  * 			elif self.getValue(c) == 0:             # <<<<<<<<<<<<<<
  * 				out.append(0)
  * 			else:
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getValue); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getValue); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4573,26 +4577,26 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
     }
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_6, __pyx_v_c) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_c);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 161, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 162, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (likely(__pyx_t_7)) {
 
-      /* "pydata.pyx":162
+      /* "ackbar/pydata.pyx":163
  * 				out.append(1)
  * 			elif self.getValue(c) == 0:
  * 				out.append(0)             # <<<<<<<<<<<<<<
  * 			else:
  * 				raise ValueError("Solution object has negative values.")
  */
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_out, __pyx_int_0); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 162, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_out, __pyx_int_0); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 163, __pyx_L1_error)
 
-      /* "pydata.pyx":161
+      /* "ackbar/pydata.pyx":162
  * 			if self.getValue(c) > 0:
  * 				out.append(1)
  * 			elif self.getValue(c) == 0:             # <<<<<<<<<<<<<<
@@ -4602,7 +4606,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
       goto __pyx_L5;
     }
 
-    /* "pydata.pyx":164
+    /* "ackbar/pydata.pyx":165
  * 				out.append(0)
  * 			else:
  * 				raise ValueError("Solution object has negative values.")             # <<<<<<<<<<<<<<
@@ -4610,15 +4614,15 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
  * 
  */
     /*else*/ {
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 165, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_Raise(__pyx_t_2, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __PYX_ERR(0, 164, __pyx_L1_error)
+      __PYX_ERR(0, 165, __pyx_L1_error)
     }
     __pyx_L5:;
 
-    /* "pydata.pyx":158
+    /* "ackbar/pydata.pyx":159
  * 	def toBitList(self):
  * 		out = []
  * 		for c in range(self.getSize()):             # <<<<<<<<<<<<<<
@@ -4628,7 +4632,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pydata.pyx":165
+  /* "ackbar/pydata.pyx":166
  * 			else:
  * 				raise ValueError("Solution object has negative values.")
  * 		return out             # <<<<<<<<<<<<<<
@@ -4640,7 +4644,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
   __pyx_r = __pyx_v_out;
   goto __pyx_L0;
 
-  /* "pydata.pyx":156
+  /* "ackbar/pydata.pyx":157
  * 		self.thissol.randomize()
  * 
  * 	def toBitList(self):             # <<<<<<<<<<<<<<
@@ -4654,7 +4658,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pydata.Solutionpy.toBitList", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.toBitList", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_out);
@@ -4664,7 +4668,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
   return __pyx_r;
 }
 
-/* "pydata.pyx":75
+/* "ackbar/pydata.pyx":77
  * 
  * 	cdef Solution * thissol
  * 	cdef public double originX             # <<<<<<<<<<<<<<
@@ -4673,25 +4677,25 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_16toBitList(struct __pyx_obj_6pyd
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_7originX_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_7originX_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_7originX_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_7originX_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_7originX___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_7originX___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_7originX___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_7originX___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->originX); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->originX); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4700,7 +4704,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_7originX___get__(struct __pyx_obj
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.originX.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.originX.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4709,38 +4713,38 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_7originX___get__(struct __pyx_obj
 }
 
 /* Python wrapper */
-static int __pyx_pw_6pydata_10Solutionpy_7originX_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6pydata_10Solutionpy_7originX_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_7originX_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_7originX_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_7originX_2__set__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_7originX_2__set__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6pydata_10Solutionpy_7originX_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_7originX_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
   __pyx_v_self->originX = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.originX.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.originX.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":76
+/* "ackbar/pydata.pyx":78
  * 	cdef Solution * thissol
  * 	cdef public double originX
  * 	cdef public double originY             # <<<<<<<<<<<<<<
@@ -4749,25 +4753,25 @@ static int __pyx_pf_6pydata_10Solutionpy_7originX_2__set__(struct __pyx_obj_6pyd
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_7originY_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_7originY_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_7originY_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_7originY_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_7originY___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_7originY___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_7originY___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_7originY___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->originY); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->originY); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4776,7 +4780,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_7originY___get__(struct __pyx_obj
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.originY.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.originY.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4785,38 +4789,38 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_7originY___get__(struct __pyx_obj
 }
 
 /* Python wrapper */
-static int __pyx_pw_6pydata_10Solutionpy_7originY_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6pydata_10Solutionpy_7originY_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_7originY_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_7originY_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_7originY_2__set__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_7originY_2__set__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6pydata_10Solutionpy_7originY_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_7originY_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
   __pyx_v_self->originY = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.originY.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.originY.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":77
+/* "ackbar/pydata.pyx":79
  * 	cdef public double originX
  * 	cdef public double originY
  * 	cdef public double cellSize             # <<<<<<<<<<<<<<
@@ -4825,25 +4829,25 @@ static int __pyx_pf_6pydata_10Solutionpy_7originY_2__set__(struct __pyx_obj_6pyd
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_8cellSize_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_8cellSize_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_8cellSize_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_8cellSize_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_8cellSize___get__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_8cellSize___get__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_8cellSize___get__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_8cellSize___get__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->cellSize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->cellSize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4852,7 +4856,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8cellSize___get__(struct __pyx_ob
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.cellSize.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.cellSize.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4861,31 +4865,31 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_8cellSize___get__(struct __pyx_ob
 }
 
 /* Python wrapper */
-static int __pyx_pw_6pydata_10Solutionpy_8cellSize_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6pydata_10Solutionpy_8cellSize_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_8cellSize_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_6ackbar_6pydata_10Solutionpy_8cellSize_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_8cellSize_2__set__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_8cellSize_2__set__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6pydata_10Solutionpy_8cellSize_2__set__(struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_6ackbar_6pydata_10Solutionpy_8cellSize_2__set__(struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
   __pyx_v_self->cellSize = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("pydata.Solutionpy.cellSize.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.cellSize.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -4899,19 +4903,19 @@ static int __pyx_pf_6pydata_10Solutionpy_8cellSize_2__set__(struct __pyx_obj_6py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_19__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_19__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_19__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_19__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_18__reduce_cython__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_18__reduce_cython__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4938,7 +4942,7 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_18__reduce_cython__(CYTHON_UNUSED
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -4953,19 +4957,19 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_18__reduce_cython__(CYTHON_UNUSED
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_10Solutionpy_21__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_6pydata_10Solutionpy_21__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_21__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_6ackbar_6pydata_10Solutionpy_21__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6pydata_10Solutionpy_20__setstate_cython__(((struct __pyx_obj_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6ackbar_6pydata_10Solutionpy_20__setstate_cython__(((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_10Solutionpy_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6pydata_Solutionpy *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6ackbar_6pydata_10Solutionpy_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4992,26 +4996,26 @@ static PyObject *__pyx_pf_6pydata_10Solutionpy_20__setstate_cython__(CYTHON_UNUS
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pydata.Solutionpy.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.Solutionpy.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pydata.pyx":169
+/* "ackbar/pydata.pyx":170
  * 
- * 
+ * #"""
  * def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):             # <<<<<<<<<<<<<<
  * 	"""
  * 	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6pydata_1metasearchAlt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6pydata_metasearchAlt[] = "\n\tKBA search routine. Output is a 2-dimensional list of Solution objects. Lists\n\tof the first order are non-overlapping sets of areas. Solutions are score \n\tordered.\n\n\tArguments:\n\n\t- obs (list): Set of species distributions (pyMesh objects).\n\n\t- eps (float): Maximum distance among distributions of the same cluster.\n\n\t- iters (int): Number of iterations of to retrieve KBA candidates.\n\n\t- maxOutSize (int): Maximum number of solutions to report.\n\n\t- ndmWeight (float): Scaling factor of the NDM component for scoring solutions.\n\n\t";
-static PyMethodDef __pyx_mdef_6pydata_1metasearchAlt = {"metasearchAlt", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6pydata_1metasearchAlt, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6pydata_metasearchAlt};
-static PyObject *__pyx_pw_6pydata_1metasearchAlt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6ackbar_6pydata_1metasearchAlt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6ackbar_6pydata_metasearchAlt[] = "\t\n\tKBA search routine. Output is a 2-dimensional list of Solution objects. Lists\n\tof the first order are non-overlapping sets of areas. Solutions are score \n\tordered.\n\n\tArguments:\n\n\t- obs (list): Set of species distributions (pyMesh objects).\n\n\t- eps (float): Maximum distance among distributions of the same cluster.\n\n\t- iters (int): Number of iterations of to retrieve KBA candidates.\n\n\t- maxOutSize (int): Maximum number of solutions to report.\n\n\t- ndmWeight (float): Scaling factor of the NDM component for scoring solutions.\n\t";
+static PyMethodDef __pyx_mdef_6ackbar_6pydata_1metasearchAlt = {"metasearchAlt", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ackbar_6pydata_1metasearchAlt, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6ackbar_6pydata_metasearchAlt};
+static PyObject *__pyx_pw_6ackbar_6pydata_1metasearchAlt(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_obs = 0;
   double __pyx_v_eps;
   int __pyx_v_iters;
@@ -5057,25 +5061,25 @@ static PyObject *__pyx_pw_6pydata_1metasearchAlt(PyObject *__pyx_self, PyObject 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_eps)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, 1); __PYX_ERR(0, 169, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, 1); __PYX_ERR(0, 170, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_iters)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, 2); __PYX_ERR(0, 169, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, 2); __PYX_ERR(0, 170, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_maxOutSize)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, 3); __PYX_ERR(0, 169, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, 3); __PYX_ERR(0, 170, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ndmWeight)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, 4); __PYX_ERR(0, 169, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, 4); __PYX_ERR(0, 170, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
@@ -5091,7 +5095,7 @@ static PyObject *__pyx_pw_6pydata_1metasearchAlt(PyObject *__pyx_self, PyObject 
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "metasearchAlt") < 0)) __PYX_ERR(0, 169, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "metasearchAlt") < 0)) __PYX_ERR(0, 170, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5109,23 +5113,23 @@ static PyObject *__pyx_pw_6pydata_1metasearchAlt(PyObject *__pyx_self, PyObject 
       }
     }
     __pyx_v_obs = ((PyObject*)values[0]);
-    __pyx_v_eps = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_eps == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
-    __pyx_v_iters = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_iters == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
-    __pyx_v_maxOutSize = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_maxOutSize == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
-    __pyx_v_ndmWeight = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_ndmWeight == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
+    __pyx_v_eps = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_eps == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L3_error)
+    __pyx_v_iters = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_iters == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L3_error)
+    __pyx_v_maxOutSize = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_maxOutSize == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L3_error)
+    __pyx_v_ndmWeight = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_ndmWeight == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L3_error)
     __pyx_v_taxGr = values[5];
     __pyx_v_spp2gr = values[6];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 169, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("metasearchAlt", 0, 5, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 170, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pydata.metasearchAlt", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.metasearchAlt", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_obs), (&PyList_Type), 1, "obs", 1))) __PYX_ERR(0, 169, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6pydata_metasearchAlt(__pyx_self, __pyx_v_obs, __pyx_v_eps, __pyx_v_iters, __pyx_v_maxOutSize, __pyx_v_ndmWeight, __pyx_v_taxGr, __pyx_v_spp2gr);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_obs), (&PyList_Type), 1, "obs", 1))) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6ackbar_6pydata_metasearchAlt(__pyx_self, __pyx_v_obs, __pyx_v_eps, __pyx_v_iters, __pyx_v_maxOutSize, __pyx_v_ndmWeight, __pyx_v_taxGr, __pyx_v_spp2gr);
 
   /* function exit code */
   goto __pyx_L0;
@@ -5136,18 +5140,18 @@ static PyObject *__pyx_pw_6pydata_1metasearchAlt(PyObject *__pyx_self, PyObject 
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obs, double __pyx_v_eps, int __pyx_v_iters, int __pyx_v_maxOutSize, double __pyx_v_ndmWeight, PyObject *__pyx_v_taxGr, PyObject *__pyx_v_spp2gr) {
+static PyObject *__pyx_pf_6ackbar_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obs, double __pyx_v_eps, int __pyx_v_iters, int __pyx_v_maxOutSize, double __pyx_v_ndmWeight, PyObject *__pyx_v_taxGr, PyObject *__pyx_v_spp2gr) {
   PyObject *__pyx_v_pout = NULL;
   std::vector<Mesh *>  __pyx_v_ve;
-  std::vector<__pyx_t_6pydata_vesol>  __pyx_v_out;
+  std::vector<__pyx_t_6ackbar_6pydata_vesol>  __pyx_v_out;
   std::map<int,std::vector<int> >  __pyx_v_taxGroups;
   std::map<int,int>  __pyx_v_spp2groups;
   PyObject *__pyx_v_ob = NULL;
-  struct __pyx_obj_6pydata_Meshpy *__pyx_v_obme = NULL;
-  std::vector<__pyx_t_6pydata_vesol> ::size_type __pyx_v_i;
+  struct __pyx_obj_6ackbar_6pydata_Meshpy *__pyx_v_obme = NULL;
+  std::vector<__pyx_t_6ackbar_6pydata_vesol> ::size_type __pyx_v_i;
   PyObject *__pyx_v_tmp = NULL;
   std::vector<Solution *> ::size_type __pyx_v_j;
-  struct __pyx_obj_6pydata_Solutionpy *__pyx_v_psol = NULL;
+  struct __pyx_obj_6ackbar_6pydata_Solutionpy *__pyx_v_psol = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5158,70 +5162,70 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
-  std::vector<__pyx_t_6pydata_vesol> ::size_type __pyx_t_9;
-  std::vector<__pyx_t_6pydata_vesol> ::size_type __pyx_t_10;
-  std::vector<__pyx_t_6pydata_vesol> ::size_type __pyx_t_11;
+  std::vector<__pyx_t_6ackbar_6pydata_vesol> ::size_type __pyx_t_9;
+  std::vector<__pyx_t_6ackbar_6pydata_vesol> ::size_type __pyx_t_10;
+  std::vector<__pyx_t_6ackbar_6pydata_vesol> ::size_type __pyx_t_11;
   std::vector<Solution *> ::size_type __pyx_t_12;
   std::vector<Solution *> ::size_type __pyx_t_13;
   std::vector<Solution *> ::size_type __pyx_t_14;
   int __pyx_t_15;
   __Pyx_RefNannySetupContext("metasearchAlt", 0);
 
-  /* "pydata.pyx":188
- * 
+  /* "ackbar/pydata.pyx":189
  * 	"""
+ * 
  * 	pout = []             # <<<<<<<<<<<<<<
  * 	cdef vector[Mesh*] ve
  * 	cdef vector[vesol] out
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_pout = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pydata.pyx":194
+  /* "ackbar/pydata.pyx":195
  * 	cdef cppmap[int, int] spp2groups
  * 
  * 	if type(taxGr) == dict and type(spp2gr) == dict:             # <<<<<<<<<<<<<<
  * 		taxGroups = taxGr
  * 		spp2groups = spp2gr
  */
-  __pyx_t_1 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_taxGr)), ((PyObject *)(&PyDict_Type)), Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_taxGr)), ((PyObject *)(&PyDict_Type)), Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
   } else {
     __pyx_t_2 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_1 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_spp2gr)), ((PyObject *)(&PyDict_Type)), Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_spp2gr)), ((PyObject *)(&PyDict_Type)), Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_2 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_2) {
 
-    /* "pydata.pyx":195
+    /* "ackbar/pydata.pyx":196
  * 
  * 	if type(taxGr) == dict and type(spp2gr) == dict:
  * 		taxGroups = taxGr             # <<<<<<<<<<<<<<
  * 		spp2groups = spp2gr
  * 
  */
-    __pyx_t_4 = __pyx_convert_map_from_py_int__and_std_3a__3a_vector_3c_int_3e___(__pyx_v_taxGr); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 195, __pyx_L1_error)
+    __pyx_t_4 = __pyx_convert_map_from_py_int__and_std_3a__3a_vector_3c_int_3e___(__pyx_v_taxGr); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 196, __pyx_L1_error)
     __pyx_v_taxGroups = __pyx_t_4;
 
-    /* "pydata.pyx":196
+    /* "ackbar/pydata.pyx":197
  * 	if type(taxGr) == dict and type(spp2gr) == dict:
  * 		taxGroups = taxGr
  * 		spp2groups = spp2gr             # <<<<<<<<<<<<<<
  * 
  * 	elif taxGr is None and spp2gr is None:
  */
-    __pyx_t_5 = __pyx_convert_map_from_py_int__and_int(__pyx_v_spp2gr); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 196, __pyx_L1_error)
+    __pyx_t_5 = __pyx_convert_map_from_py_int__and_int(__pyx_v_spp2gr); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 197, __pyx_L1_error)
     __pyx_v_spp2groups = __pyx_t_5;
 
-    /* "pydata.pyx":194
+    /* "ackbar/pydata.pyx":195
  * 	cdef cppmap[int, int] spp2groups
  * 
  * 	if type(taxGr) == dict and type(spp2gr) == dict:             # <<<<<<<<<<<<<<
@@ -5231,7 +5235,7 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
     goto __pyx_L3;
   }
 
-  /* "pydata.pyx":198
+  /* "ackbar/pydata.pyx":199
  * 		spp2groups = spp2gr
  * 
  * 	elif taxGr is None and spp2gr is None:             # <<<<<<<<<<<<<<
@@ -5253,7 +5257,7 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
     goto __pyx_L3;
   }
 
-  /* "pydata.pyx":202
+  /* "ackbar/pydata.pyx":203
  * 
  * 	else:
  * 		raise ValueError("If parsed, parameters `taxGr` and `spp2gr` should be dictionaries.")             # <<<<<<<<<<<<<<
@@ -5261,15 +5265,15 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
  * 	for ob in obs:
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 202, __pyx_L1_error)
+    __PYX_ERR(0, 203, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "pydata.pyx":204
+  /* "ackbar/pydata.pyx":205
  * 		raise ValueError("If parsed, parameters `taxGr` and `spp2gr` should be dictionaries.")
  * 
  * 	for ob in obs:             # <<<<<<<<<<<<<<
@@ -5278,21 +5282,21 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
  */
   if (unlikely(__pyx_v_obs == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 204, __pyx_L1_error)
+    __PYX_ERR(0, 205, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_obs; __Pyx_INCREF(__pyx_t_1); __pyx_t_7 = 0;
   for (;;) {
     if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_8 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_8); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_8 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_8); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 205, __pyx_L1_error)
     #else
-    __pyx_t_8 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_8 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 205, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_ob, __pyx_t_8);
     __pyx_t_8 = 0;
 
-    /* "pydata.pyx":205
+    /* "ackbar/pydata.pyx":206
  * 
  * 	for ob in obs:
  * 		obme = <Meshpy> ob             # <<<<<<<<<<<<<<
@@ -5301,10 +5305,10 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
  */
     __pyx_t_8 = __pyx_v_ob;
     __Pyx_INCREF(__pyx_t_8);
-    __Pyx_XDECREF_SET(__pyx_v_obme, ((struct __pyx_obj_6pydata_Meshpy *)__pyx_t_8));
+    __Pyx_XDECREF_SET(__pyx_v_obme, ((struct __pyx_obj_6ackbar_6pydata_Meshpy *)__pyx_t_8));
     __pyx_t_8 = 0;
 
-    /* "pydata.pyx":206
+    /* "ackbar/pydata.pyx":207
  * 	for ob in obs:
  * 		obme = <Meshpy> ob
  * 		ve.push_back(obme.thismesh)             # <<<<<<<<<<<<<<
@@ -5315,10 +5319,10 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
       __pyx_v_ve.push_back(__pyx_v_obme->thismesh);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 206, __pyx_L1_error)
+      __PYX_ERR(0, 207, __pyx_L1_error)
     }
 
-    /* "pydata.pyx":204
+    /* "ackbar/pydata.pyx":205
  * 		raise ValueError("If parsed, parameters `taxGr` and `spp2gr` should be dictionaries.")
  * 
  * 	for ob in obs:             # <<<<<<<<<<<<<<
@@ -5328,16 +5332,16 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pydata.pyx":209
+  /* "ackbar/pydata.pyx":210
  * 
  * 
  * 	out = metaAlt(ve, taxGroups, spp2groups, eps, iters, maxOutSize, ndmWeight)             # <<<<<<<<<<<<<<
  * 
  * 	for i in range(out.size()):
  */
-  __pyx_v_out = metaAlt(__pyx_v_ve, __pyx_v_taxGroups, __pyx_v_spp2groups, __pyx_v_eps, __pyx_v_iters, __pyx_v_maxOutSize, __pyx_v_ndmWeight);
+  __pyx_v_out = metaAlt(((std::vector<Mesh *>  &)__pyx_v_ve), __pyx_v_taxGroups, __pyx_v_spp2groups, __pyx_v_eps, __pyx_v_iters, __pyx_v_maxOutSize, __pyx_v_ndmWeight);
 
-  /* "pydata.pyx":211
+  /* "ackbar/pydata.pyx":212
  * 	out = metaAlt(ve, taxGroups, spp2groups, eps, iters, maxOutSize, ndmWeight)
  * 
  * 	for i in range(out.size()):             # <<<<<<<<<<<<<<
@@ -5349,100 +5353,101 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
   for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
     __pyx_v_i = __pyx_t_11;
 
-    /* "pydata.pyx":212
+    /* "ackbar/pydata.pyx":213
  * 
  * 	for i in range(out.size()):
  * 		tmp = []             # <<<<<<<<<<<<<<
  * 		for j in range(out[i].size()):
  * 			psol = Solutionpy(obs[0])
  */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_tmp, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "pydata.pyx":213
+    /* "ackbar/pydata.pyx":214
  * 	for i in range(out.size()):
  * 		tmp = []
  * 		for j in range(out[i].size()):             # <<<<<<<<<<<<<<
  * 			psol = Solutionpy(obs[0])
- * 			del psol.thissol
+ * 			#del psol.thissol
  */
     __pyx_t_12 = (__pyx_v_out[__pyx_v_i]).size();
     __pyx_t_13 = __pyx_t_12;
     for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
       __pyx_v_j = __pyx_t_14;
 
-      /* "pydata.pyx":214
+      /* "ackbar/pydata.pyx":215
  * 		tmp = []
  * 		for j in range(out[i].size()):
  * 			psol = Solutionpy(obs[0])             # <<<<<<<<<<<<<<
- * 			del psol.thissol
- * 			psol.thissol = out[i][j]
+ * 			#del psol.thissol
+ * 			# For some reason cython now requires dereferencing of Solution pointers
  */
       if (unlikely(__pyx_v_obs == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 214, __pyx_L1_error)
+        __PYX_ERR(0, 215, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_obs, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_obs, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6pydata_Solutionpy), __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ackbar_6pydata_Solutionpy), __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 215, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_psol, ((struct __pyx_obj_6pydata_Solutionpy *)__pyx_t_8));
+      __Pyx_XDECREF_SET(__pyx_v_psol, ((struct __pyx_obj_6ackbar_6pydata_Solutionpy *)__pyx_t_8));
       __pyx_t_8 = 0;
 
-      /* "pydata.pyx":215
- * 		for j in range(out[i].size()):
- * 			psol = Solutionpy(obs[0])
- * 			del psol.thissol             # <<<<<<<<<<<<<<
- * 			psol.thissol = out[i][j]
+      /* "ackbar/pydata.pyx":219
+ * 			# For some reason cython now requires dereferencing of Solution pointers
+ * 			# in out vector. Should be checked for bugs.
+ * 			psol.thissol[0] = out[i][j][0]             # <<<<<<<<<<<<<<
+ * 			del out[i][j]
  * 			tmp.append(psol)
  */
-      delete __pyx_v_psol->thissol;
+      (__pyx_v_psol->thissol[0]) = (((__pyx_v_out[__pyx_v_i])[__pyx_v_j])[0]);
 
-      /* "pydata.pyx":216
- * 			psol = Solutionpy(obs[0])
- * 			del psol.thissol
- * 			psol.thissol = out[i][j]             # <<<<<<<<<<<<<<
+      /* "ackbar/pydata.pyx":220
+ * 			# in out vector. Should be checked for bugs.
+ * 			psol.thissol[0] = out[i][j][0]
+ * 			del out[i][j]             # <<<<<<<<<<<<<<
  * 			tmp.append(psol)
  * 		pout.append(tmp)
  */
-      __pyx_v_psol->thissol = ((__pyx_v_out[__pyx_v_i])[__pyx_v_j]);
+      delete ((__pyx_v_out[__pyx_v_i])[__pyx_v_j]);
 
-      /* "pydata.pyx":217
- * 			del psol.thissol
- * 			psol.thissol = out[i][j]
+      /* "ackbar/pydata.pyx":221
+ * 			psol.thissol[0] = out[i][j][0]
+ * 			del out[i][j]
  * 			tmp.append(psol)             # <<<<<<<<<<<<<<
  * 		pout.append(tmp)
  * 
  */
-      __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_tmp, ((PyObject *)__pyx_v_psol)); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 217, __pyx_L1_error)
+      __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_tmp, ((PyObject *)__pyx_v_psol)); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 221, __pyx_L1_error)
     }
 
-    /* "pydata.pyx":218
- * 			psol.thissol = out[i][j]
+    /* "ackbar/pydata.pyx":222
+ * 			del out[i][j]
  * 			tmp.append(psol)
  * 		pout.append(tmp)             # <<<<<<<<<<<<<<
  * 
  * 	return pout
  */
-    __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_pout, __pyx_v_tmp); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 218, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_pout, __pyx_v_tmp); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 222, __pyx_L1_error)
   }
 
-  /* "pydata.pyx":220
+  /* "ackbar/pydata.pyx":224
  * 		pout.append(tmp)
  * 
  * 	return pout             # <<<<<<<<<<<<<<
+ * #"""
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_pout);
   __pyx_r = __pyx_v_pout;
   goto __pyx_L0;
 
-  /* "pydata.pyx":169
+  /* "ackbar/pydata.pyx":170
  * 
- * 
+ * #"""
  * def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):             # <<<<<<<<<<<<<<
  * 	"""
  * 	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
@@ -5452,7 +5457,7 @@ static PyObject *__pyx_pf_6pydata_metasearchAlt(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("pydata.metasearchAlt", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("ackbar.pydata.metasearchAlt", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_pout);
@@ -6267,7 +6272,7 @@ static std::map<int,int>  __pyx_convert_map_from_py_int__and_int(PyObject *__pyx
   return __pyx_r;
 }
 
-static PyObject *__pyx_tp_new_6pydata_Meshpy(PyTypeObject *t, PyObject *a, PyObject *k) {
+static PyObject *__pyx_tp_new_6ackbar_6pydata_Meshpy(PyTypeObject *t, PyObject *a, PyObject *k) {
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -6275,14 +6280,14 @@ static PyObject *__pyx_tp_new_6pydata_Meshpy(PyTypeObject *t, PyObject *a, PyObj
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  if (unlikely(__pyx_pw_6pydata_6Meshpy_1__cinit__(o, a, k) < 0)) goto bad;
+  if (unlikely(__pyx_pw_6ackbar_6pydata_6Meshpy_1__cinit__(o, a, k) < 0)) goto bad;
   return o;
   bad:
   Py_DECREF(o); o = 0;
   return NULL;
 }
 
-static void __pyx_tp_dealloc_6pydata_Meshpy(PyObject *o) {
+static void __pyx_tp_dealloc_6ackbar_6pydata_Meshpy(PyObject *o) {
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -6292,40 +6297,40 @@ static void __pyx_tp_dealloc_6pydata_Meshpy(PyObject *o) {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
     ++Py_REFCNT(o);
-    __pyx_pw_6pydata_6Meshpy_3__dealloc__(o);
+    __pyx_pw_6ackbar_6pydata_6Meshpy_3__dealloc__(o);
     --Py_REFCNT(o);
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyMethodDef __pyx_methods_6pydata_Meshpy[] = {
-  {"setValue", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6pydata_6Meshpy_5setValue, METH_VARARGS|METH_KEYWORDS, 0},
-  {"getValue", (PyCFunction)__pyx_pw_6pydata_6Meshpy_7getValue, METH_O, 0},
-  {"getSize", (PyCFunction)__pyx_pw_6pydata_6Meshpy_9getSize, METH_NOARGS, 0},
-  {"setName", (PyCFunction)__pyx_pw_6pydata_6Meshpy_11setName, METH_O, 0},
-  {"getName", (PyCFunction)__pyx_pw_6pydata_6Meshpy_13getName, METH_NOARGS, 0},
-  {"setRange", (PyCFunction)__pyx_pw_6pydata_6Meshpy_15setRange, METH_O, 0},
-  {"getRange", (PyCFunction)__pyx_pw_6pydata_6Meshpy_17getRange, METH_NOARGS, 0},
-  {"isNull", (PyCFunction)__pyx_pw_6pydata_6Meshpy_19isNull, METH_NOARGS, 0},
-  {"nullMe", (PyCFunction)__pyx_pw_6pydata_6Meshpy_21nullMe, METH_NOARGS, 0},
-  {"linkNeighs", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6pydata_6Meshpy_23linkNeighs, METH_VARARGS|METH_KEYWORDS, 0},
-  {"setThreatStatus", (PyCFunction)__pyx_pw_6pydata_6Meshpy_25setThreatStatus, METH_O, 0},
-  {"getThreatStatus", (PyCFunction)__pyx_pw_6pydata_6Meshpy_27getThreatStatus, METH_NOARGS, 0},
-  {"newThreatSubcriteriaA", (PyCFunction)__pyx_pw_6pydata_6Meshpy_29newThreatSubcriteriaA, METH_O, 0},
-  {"getThreatSubcriteriaA", (PyCFunction)__pyx_pw_6pydata_6Meshpy_31getThreatSubcriteriaA, METH_NOARGS, 0},
-  {"randomize", (PyCFunction)__pyx_pw_6pydata_6Meshpy_33randomize, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6pydata_6Meshpy_35__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6pydata_6Meshpy_37__setstate_cython__, METH_O, 0},
+static PyMethodDef __pyx_methods_6ackbar_6pydata_Meshpy[] = {
+  {"setValue", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ackbar_6pydata_6Meshpy_5setValue, METH_VARARGS|METH_KEYWORDS, 0},
+  {"getValue", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_7getValue, METH_O, 0},
+  {"getSize", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_9getSize, METH_NOARGS, 0},
+  {"setName", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_11setName, METH_O, 0},
+  {"getName", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_13getName, METH_NOARGS, 0},
+  {"setRange", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_15setRange, METH_O, 0},
+  {"getRange", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_17getRange, METH_NOARGS, 0},
+  {"isNull", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_19isNull, METH_NOARGS, 0},
+  {"nullMe", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_21nullMe, METH_NOARGS, 0},
+  {"linkNeighs", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ackbar_6pydata_6Meshpy_23linkNeighs, METH_VARARGS|METH_KEYWORDS, 0},
+  {"setThreatStatus", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_25setThreatStatus, METH_O, 0},
+  {"getThreatStatus", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_27getThreatStatus, METH_NOARGS, 0},
+  {"newThreatSubcriteriaA", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_29newThreatSubcriteriaA, METH_O, 0},
+  {"getThreatSubcriteriaA", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_31getThreatSubcriteriaA, METH_NOARGS, 0},
+  {"randomize", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_33randomize, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_35__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6ackbar_6pydata_6Meshpy_37__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_6pydata_Meshpy = {
+static PyTypeObject __pyx_type_6ackbar_6pydata_Meshpy = {
   PyVarObject_HEAD_INIT(0, 0)
-  "pydata.Meshpy", /*tp_name*/
-  sizeof(struct __pyx_obj_6pydata_Meshpy), /*tp_basicsize*/
+  "ackbar.pydata.Meshpy", /*tp_name*/
+  sizeof(struct __pyx_obj_6ackbar_6pydata_Meshpy), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6pydata_Meshpy, /*tp_dealloc*/
+  __pyx_tp_dealloc_6ackbar_6pydata_Meshpy, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -6353,7 +6358,7 @@ static PyTypeObject __pyx_type_6pydata_Meshpy = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_6pydata_Meshpy, /*tp_methods*/
+  __pyx_methods_6ackbar_6pydata_Meshpy, /*tp_methods*/
   0, /*tp_members*/
   0, /*tp_getset*/
   0, /*tp_base*/
@@ -6363,7 +6368,7 @@ static PyTypeObject __pyx_type_6pydata_Meshpy = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_6pydata_Meshpy, /*tp_new*/
+  __pyx_tp_new_6ackbar_6pydata_Meshpy, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -6381,7 +6386,7 @@ static PyTypeObject __pyx_type_6pydata_Meshpy = {
   #endif
 };
 
-static PyObject *__pyx_tp_new_6pydata_Solutionpy(PyTypeObject *t, PyObject *a, PyObject *k) {
+static PyObject *__pyx_tp_new_6ackbar_6pydata_Solutionpy(PyTypeObject *t, PyObject *a, PyObject *k) {
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -6389,14 +6394,14 @@ static PyObject *__pyx_tp_new_6pydata_Solutionpy(PyTypeObject *t, PyObject *a, P
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  if (unlikely(__pyx_pw_6pydata_10Solutionpy_1__cinit__(o, a, k) < 0)) goto bad;
+  if (unlikely(__pyx_pw_6ackbar_6pydata_10Solutionpy_1__cinit__(o, a, k) < 0)) goto bad;
   return o;
   bad:
   Py_DECREF(o); o = 0;
   return NULL;
 }
 
-static void __pyx_tp_dealloc_6pydata_Solutionpy(PyObject *o) {
+static void __pyx_tp_dealloc_6ackbar_6pydata_Solutionpy(PyObject *o) {
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -6406,20 +6411,20 @@ static void __pyx_tp_dealloc_6pydata_Solutionpy(PyObject *o) {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
     ++Py_REFCNT(o);
-    __pyx_pw_6pydata_10Solutionpy_3__dealloc__(o);
+    __pyx_pw_6ackbar_6pydata_10Solutionpy_3__dealloc__(o);
     --Py_REFCNT(o);
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_critA(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_5critA_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_critA(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_5critA_1__get__(o);
 }
 
-static int __pyx_setprop_6pydata_10Solutionpy_critA(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_6ackbar_6pydata_10Solutionpy_critA(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_6pydata_10Solutionpy_5critA_3__set__(o, v);
+    return __pyx_pw_6ackbar_6pydata_10Solutionpy_5critA_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -6427,13 +6432,13 @@ static int __pyx_setprop_6pydata_10Solutionpy_critA(PyObject *o, PyObject *v, CY
   }
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_critB(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_5critB_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_critB(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_5critB_1__get__(o);
 }
 
-static int __pyx_setprop_6pydata_10Solutionpy_critB(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_6ackbar_6pydata_10Solutionpy_critB(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_6pydata_10Solutionpy_5critB_3__set__(o, v);
+    return __pyx_pw_6ackbar_6pydata_10Solutionpy_5critB_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -6441,13 +6446,13 @@ static int __pyx_setprop_6pydata_10Solutionpy_critB(PyObject *o, PyObject *v, CY
   }
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_score(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_5score_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_score(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_5score_1__get__(o);
 }
 
-static int __pyx_setprop_6pydata_10Solutionpy_score(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_6ackbar_6pydata_10Solutionpy_score(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_6pydata_10Solutionpy_5score_3__set__(o, v);
+    return __pyx_pw_6ackbar_6pydata_10Solutionpy_5score_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -6455,33 +6460,33 @@ static int __pyx_setprop_6pydata_10Solutionpy_score(PyObject *o, PyObject *v, CY
   }
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_ndmScore(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_8ndmScore_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_ndmScore(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_8ndmScore_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_aggrScore(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_9aggrScore_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_aggrScore(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_9aggrScore_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_extent(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_6extent_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_extent(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_6extent_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_origin(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_6origin_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_origin(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_6origin_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_spp2crit(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_8spp2crit_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_spp2crit(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_8spp2crit_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_originX(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_7originX_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_originX(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_7originX_1__get__(o);
 }
 
-static int __pyx_setprop_6pydata_10Solutionpy_originX(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_6ackbar_6pydata_10Solutionpy_originX(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_6pydata_10Solutionpy_7originX_3__set__(o, v);
+    return __pyx_pw_6ackbar_6pydata_10Solutionpy_7originX_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -6489,13 +6494,13 @@ static int __pyx_setprop_6pydata_10Solutionpy_originX(PyObject *o, PyObject *v, 
   }
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_originY(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_7originY_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_originY(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_7originY_1__get__(o);
 }
 
-static int __pyx_setprop_6pydata_10Solutionpy_originY(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_6ackbar_6pydata_10Solutionpy_originY(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_6pydata_10Solutionpy_7originY_3__set__(o, v);
+    return __pyx_pw_6ackbar_6pydata_10Solutionpy_7originY_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -6503,13 +6508,13 @@ static int __pyx_setprop_6pydata_10Solutionpy_originY(PyObject *o, PyObject *v, 
   }
 }
 
-static PyObject *__pyx_getprop_6pydata_10Solutionpy_cellSize(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6pydata_10Solutionpy_8cellSize_1__get__(o);
+static PyObject *__pyx_getprop_6ackbar_6pydata_10Solutionpy_cellSize(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6ackbar_6pydata_10Solutionpy_8cellSize_1__get__(o);
 }
 
-static int __pyx_setprop_6pydata_10Solutionpy_cellSize(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_6ackbar_6pydata_10Solutionpy_cellSize(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_6pydata_10Solutionpy_8cellSize_3__set__(o, v);
+    return __pyx_pw_6ackbar_6pydata_10Solutionpy_8cellSize_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -6517,40 +6522,40 @@ static int __pyx_setprop_6pydata_10Solutionpy_cellSize(PyObject *o, PyObject *v,
   }
 }
 
-static PyMethodDef __pyx_methods_6pydata_Solutionpy[] = {
-  {"getSize", (PyCFunction)__pyx_pw_6pydata_10Solutionpy_5getSize, METH_NOARGS, 0},
-  {"setValue", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6pydata_10Solutionpy_7setValue, METH_VARARGS|METH_KEYWORDS, 0},
-  {"getValue", (PyCFunction)__pyx_pw_6pydata_10Solutionpy_9getValue, METH_O, 0},
-  {"isNull", (PyCFunction)__pyx_pw_6pydata_10Solutionpy_11isNull, METH_NOARGS, 0},
-  {"nullMe", (PyCFunction)__pyx_pw_6pydata_10Solutionpy_13nullMe, METH_NOARGS, 0},
-  {"randomize", (PyCFunction)__pyx_pw_6pydata_10Solutionpy_15randomize, METH_NOARGS, 0},
-  {"toBitList", (PyCFunction)__pyx_pw_6pydata_10Solutionpy_17toBitList, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6pydata_10Solutionpy_19__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6pydata_10Solutionpy_21__setstate_cython__, METH_O, 0},
+static PyMethodDef __pyx_methods_6ackbar_6pydata_Solutionpy[] = {
+  {"getSize", (PyCFunction)__pyx_pw_6ackbar_6pydata_10Solutionpy_5getSize, METH_NOARGS, 0},
+  {"setValue", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ackbar_6pydata_10Solutionpy_7setValue, METH_VARARGS|METH_KEYWORDS, 0},
+  {"getValue", (PyCFunction)__pyx_pw_6ackbar_6pydata_10Solutionpy_9getValue, METH_O, 0},
+  {"isNull", (PyCFunction)__pyx_pw_6ackbar_6pydata_10Solutionpy_11isNull, METH_NOARGS, 0},
+  {"nullMe", (PyCFunction)__pyx_pw_6ackbar_6pydata_10Solutionpy_13nullMe, METH_NOARGS, 0},
+  {"randomize", (PyCFunction)__pyx_pw_6ackbar_6pydata_10Solutionpy_15randomize, METH_NOARGS, 0},
+  {"toBitList", (PyCFunction)__pyx_pw_6ackbar_6pydata_10Solutionpy_17toBitList, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6ackbar_6pydata_10Solutionpy_19__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6ackbar_6pydata_10Solutionpy_21__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_6pydata_Solutionpy[] = {
-  {(char *)"critA", __pyx_getprop_6pydata_10Solutionpy_critA, __pyx_setprop_6pydata_10Solutionpy_critA, (char *)0, 0},
-  {(char *)"critB", __pyx_getprop_6pydata_10Solutionpy_critB, __pyx_setprop_6pydata_10Solutionpy_critB, (char *)0, 0},
-  {(char *)"score", __pyx_getprop_6pydata_10Solutionpy_score, __pyx_setprop_6pydata_10Solutionpy_score, (char *)0, 0},
-  {(char *)"ndmScore", __pyx_getprop_6pydata_10Solutionpy_ndmScore, 0, (char *)0, 0},
-  {(char *)"aggrScore", __pyx_getprop_6pydata_10Solutionpy_aggrScore, 0, (char *)0, 0},
-  {(char *)"extent", __pyx_getprop_6pydata_10Solutionpy_extent, 0, (char *)0, 0},
-  {(char *)"origin", __pyx_getprop_6pydata_10Solutionpy_origin, 0, (char *)0, 0},
-  {(char *)"spp2crit", __pyx_getprop_6pydata_10Solutionpy_spp2crit, 0, (char *)0, 0},
-  {(char *)"originX", __pyx_getprop_6pydata_10Solutionpy_originX, __pyx_setprop_6pydata_10Solutionpy_originX, (char *)0, 0},
-  {(char *)"originY", __pyx_getprop_6pydata_10Solutionpy_originY, __pyx_setprop_6pydata_10Solutionpy_originY, (char *)0, 0},
-  {(char *)"cellSize", __pyx_getprop_6pydata_10Solutionpy_cellSize, __pyx_setprop_6pydata_10Solutionpy_cellSize, (char *)0, 0},
+static struct PyGetSetDef __pyx_getsets_6ackbar_6pydata_Solutionpy[] = {
+  {(char *)"critA", __pyx_getprop_6ackbar_6pydata_10Solutionpy_critA, __pyx_setprop_6ackbar_6pydata_10Solutionpy_critA, (char *)0, 0},
+  {(char *)"critB", __pyx_getprop_6ackbar_6pydata_10Solutionpy_critB, __pyx_setprop_6ackbar_6pydata_10Solutionpy_critB, (char *)0, 0},
+  {(char *)"score", __pyx_getprop_6ackbar_6pydata_10Solutionpy_score, __pyx_setprop_6ackbar_6pydata_10Solutionpy_score, (char *)0, 0},
+  {(char *)"ndmScore", __pyx_getprop_6ackbar_6pydata_10Solutionpy_ndmScore, 0, (char *)0, 0},
+  {(char *)"aggrScore", __pyx_getprop_6ackbar_6pydata_10Solutionpy_aggrScore, 0, (char *)0, 0},
+  {(char *)"extent", __pyx_getprop_6ackbar_6pydata_10Solutionpy_extent, 0, (char *)0, 0},
+  {(char *)"origin", __pyx_getprop_6ackbar_6pydata_10Solutionpy_origin, 0, (char *)0, 0},
+  {(char *)"spp2crit", __pyx_getprop_6ackbar_6pydata_10Solutionpy_spp2crit, 0, (char *)0, 0},
+  {(char *)"originX", __pyx_getprop_6ackbar_6pydata_10Solutionpy_originX, __pyx_setprop_6ackbar_6pydata_10Solutionpy_originX, (char *)0, 0},
+  {(char *)"originY", __pyx_getprop_6ackbar_6pydata_10Solutionpy_originY, __pyx_setprop_6ackbar_6pydata_10Solutionpy_originY, (char *)0, 0},
+  {(char *)"cellSize", __pyx_getprop_6ackbar_6pydata_10Solutionpy_cellSize, __pyx_setprop_6ackbar_6pydata_10Solutionpy_cellSize, (char *)0, 0},
   {0, 0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_6pydata_Solutionpy = {
+static PyTypeObject __pyx_type_6ackbar_6pydata_Solutionpy = {
   PyVarObject_HEAD_INIT(0, 0)
-  "pydata.Solutionpy", /*tp_name*/
-  sizeof(struct __pyx_obj_6pydata_Solutionpy), /*tp_basicsize*/
+  "ackbar.pydata.Solutionpy", /*tp_name*/
+  sizeof(struct __pyx_obj_6ackbar_6pydata_Solutionpy), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6pydata_Solutionpy, /*tp_dealloc*/
+  __pyx_tp_dealloc_6ackbar_6pydata_Solutionpy, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -6578,9 +6583,9 @@ static PyTypeObject __pyx_type_6pydata_Solutionpy = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_6pydata_Solutionpy, /*tp_methods*/
+  __pyx_methods_6ackbar_6pydata_Solutionpy, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_6pydata_Solutionpy, /*tp_getset*/
+  __pyx_getsets_6ackbar_6pydata_Solutionpy, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
@@ -6588,7 +6593,7 @@ static PyTypeObject __pyx_type_6pydata_Solutionpy = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_6pydata_Solutionpy, /*tp_new*/
+  __pyx_tp_new_6ackbar_6pydata_Solutionpy, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -6660,6 +6665,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Solutionpy, __pyx_k_Solutionpy, sizeof(__pyx_k_Solutionpy), 0, 0, 1, 1},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
+  {&__pyx_n_s_ackbar_pydata, __pyx_k_ackbar_pydata, sizeof(__pyx_k_ackbar_pydata), 0, 0, 1, 1},
+  {&__pyx_kp_s_ackbar_pydata_pyx, __pyx_k_ackbar_pydata_pyx, sizeof(__pyx_k_ackbar_pydata_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_eps, __pyx_k_eps, sizeof(__pyx_k_eps), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
@@ -6688,8 +6695,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_out, __pyx_k_out, sizeof(__pyx_k_out), 0, 0, 1, 1},
   {&__pyx_n_s_pout, __pyx_k_pout, sizeof(__pyx_k_pout), 0, 0, 1, 1},
   {&__pyx_n_s_psol, __pyx_k_psol, sizeof(__pyx_k_psol), 0, 0, 1, 1},
-  {&__pyx_n_s_pydata, __pyx_k_pydata, sizeof(__pyx_k_pydata), 0, 0, 1, 1},
-  {&__pyx_kp_s_pydata_pyx, __pyx_k_pydata_pyx, sizeof(__pyx_k_pydata_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
@@ -6710,10 +6715,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 22, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 158, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 165, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -6742,14 +6747,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "pydata.pyx":164
+  /* "ackbar/pydata.pyx":165
  * 				out.append(0)
  * 			else:
  * 				raise ValueError("Solution object has negative values.")             # <<<<<<<<<<<<<<
  * 		return out
  * 
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Solution_object_has_negative_val); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Solution_object_has_negative_val); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -6772,28 +6777,28 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "pydata.pyx":202
+  /* "ackbar/pydata.pyx":203
  * 
  * 	else:
  * 		raise ValueError("If parsed, parameters `taxGr` and `spp2gr` should be dictionaries.")             # <<<<<<<<<<<<<<
  * 
  * 	for ob in obs:
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_If_parsed_parameters_taxGr_and_s); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_If_parsed_parameters_taxGr_and_s); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "pydata.pyx":169
+  /* "ackbar/pydata.pyx":170
  * 
- * 
+ * #"""
  * def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):             # <<<<<<<<<<<<<<
  * 	"""
  * 	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
  */
-  __pyx_tuple__7 = PyTuple_Pack(18, __pyx_n_s_obs, __pyx_n_s_eps, __pyx_n_s_iters, __pyx_n_s_maxOutSize, __pyx_n_s_ndmWeight, __pyx_n_s_taxGr, __pyx_n_s_spp2gr, __pyx_n_s_pout, __pyx_n_s_ve, __pyx_n_s_out, __pyx_n_s_taxGroups, __pyx_n_s_spp2groups, __pyx_n_s_ob, __pyx_n_s_obme, __pyx_n_s_i, __pyx_n_s_tmp, __pyx_n_s_j, __pyx_n_s_psol); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(18, __pyx_n_s_obs, __pyx_n_s_eps, __pyx_n_s_iters, __pyx_n_s_maxOutSize, __pyx_n_s_ndmWeight, __pyx_n_s_taxGr, __pyx_n_s_spp2gr, __pyx_n_s_pout, __pyx_n_s_ve, __pyx_n_s_out, __pyx_n_s_taxGroups, __pyx_n_s_spp2groups, __pyx_n_s_ob, __pyx_n_s_obme, __pyx_n_s_i, __pyx_n_s_tmp, __pyx_n_s_j, __pyx_n_s_psol); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(7, 0, 18, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pydata_pyx, __pyx_n_s_metasearchAlt, 169, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(7, 0, 18, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ackbar_pydata_pyx, __pyx_n_s_metasearchAlt, 170, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6846,26 +6851,26 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_6pydata_Meshpy) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6ackbar_6pydata_Meshpy) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6pydata_Meshpy.tp_print = 0;
+  __pyx_type_6ackbar_6pydata_Meshpy.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6pydata_Meshpy.tp_dictoffset && __pyx_type_6pydata_Meshpy.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_6pydata_Meshpy.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6ackbar_6pydata_Meshpy.tp_dictoffset && __pyx_type_6ackbar_6pydata_Meshpy.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_6ackbar_6pydata_Meshpy.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Meshpy, (PyObject *)&__pyx_type_6pydata_Meshpy) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6pydata_Meshpy) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
-  __pyx_ptype_6pydata_Meshpy = &__pyx_type_6pydata_Meshpy;
-  if (PyType_Ready(&__pyx_type_6pydata_Solutionpy) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Meshpy, (PyObject *)&__pyx_type_6ackbar_6pydata_Meshpy) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ackbar_6pydata_Meshpy) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_ptype_6ackbar_6pydata_Meshpy = &__pyx_type_6ackbar_6pydata_Meshpy;
+  if (PyType_Ready(&__pyx_type_6ackbar_6pydata_Solutionpy) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6pydata_Solutionpy.tp_print = 0;
+  __pyx_type_6ackbar_6pydata_Solutionpy.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6pydata_Solutionpy.tp_dictoffset && __pyx_type_6pydata_Solutionpy.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_6pydata_Solutionpy.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6ackbar_6pydata_Solutionpy.tp_dictoffset && __pyx_type_6ackbar_6pydata_Solutionpy.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_6ackbar_6pydata_Solutionpy.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Solutionpy, (PyObject *)&__pyx_type_6pydata_Solutionpy) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6pydata_Solutionpy) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
-  __pyx_ptype_6pydata_Solutionpy = &__pyx_type_6pydata_Solutionpy;
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Solutionpy, (PyObject *)&__pyx_type_6ackbar_6pydata_Solutionpy) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ackbar_6pydata_Solutionpy) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_ptype_6ackbar_6pydata_Solutionpy = &__pyx_type_6ackbar_6pydata_Solutionpy;
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -7066,14 +7071,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_pydata) {
+  if (__pyx_module_is_main_ackbar__pydata) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "pydata")) {
-      if (unlikely(PyDict_SetItemString(modules, "pydata", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "ackbar.pydata")) {
+      if (unlikely(PyDict_SetItemString(modules, "ackbar.pydata", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -7094,22 +7099,22 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "pydata.pyx":169
+  /* "ackbar/pydata.pyx":170
  * 
- * 
+ * #"""
  * def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):             # <<<<<<<<<<<<<<
  * 	"""
  * 	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6pydata_1metasearchAlt, NULL, __pyx_n_s_pydata); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ackbar_6pydata_1metasearchAlt, NULL, __pyx_n_s_ackbar_pydata); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_metasearchAlt, __pyx_t_1) < 0) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_metasearchAlt, __pyx_t_1) < 0) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pydata.pyx":1
+  /* "ackbar/pydata.pyx":1
  * # distutils: language = c++             # <<<<<<<<<<<<<<
+ * from cython.operator cimport dereference
  * 
- * from pydata cimport Mesh
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7131,11 +7136,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_1);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init pydata", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init ackbar.pydata", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init pydata");
+    PyErr_SetString(PyExc_ImportError, "init ackbar.pydata");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
