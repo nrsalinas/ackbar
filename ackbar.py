@@ -30,9 +30,9 @@ import shutil
 import datetime
 import re
 
-import fileio
-import pydata
-import shapes
+from ackbar_lib import fileio
+from ackbar_lib import pydata
+from ackbar_lib import shapes
 
 oper_sys = None
 
@@ -89,11 +89,11 @@ Biodiversity Areas.
 
 Usage:
 
-	ackbar.py configuration_file
+ackbar.py configuration_file
 
 A more detailed help can be accessed at www.github.com or by typing:
 
-	ackbar.py --help
+ackbar.py --help
 '''.format(version)
 
 if len(sys.argv) > 2:

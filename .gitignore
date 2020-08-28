@@ -1,4 +1,8 @@
 __pycache__
 test
 build*
-ackbar/pydata.cpython-37m-x86_64-linux-gnu.so
+ackbar_lib/pydata.cpython-37m-x86_64-linux-gnu.so
+.ipynb_checkpoints
+.vscode
+Ackbar.egg-info
+dist

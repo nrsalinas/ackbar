@@ -20,8 +20,8 @@ Github `wiki <https://github.com/nrsalinas/ackbar/wiki>`_ of the project.
 Requirements
 *************
 
-- A Python 3 interpreter.
-- C/C++ compiler.
+- Python 3 interpreter.
+- C++ compiler.
 - `Shapely <https://pypi.org/project/Shapely/>`_.
 - `Fiona <https://pypi.org/project/Fiona/>`_.
 - Atention to detail.
