@@ -1,6 +1,8 @@
 # distutils: language = c++
+from cython.operator cimport dereference
 
 from pydata cimport Mesh
+from pydata cimport Solution 
 
 cdef class Meshpy:
 	
@@ -164,9 +166,9 @@ cdef class Solutionpy:
 		return out
 
 
-
+#"""
 def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):
-	"""
+	"""	
 	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
 	of the first order are non-overlapping sets of areas. Solutions are score 
 	ordered.
@@ -182,8 +184,8 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 	- maxOutSize (int): Maximum number of solutions to report.
 
 	- ndmWeight (float): Scaling factor of the NDM component for scoring solutions.
-
 	"""
+	
 	pout = []
 	cdef vector[Mesh*] ve
 	cdef vector[vesol] out
@@ -211,9 +213,13 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 		tmp = []
 		for j in range(out[i].size()):
 			psol = Solutionpy(obs[0])
-			del psol.thissol
-			psol.thissol = out[i][j]
+			#del psol.thissol
+			# For some reason cython now requires dereferencing of Solution pointers
+			# in out vector. Should be checked for bugs.
+			psol.thissol[0] = out[i][j][0] 
+			del out[i][j]
 			tmp.append(psol)
 		pout.append(tmp)
 
 	return pout
+#"""
