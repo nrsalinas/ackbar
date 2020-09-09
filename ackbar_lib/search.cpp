@@ -83,14 +83,9 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 
 	}
 
-	/* Create new Solutions using the starting seed
-	Come up with some new areas from the intersection zones of Solutions in the
-	seed.
-	*/
-
 	/* Include an overlapping threshold to filter out solutions too 
 	similar */
-	
+	/*
 	int vecSi = mySols.size();
 	for (int i = 0; i < vecSi; i++) {
 		for (int j = i+1; j < vecSi; j++) {
@@ -140,9 +135,9 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 				bool del1 = false;
 				bool deli = false;
 
-				/***********************************
+				***********************************
 				*  Assess Solution scores
-				************************************/
+				************************************
 				
 				if (comp0->isNull() || !isContinuous(comp0)) {
 					delete comp0;
@@ -194,7 +189,7 @@ vector< vector<Solution*> > dropSearchAlt (map<int, vector<int> > &clusters, vec
 
 			}
 		}
-	}
+	} */
 	
 	// Checking if assessing aggregated scores before sorting takes too much time
 

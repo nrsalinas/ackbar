@@ -61,6 +61,11 @@ class InputData(object):
 					elif re.search("lon(gitude)*",row[2],flags=re.I) and re.search("lat(itude)*",row[1],flags=re.I):
 						latCol, lonCol = 1, 2
 						continue
+
+					#
+					# Check whether Taxon column is present and its order
+					#
+
 					else:
 						raise IOError("Input file `{0}`: column labels do not follow the required format (`Longitude`, `Latitude`).".format(infile))
 

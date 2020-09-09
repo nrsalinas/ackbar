@@ -16,7 +16,7 @@ groups = {
 	"Amborellales": {"min_spp": 2, "range_threshold": None},
 	"Amphipoda": {"min_spp": 2, "range_threshold": None},
 	"Anaspidacea": {"min_spp": 2, "range_threshold": None},
-	"Anthoceratophyta": {"min_spp": 2, "range_threshold": None},
+	"Anthocerotophyta": {"min_spp": 2, "range_threshold": None},
 	"Apiales": {"min_spp": 2, "range_threshold": None},
 	"Appendicularia": {"min_spp": 2, "range_threshold": None},
 	"Aquifoliales": {"min_spp": 2, "range_threshold": None},

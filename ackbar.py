@@ -29,6 +29,7 @@ import os
 import shutil
 import datetime
 import re
+import resource
 
 from ackbar_lib import fileio
 from ackbar_lib import pydata
@@ -45,7 +46,7 @@ elif sys.platform.startswith('darwin'):
 elif sys.platform.startswith('win32'):
 	oper_sys = 'windows'
 
-else:
+if oper_sys != 'linux':
 	raise OSError('Operating system not supported. Currently, Ackbar only runs on Linux.')
 
 version =  "0.1"
@@ -78,6 +79,7 @@ parameters = {
 	"quotechar" : None
 	}
 
+deb_counter = 0
 today = datetime.datetime.now()
 outfileRootDefault = today.strftime("Ackbar_output_%Y%m%d_%H%M%S")
 bufferLog = "Ackbar ver. {0}\nAnalysis executed on {1}\n\n".format(version, today)
@@ -121,6 +123,9 @@ else:
 					print('\t{0}: {1}'.format(k, iucn_groups[group][k]))
 
 	elif os.path.isfile(sys.argv[1]):
+
+		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+		deb_counter += 1
 
 		with open(sys.argv[1], 'r') as config:
 
@@ -298,11 +303,18 @@ else:
 				if os.path.exists(name):
 					raise OSError("A file/directory named {0} already exists.".format(name))
 
+		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+		deb_counter += 1
 
 		################################################################
 
 		data = fileio.InputData(parameters["distribution_file"])
+		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+		deb_counter += 1
+
 		data.iucnFile(parameters["iucn_file"])
+		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+		deb_counter += 1
 
 		bufferLog += "\nNumber of species in distribution file: {0}\n\n".format(len(data.points))
 		bufferLog += "\nUnique datapoints per species:\n\n"
@@ -326,6 +338,8 @@ else:
 		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
 
 			data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 			
 			no_points = [x for x in data.taxonGroups if not x in data.points]
 			if len(no_points) > 0:
@@ -343,6 +357,8 @@ else:
 			for x in data.taxonGroups:
 				groupAssign[data.taxonGroups[x]['group']] = 0
 			miss_groups = [x for x in groupAssign.keys() if not x in data.taxonGroupsInfo.keys()]
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 			if len(miss_groups) > 0:
 				bufferLog += "\nTaxonomic groups missing in the taxonomic groups file:\n"
@@ -353,12 +369,22 @@ else:
 		if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
 
 			old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
+
 			old_kbas.spp_inclusion(data)
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
+
 			old_kbas.new_spp_table(new_trigger_file)
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 
 		tiles = data.getTiles(parameters["cell_size"], offsetLat = parameters["offset_lat"], 
 			offsetLon = parameters["offset_lon"], maxDist = parameters["pop_max_distance"])
+		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+		deb_counter += 1
 
 
 		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
@@ -370,15 +396,21 @@ else:
 			mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
 				parameters["max_kba"], parameters["congruency_factor"], data.groupDict, 
 				data.spp2groupDict)
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 		else:
 
 			mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
 				parameters["max_kba"], parameters["congruency_factor"])
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 		if len(mysols) > 0 and len(mysols[0]) > 0:
 
 			shapes.solution2shape(mysols, data, sol_dir)
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 		for ig, group in enumerate(mysols):
 
