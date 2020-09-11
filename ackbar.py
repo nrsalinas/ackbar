@@ -35,6 +35,7 @@ from ackbar_lib import fileio
 from ackbar_lib import pydata
 from ackbar_lib import shapes
 
+
 oper_sys = None
 
 if sys.platform.startswith('linux'):
@@ -48,6 +49,10 @@ elif sys.platform.startswith('win32'):
 
 if oper_sys != 'linux':
 	raise OSError('Operating system not supported. Currently, Ackbar only runs on Linux.')
+
+
+# Track memory usage durig execution
+mem_tracking = False 
 
 version =  "0.1"
 logfile = ""
@@ -90,12 +95,24 @@ A Python program to assist the delimitation and update of Key
 Biodiversity Areas.
 
 Usage:
+	ackbar.py configuration_file
+or
+	ackbar.py [option]
 
-ackbar.py configuration_file
+where `option` could be one of:
 
-A more detailed help can be accessed at www.github.com or by typing:
+    -i    Prints the list of taxonomic groups recommended by the
+          IUCN for the application of criterion B.
 
-ackbar.py --help
+    -e    Saves in the current directory an exemplary set of all 
+          input files required for execution: configuration, 
+          distribution, IUCN categories, taxonomic group assignment,
+          and taxonomic group information.
+
+All parameters required for executing an analysis are set through the configuration
+file. The complete specification of the configuration file can be accessed at 
+https://github.com/nrsalinas/ackbar/wiki.
+
 '''.format(version)
 
 if len(sys.argv) > 2:
@@ -106,12 +123,9 @@ elif len(sys.argv) == 1:
 
 else:
 	
-	if sys.argv[1] == '--help' or sys.argv[1] == '-h':
-		print("\nlong prompt\n")
+	if sys.argv[1] == '-i':
 		
-	elif sys.argv[1] == '--iucn_default_groups' or sys.argv[1] == '-i':
-		
-		from B2_recommended_thresholds import groups as iucn_groups
+		from ackbar_lib.B2_recommended_thresholds import groups as iucn_groups
 
 		for group in sorted(iucn_groups):
 
@@ -122,10 +136,26 @@ else:
 				if not iucn_groups[group][k] is None:
 					print('\t{0}: {1}'.format(k, iucn_groups[group][k]))
 
+	if sys.argv[1] == '-e':
+		
+		import inspect
+		fileio_path = inspect.getfile(fileio)
+		data_path = re.sub(r"ackbar_lib.*$", "data", fileio_path)
+		target_path = os.getcwd()
+		
+		for directory, subdi, files in os.walk(data_path):
+		
+			for fi in files:
+				
+				sofi = "{0}/{1}".format(data_path, fi)
+				tafi = "{0}/{1}".format(target_path, fi)
+				shutil.copyfile(sofi, tafi)
+	
 	elif os.path.isfile(sys.argv[1]):
 
-		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-		deb_counter += 1
+		if mem_tracking:
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 		with open(sys.argv[1], 'r') as config:
 
@@ -303,18 +333,23 @@ else:
 				if os.path.exists(name):
 					raise OSError("A file/directory named {0} already exists.".format(name))
 
-		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-		deb_counter += 1
+		if mem_tracking:
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 		################################################################
 
 		data = fileio.InputData(parameters["distribution_file"])
-		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-		deb_counter += 1
+
+		if mem_tracking:
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 		data.iucnFile(parameters["iucn_file"])
-		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-		deb_counter += 1
+
+		if mem_tracking:
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 		bufferLog += "\nNumber of species in distribution file: {0}\n\n".format(len(data.points))
 		bufferLog += "\nUnique datapoints per species:\n\n"
@@ -338,8 +373,10 @@ else:
 		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
 
 			data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
-			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-			deb_counter += 1
+
+			if mem_tracking:
+				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+				deb_counter += 1
 			
 			no_points = [x for x in data.taxonGroups if not x in data.points]
 			if len(no_points) > 0:
@@ -357,8 +394,10 @@ else:
 			for x in data.taxonGroups:
 				groupAssign[data.taxonGroups[x]['group']] = 0
 			miss_groups = [x for x in groupAssign.keys() if not x in data.taxonGroupsInfo.keys()]
-			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-			deb_counter += 1
+
+			if mem_tracking:
+				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+				deb_counter += 1
 
 			if len(miss_groups) > 0:
 				bufferLog += "\nTaxonomic groups missing in the taxonomic groups file:\n"
@@ -369,22 +408,30 @@ else:
 		if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
 
 			old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
-			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-			deb_counter += 1
+
+			if mem_tracking:
+				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+				deb_counter += 1
 
 			old_kbas.spp_inclusion(data)
-			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-			deb_counter += 1
+
+			if mem_tracking:
+				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+				deb_counter += 1
 
 			old_kbas.new_spp_table(new_trigger_file)
-			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-			deb_counter += 1
+
+			if mem_tracking:
+				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+				deb_counter += 1
 
 
 		tiles = data.getTiles(parameters["cell_size"], offsetLat = parameters["offset_lat"], 
 			offsetLon = parameters["offset_lon"], maxDist = parameters["pop_max_distance"])
-		print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-		deb_counter += 1
+
+		if mem_tracking:
+			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+			deb_counter += 1
 
 
 		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
@@ -396,21 +443,27 @@ else:
 			mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
 				parameters["max_kba"], parameters["congruency_factor"], data.groupDict, 
 				data.spp2groupDict)
-			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-			deb_counter += 1
+
+			if mem_tracking:
+				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+				deb_counter += 1
 
 		else:
 
 			mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
 				parameters["max_kba"], parameters["congruency_factor"])
-			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-			deb_counter += 1
+
+			if mem_tracking:
+				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+				deb_counter += 1
 
 		if len(mysols) > 0 and len(mysols[0]) > 0:
 
 			shapes.solution2shape(mysols, data, sol_dir)
-			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
-			deb_counter += 1
+
+			if mem_tracking:
+				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+				deb_counter += 1
 
 		for ig, group in enumerate(mysols):
 

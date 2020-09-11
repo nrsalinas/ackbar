@@ -1,3 +1,26 @@
+###############################################################################
+#
+#	Copyright 2020 Nelson R. Salinas
+#
+#
+#	This file is part of Ackbar.
+#
+#   Ackbar is free software: you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation, either version 3 of the License, or
+# 	(at your option) any later version.
+#
+#	Ackbar is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
+#
+#	You should have received a copy of the GNU General Public License
+#	along with Ackbar. If not, see <http://www.gnu.org/licenses/>.
+#
+###############################################################################
+
+
 import sys
 import csv
 import re
@@ -36,8 +59,9 @@ class InputData(object):
 		self.taxonGroupsInfo = {}
 		self.csv_params = {}
 		lineCounter = 0
-		latCol = int()
-		lonCol = int()
+		latCol = None
+		lonCol = None
+		taxCol = None
 
 		if type(csv_pars) == dict:
 
@@ -51,59 +75,96 @@ class InputData(object):
 				self.csv_params["quotechar"] = csv_pars["quotechar"]
 
 		with open(infile,'r') as fil:
+			
 			table = csv.reader(fil, **self.csv_params)
-			for row in table:
-				lineCounter += 1
-				if lineCounter == 1 and (re.search(r"[^0-9\.\-]",row[1]) or re.search(r"[^0-9\.\-]",row[2])):
-					if re.search("lon(gitude)*",row[1],flags=re.I) and re.search("lat(itude)*",row[2],flags=re.I):
-						latCol, lonCol = 2, 1
-						continue
-					elif re.search("lon(gitude)*",row[2],flags=re.I) and re.search("lat(itude)*",row[1],flags=re.I):
-						latCol, lonCol = 1, 2
-						continue
 
-					#
-					# Check whether Taxon column is present and its order
-					#
+			for lineCounter, row in enumerate(table):
+
+				if lineCounter == 0:
+
+					for icol , col in enumerate(row):
+
+						if re.search("lon(gitude)*", col, flags=re.I):
+							lonCol = icol
+							continue
+
+						elif re.search("lat(titude)*", col, flags=re.I):
+							latCol = icol
+							continue
+
+						elif re.search("taxon", col, flags=re.I):
+							taxCol = icol
+							continue
+
+					if lonCol is None or latCol is None or taxCol is None:
+
+						raise IOError("Input file `{0}`: column labels do not follow the required format (`Taxon`, `Longitude`, `Latitude`).".format(infile))
+
+				else:
+				
+					row[latCol] = re.sub(r"[\s\'\"]","",row[latCol])
+					row[lonCol] = re.sub(r"[\s\'\"]","",row[lonCol])
+					lat = None
+					lon = None
+
+					try:
+						lat = float(row[latCol])
+
+						if lat < -90 or lat > 90:
+							raise ValueError('Distribution file error: {2} is not a valid latitude value (line {0} in file `{1}`).'.format(lineCounter, infile, row[latCol]))
+					
+					except ValueError as te:
+						mess = str(te)
+
+						if mess.startswith('could not convert string to float'):
+							raise ValueError('Distribution file error: {2} is not a valid latitude value (line {0} in file `{1}`).'.format(lineCounter, infile, row[latCol]))
+
+						else:
+							raise
+					
+					try:
+						lon = float(row[lonCol])
+						
+						if lon < -180 or lon > 180:
+							raise ValueError('Distribution file error: {2} is not a valid longitude value (line {0} in file `{1}`).'.format(lineCounter, infile, row[lonCol]))
+					
+					except ValueError as te:
+						mess = str(te)
+
+						if mess.startswith('could not convert string to float'):
+							raise ValueError('Distribution file error: {2} is not a valid longitude value (line {0} in file `{1}`).'.format(lineCounter, infile, row[lonCol]))
+						
+						else:
+							raise					
+					
+					if len(row[taxCol]) > 105:
+						raise IOError("Distribution file error: `{0}` exceeds the maximum taxon name size, 105 chars (line {1} in file `{2}`)".format(row[taxCol],lineCounter, infile))
+
+
+					#############################################################
+					#															#
+					# 			Re project data if user wishes to				#
+					#															#
+					#############################################################
+
+
+					if row[taxCol] in self.points:
+						self.points[row[taxCol]][(lon,lat)] = 1
 
 					else:
-						raise IOError("Input file `{0}`: column labels do not follow the required format (`Longitude`, `Latitude`).".format(infile))
+						self.points[row[taxCol]] = { (lon,lat) : 1 }
 
-				if len(row) > 3:
-					raise IOError("Line {0} in `{1}` contains more than three columns.".format(lineCounter, infile))
-				
-				row[2] = re.sub(r"[\s\'\"]","",row[2])
-				row[1] = re.sub(r"[\s\'\"]","",row[1])
+					if self.minLatitude > lat:
+						self.minLatitude = lat
 
-				if len(row[latCol]) < 1:
-					raise IOError("Line {0} in `{1}` do not contain latitude data.".format(lineCounter, infile))
-				if re.search(r"[^0-9\.\-]",row[latCol]) or float(row[latCol]) < -90 or float(row[latCol]) > 90:
-					raise IOError("Line {0} in `{1}` contains invalid coordinate value(s): `{2}`.".format(lineCounter, infile, row[latCol]))
+					if self.maxLatitude < lat:
+						self.maxLatitude = lat
 
-				if len(row[lonCol]) < 1:
-					raise IOError("Line {0} in `{1}` do not contain longitude data.".format(lineCounter, infile))
-				if re.search(r"[^0-9\.\-]",row[lonCol]) or float(row[lonCol]) < -180 or float(row[lonCol]) > 180:
-					raise IOError("Line {0} in `{1}` contains invalid coordinate value(s): `{2}`.".format(lineCounter, infile, row[lonCol]))
+					if self.minLongitude > lon:
+						self.minLongitude = lon
 
-				lat = float(row[latCol])
-				lon = float(row[lonCol])
-
-				if len(row[0]) > 105:
-					raise IOError("`{0}` exceeds the maximum taxon name size, 105 chars (line {1} in file `{2}`)".format(row[0],lineCounter, infile))
-
-				if row[0] in self.points:
-					self.points[row[0]][(lon,lat)] = 1
-				else:
-					self.points[row[0]] = { (lon,lat) : 1 }
-
-				if self.minLatitude > lat:
-					self.minLatitude = lat
-				if self.maxLatitude < lat:
-					self.maxLatitude = lat
-				if self.minLongitude > lon:
-					self.minLongitude = lon
-				if self.maxLongitude < lon:
-					self.maxLongitude = lon
+					if self.maxLongitude < lon:
+						self.maxLongitude = lon
 
 		if len(self.points) < 3:
 			raise ValueError("Input file only contain distribution data from {0} species (at least three are required).".format(len(self.points)))
@@ -125,7 +186,7 @@ class InputData(object):
 		globsppCol = None
 		minsppCol = None
 		rangeThresCol = None
-		self.taxonGroups = {}#{x: None for x in self.points.keys()}
+		self.taxonGroups = {}
 		self.taxonGroupsInfo = {}
 
 		with open(assignments_file, 'r') as afile:
@@ -172,9 +233,12 @@ class InputData(object):
 					group = re.sub(r'^\s+', '', row[groupCol])
 					group = re.sub(r'\s+$', '', row[groupCol])
 
-					#
-					# Verificar si es un umbral minimo que tiene sentido
-					#
+					#############################################################
+					#															#
+					# 	 	Does this threshold make sense???					#
+					#															#
+					#############################################################
+
 					if len(group) < 4:
 						raise IOError("`{0}` does not seem an actual taxonomic membership".format(group))
 
@@ -186,7 +250,6 @@ class InputData(object):
 
 					else:
 						self.taxonGroups[taxon] = {'group': group, 'range_size': rangeS}
-						#self.taxonGroupsInfo[group] = None
 
 						if rangeS is None and taxon in self.points:
 						
@@ -364,9 +427,7 @@ class InputData(object):
 						if re.search("criter",row[ic],flags=re.I):
 							criterCol = ic
 							continue
-					#print(nameCol)
-					#print(categCol)
-					#print(criterCol)
+
 					if nameCol is None or categCol is None or criterCol is None:
 						raise IOError("Input file `{0}`: column labels do not follow the required format (`Taxon`, `Category`, `Criteria`).".format(filename))
 				
@@ -397,7 +458,6 @@ class InputData(object):
 						if not re.search(r'[BCDE]', row[criterCol]) and re.search(r'A', row[criterCol]):
 
 							digits = re.findall(r'\d', row[criterCol])
-							#print(digits)
 
 							if len(digits) >= 1:
 
@@ -452,9 +512,13 @@ class InputData(object):
 				visited[pivot] = 1
 				clusters[pivot] = [pivot]
 				self.expand(taxon, clusters, pivot, pivot, visited, eps)
-		#
-		# I don think the following loop will be necessary
-		#
+
+		#########################################################################
+		#																		#
+		# 				I don't think the following loop is necessary			#
+		#																		#
+		#########################################################################
+
 		for q in self.points[taxon]:
 			qIsAlone = 1
 			for key in clusters:
@@ -470,7 +534,6 @@ class InputData(object):
 		for newborder in self.points[taxon]:
 			if visited[newborder] == 0:
 				if border != newborder:
-					#td = ((border[0] - newborder[0]) ** 2 + (border[1] - newborder[1]) ** 2) ** 0.5
 					td = self.haversine(border, newborder)
 					if td < eps:
 						clusters[pivot].append(newborder)
@@ -519,15 +582,6 @@ class InputData(object):
 		span[0] = totCols * self.cellSize
 		span[1] = totRows * self.cellSize
 		self.rows, self.cols = totRows, totCols
-		
-
-		############################################
-		# Select cells that are spatially excluded
-
-		#inclusion_grid = [[1 for x in range(totCols)] for x in range(totRows)]
-
-		############################################
-
 		self.presence_grid = [[0 for x in range(totCols)] for x in range(totRows)]
 		grid_coll = []
 
@@ -556,8 +610,6 @@ class InputData(object):
 				grid[y][x] += th
 				self.presence_grid[y][x] += th
 				
-			#for row in grid:
-			#	print(row)
 			grid_coll.append(grid)
 
 
@@ -571,38 +623,32 @@ class InputData(object):
 					act_size += 1
 
 		for it, taxon in enumerate(self.points):
-			#print(taxon)
-			# instanciate pyMesh
+			
 			cat = self.iucn[taxon]['category']
-			#tile = pydata.Meshpy(self.rows * self.cols, taxon, cat)
 			tile = pydata.Meshpy(act_size, taxon, cat)
 			
-			##################################################
-			##################################################
-			##################################################
-			# Review if A subcriteria are correctly processed
+			#####################################################################
+			#																	#
+			#		Review if A subcriteria are correctly processed				#
+			#																	#
+			#####################################################################
 
 			for sca in self.iucn[taxon]['subcritA']:
 				tile.newThreatSubcriteriaA(sca)
-
-			##################################################
-			##################################################
-			##################################################
 
 			if len(self.taxonGroups) > 0 and taxon in self.taxonGroups and self.taxonGroups[taxon]['range_size']:
 
 				tile.setRange(self.taxonGroups[taxon]['range_size'])
 		
-			#print('Rows: {0}, Cols: {1}'.format(self.rows, self.cols))
 			for r in range(self.rows):
 				for c in range(self.cols):
 					if self.presence_grid[r][c] > 0:
-						#print('{0}, {1}: {2}'.format(r, c, grid_coll[it][r][c]))
+						
 						rowNeighs = [r]
 						colNeighs = [c]
 						
 						if grid_coll[it][r][c] > 0:
-							#print("Index: {0}, row: {1}, col: {2}".format(self.index_reg[(r, c)], r, c))
+							
 							tile.setValue(self.index_reg[(r, c)], grid_coll[it][r][c])
 
 						if r > 0:
@@ -619,17 +665,12 @@ class InputData(object):
 
 						for nr in rowNeighs:
 							if r != nr and self.presence_grid[nr][c] > 0:
-								#print('\t{0}, {1}'.format(nr, c))
 								tile.linkNeighs(self.index_reg[(r, c)], self.index_reg[(nr, c)])
 
 						for nc in colNeighs:
 							if c != nc and self.presence_grid[r][nc] > 0:
-								#print('\t{0}, {1}'.format(r, nc))
 								tile.linkNeighs(self.index_reg[(r, c)], self.index_reg[(r, nc)])
 
-						#print("{0},{1}. Neighs: {2}".format(r, c, neighs))
-
-			#tileStack.append(grid)
 			tileStack.append(tile)
 
 		return tileStack
@@ -667,9 +708,6 @@ class InputData(object):
 		"""
 		Saves the grid into a shapefile.
 		"""
-		#polys = []
-		#multipol = None
-		#irkeys = list(self.index_reg.keys())
 		counter = 0
 		wrtMode = None
 
@@ -679,7 +717,6 @@ class InputData(object):
 			}
 
 		for y, x in self.index_reg:
-			#y, x = irkeys[ic]
 			xBase = self.originN[0] + self.cellSize * (x + 1)
 			yBase = self.originN[1] - self.cellSize * (y + 1)
 			ocor = [(xBase, yBase + self.cellSize),
@@ -687,9 +724,6 @@ class InputData(object):
 				(xBase - self.cellSize, yBase),
 				(xBase, yBase)]
 			pol = Polygon(ocor)
-			#polys.append(Polygon(ocor))
-			
-		#multipol = MultiPolygon(polys)
 			
 			if counter == 0:
 				wrtMode = 'w'
