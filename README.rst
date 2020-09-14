@@ -24,6 +24,7 @@ Requirements
 - C++ compiler.
 - `Shapely <https://pypi.org/project/Shapely/>`_.
 - `Fiona <https://pypi.org/project/Fiona/>`_.
+- `Pyproj <https://pypi.org/project/pyproj/>`_.
 - Atention to detail.
 
 *************

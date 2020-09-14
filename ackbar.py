@@ -45,8 +45,8 @@ elif sys.platform.startswith('darwin'):
 elif sys.platform.startswith('win32'):
 	oper_sys = 'windows'
 
-if oper_sys != 'linux':
-	raise OSError('Operating system not supported. Currently, Ackbar only runs on Linux.')
+#if oper_sys != 'linux':
+#	raise OSError('Operating system not supported. Currently, Ackbar only runs on Linux.')
 
 
 # Track memory usage durig execution

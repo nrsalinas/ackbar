@@ -2,4 +2,4 @@ include LICENSE.md
 include ackbar_lib/data.*
 include ackbar_lib/pydata.p*
 include ackbar_lib/search.*
-include data/config.txt
+include data/*
