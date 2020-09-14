@@ -29,12 +29,10 @@ import os
 import shutil
 import datetime
 import re
-import resource
 
 from ackbar_lib import fileio
 from ackbar_lib import pydata
 from ackbar_lib import shapes
-
 
 oper_sys = None
 
@@ -53,6 +51,12 @@ if oper_sys != 'linux':
 
 # Track memory usage durig execution
 mem_tracking = False 
+
+if mem_tracking:
+	if oper_sys == 'linux':
+		import resource
+	else:
+		mem_tracking = False
 
 version =  "0.1"
 logfile = ""
