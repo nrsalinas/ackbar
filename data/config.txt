@@ -7,8 +7,8 @@
 distribution_file = plutarchia_occurrences.csv
 iucn_file = plutarchia_categories.csv
 
-#taxonomic_groups_file = 
-#taxonomic_assignments_file = plutarchia_groups.csv
+taxonomic_groups_file = 
+taxonomic_assignments_file = plutarchia_groups.csv
 
 #kba_species_file = Colombia_IBA_trigger_species.csv
 #kba_directory = /home/nelson/Dropbox/Humboldt/Postdoc/KBA_by_IUCN/Colombia_KBA

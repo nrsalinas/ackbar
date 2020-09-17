@@ -202,10 +202,11 @@ else:
 
 			raise ValueError("Configuration file error: not all the parameters required for including existing KBA were set (`kba_species_file`, `kba_directory`, and `kba_index`). Alternatively, ALL three parameters can be left blank to conduct an analysis without considering previous KBA information.")
 
-		if (not parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]) or \
-			(parameters["taxonomic_groups_file"] and not parameters["taxonomic_assignments_file"]):
+		if parameters["taxonomic_groups_file"] and not parameters["taxonomic_assignments_file"]:
 
-			raise ValueError("Configuration file error: only one of the taxonomic groups parameters has been set (`taxonomic_groups_file` and `taxonomic_assignments_file`). Both are required to assess criterion B2. Alternatively, both can be left blanck to conduct an analysis without applying criterion B2.")
+			print("Configuration file error: taxonomic assignment file missing. If criterion B2 is sought to be assess, taxonomic assignments file is mandatory and taxonomic groups file optional.", file = sys.stderr)
+
+			sys.exit(1)
 
 		#
 		# Check taxonomic group pars are parsed together
@@ -312,6 +313,9 @@ else:
 			#print(par, " = ", parameters[par])
 			bufferLog += "{0} = {1}\n".format(par, parameters[par])
 
+		if not parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
+			bufferLog += "\nB2 criterion: recommended IUCN taxonomic groups will be used (user parsed assignments and no group info).\n"
+
 		#print(bufferLog)
 
 		### Output file/directory names
@@ -319,6 +323,7 @@ else:
 		new_trigger_file = parameters["outfile_root"] + "_trigger_spp_previous_KBA.csv"
 		sol_dir = parameters["outfile_root"] + "_solution_shapefiles"
 		logfile = parameters["outfile_root"] + "_log.txt"
+		soltablename = parameters["outfile_root"] + "_solution_scores.csv"
 
 		output_names = [new_trigger_file, sol_dir, logfile]
 
@@ -469,6 +474,8 @@ else:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 				deb_counter += 1
 
+		sol_table = "Group,Solution,Aggregated_score,IUCN_score,NDM_score\n"
+
 		for ig, group in enumerate(mysols):
 
 			bufferLog += "\nSolution group {0}\n".format(ig)
@@ -478,6 +485,7 @@ else:
 			for isol, sol in enumerate(group):
 
 				bufferLog += "\n\tSolution {0}:\n".format(isol)
+				sol_table += "{0},{1},{2},{3}, {4}\n".format(ig, isol, sol.aggrScore, sol.score, sol.ndmScore)
 
 				for spinx in sorted(sol.spp2crit, key = lambda x : tiles[x].getName()):
 
@@ -494,15 +502,19 @@ else:
 				
 						else:
 							ttable += ",0"
-
 					ttable += "\n"
+
+
+					#ttable += "," + ",".join([tiles[spinx].aggrScore, tiles[spinx].score, tiles[spinx].ndmScore]) + "\n"
+
 
 			tablename = sol_dir + "/" + "group_{0}.csv".format(ig)
 			#print (tablename)
 			with open(tablename, "w") as thandle:
 				thandle.write(ttable)
 
-
+			with open(soltablename, "w") as thandle:
+				thandle.write(sol_table)
 
 		with open(logfile, "w") as logh:
 			logh.write(bufferLog)
