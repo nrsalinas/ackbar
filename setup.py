@@ -13,12 +13,18 @@ setup(name = 'Ackbar',
 	long_description = long_descrip,
 	long_description_content_type = "text/x-rst",
 	license = 'GNU GPL v. 3',
-	keywords = 'biology conservation diversity',
+	keywords = 'biology conservation biodiversity',
 	python_requires = '>=3',
 	install_requires = ['fiona','shapely', 'pyproj'],
 	ext_modules = [Extension('ackbar_lib.pydata', ['ackbar_lib/pydata.cpp'])],
 	scripts = ['ackbar.py'],
-	packages = ['ackbar_lib'],
+	packages = ['ackbar_lib', 'test'],
+	test_suite = "test",
 	package_data = {'data':['config.txt', 'plutarchia_occurrences.csv',
-		'plutarchia_categories.csv', 'plutarchia_groups.csv']}
+		'plutarchia_categories.csv', 'plutarchia_groups.csv']},
+	classifiers=[
+		"Topic :: Scientific/Engineering :: Bio-Informatics",
+		"Topic :: Scientific/Engineering :: GIS",
+		"Intended Audience :: Science/Research",
+		"License :: OSI Approved :: GNU General Public License v3 (GPLv3)"]
 	)
