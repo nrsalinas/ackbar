@@ -350,6 +350,12 @@ else:
 
 		data = fileio.InputData(parameters["distribution_file"])
 
+		#
+		# Fix this
+		#
+		if parameters["pop_max_distance"] > 0:
+			data.mergePointsAllTaxa(parameters["pop_max_distance"])
+
 		if mem_tracking:
 			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 			deb_counter += 1

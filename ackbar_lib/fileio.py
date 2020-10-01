@@ -42,6 +42,7 @@ class InputData(object):
 	"""
 	def __init__(self, infile, csv_pars = None):
 		self.points = {} # values are population fractions
+		self.totPops = {} # total populations per taxon
 		self.iucn = {} # taxon to (Category, subcriteriaA)
 		self.minLatitude = 91.0
 		self.maxLatitude = -91.0
@@ -498,6 +499,22 @@ class InputData(object):
 		return totPops
 
 
+	def mergePointsAllTaxa(self, maxDist):
+		"""
+		Merge points of all taxa; wrapper to self.mergePoints.
+		"""
+		for taxon in self.points:
+			# Join points that are too close to be different populations
+			self.totPops[taxon] = self.mergePoints(taxon, maxDist)
+
+
+	def reduceArea(self, shapefile):
+		"""
+		Reduce the spatial scope of the dataset by removing all points that lay outside a provided set of polygons.   
+		"""
+		self.points = shapes.filter_points(self.points, shapefile)
+		
+
 	def dbscan(self, taxon, eps):
 		"""
 		DBSCAN-like algorithm to cluster points. There is not minimum cluster 
@@ -552,7 +569,7 @@ class InputData(object):
 		return d
 
 
-	def getTiles(self, cellSize, offsetLat = 0.0, offsetLon = 0.0, maxDist = 0.0):
+	def getTiles(self, cellSize, offsetLat = 0, offsetLon = 0):
 		"""
 		Create basic data structures required for the analysis from a collection
 		of distributional points. Returns a list of data.Tile objects.
@@ -587,8 +604,8 @@ class InputData(object):
 
 		for taxon in self.points:
 
-			# Join points that are too close to be different populations
-			totPops = self.mergePoints(taxon, maxDist)
+			# this should be done previously
+			# totPops = self.mergePoints(taxon, maxDist)
 
 			grid = [[0 for x in range(totCols)] for x in range(totRows)]
 
@@ -605,8 +622,8 @@ class InputData(object):
 				if y < 0:
 					y += 1
 
-
-				th = self.points[taxon][lon,lat] / totPops								
+				#th = self.points[taxon][lon,lat] / totPops
+				th = self.points[taxon][lon,lat] / self.totPops[taxon]								
 				grid[y][x] += th
 				self.presence_grid[y][x] += th
 				

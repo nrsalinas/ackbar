@@ -248,3 +248,33 @@ def area_estimator(point_list, lat0 = 0, lon0 = -73, factor = 0.9992):
 		out = tm_ch.area / 1000 ** 2
 		
 	return out
+
+
+def filter_points(points, shapefile):
+	"""
+	Filter points of a fileio.Indata object given a polygon.
+	"""
+	feats = []
+	filtered = {tax:{} for tax in points}
+
+	with fiona.open(shapefile, encoding="utf8") as src:
+		feats = [shape(x['geometry']) for x in src]
+
+	for taxon in points:
+
+		for lon, lat in points[taxon]:
+
+			keep = False
+
+			for polyg in feats:
+
+				if polyg.contains(Point(lon, lat)):
+					keep = True
+					break
+			
+			if keep:
+				filtered[taxon][(lon, lat)] = points[taxon][(lon, lat)]
+
+	filtered = {tax: filtered[tax] for tax in filtered if len(filtered[tax]) > 0}
+
+	return filtered
