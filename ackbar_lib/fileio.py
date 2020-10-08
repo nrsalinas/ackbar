@@ -258,74 +258,76 @@ class InputData(object):
 							tarea = shapes.area_estimator(point_list)
 							self.taxonGroups[taxon]['range_size'] = tarea
 
+
+		if not diversity_file is None:
+
+			with open(diversity_file, 'r') as dhandle:
+
+				table = csv.reader(dhandle, **self.csv_params)
+				
+				for irow , row in enumerate(table):
+					
+					if irow == 0:
+
+						for ic , cell in enumerate(row):
+
+							if re.search('group', cell, flags=re.I):
+								groupBisCol = ic
+								continue
+
+							if re.search('global_species', cell, flags=re.I):
+								globsppCol = ic
+								continue
+
+							if re.search('min_species', cell, flags=re.I):
+								minsppCol = ic
+								continue
+
+							if re.search('range_threshold', cell, flags=re.I):
+								rangeThresCol = ic
+								continue
+
+						if groupBisCol is None or (globsppCol is None and minsppCol is None):
+							raise IOError("Input file `{0}`: column labels do not follow the required format (headers should be `Group`, `Global_species`, `Min_species`, and `Range_threshold`).".format(assignments_file))
+
+					else:
+
+						tgroup = row[groupBisCol]
+						tsp = row[globsppCol]
+						range_thr = None
+						min_spp = None
+
+						if rangeThresCol:
+							range_thr = row[rangeThresCol]
+							if len(range_thr) > 0:
+								range_thr = int(range_thr)
+							else:
+								range_thr = 10000
+
+						if minsppCol:
+							min_spp = row[minsppCol]
+							if len(min_spp) > 0:
+								min_spp = int(min_spp)
+
+						if len(tsp) > 0:
+							tsp = int(tsp)
+
+						else:
+							tsp = None
+
+						if tgroup in self.taxonGroupsInfo:
+							raise IOError("Group duplicated in group diversity file (`{0}`)".format(tgroup))
+
+						else:
+							self.taxonGroupsInfo[tgroup] = {
+								'range_threshold': range_thr,
+								'global_species': tsp,
+								'min_spp' : min_spp}
+
 		for taxon in self.points:
 
 			if taxon not in self.taxonGroups:
 				raise IOError("`{0}` not included in taxonomic group assignment file".format(taxon))
-
-
-		with open(diversity_file, 'r') as dhandle:
-
-			table = csv.reader(dhandle, **self.csv_params)
-			
-			for irow , row in enumerate(table):
-				
-				if irow == 0:
-
-					for ic , cell in enumerate(row):
-
-						if re.search('group', cell, flags=re.I):
-							groupBisCol = ic
-							continue
-
-						if re.search('global_species', cell, flags=re.I):
-							globsppCol = ic
-							continue
-
-						if re.search('min_species', cell, flags=re.I):
-							minsppCol = ic
-							continue
-
-						if re.search('range_threshold', cell, flags=re.I):
-							rangeThresCol = ic
-							continue
-
-					if groupBisCol is None or (globsppCol is None and minsppCol is None):
-						raise IOError("Input file `{0}`: column labels do not follow the required format (headers should be `Group`, `Global_species`, `Min_species`, and `Range_threshold`).".format(assignments_file))
-
-				else:
-
-					tgroup = row[groupBisCol]
-					tsp = row[globsppCol]
-					range_thr = None
-					min_spp = None
-
-					if rangeThresCol:
-						range_thr = row[rangeThresCol]
-						if len(range_thr) > 0:
-							range_thr = float(range_thr)
-						else:
-							range_thr = 10000.0
-
-					if minsppCol:
-						min_spp = row[minsppCol]
-						if len(min_spp) > 0:
-							min_spp = float(min_spp)
-
-					if len(tsp) > 0:
-						tsp = int(tsp)
-
-					else:
-						tsp = None
-
-					if tgroup in self.taxonGroupsInfo:
-						raise IOError("Group duplicated in group diversity file (`{0}`)".format(tgroup))
-
-					else:
-						self.taxonGroupsInfo[tgroup] = {
-							'range_threshold': range_thr,
-							'global_species': tsp,
-							'min_spp' : min_spp}
 
 		
 	def groups2search(self):
@@ -360,7 +362,7 @@ class InputData(object):
 					else:
 
 						raise IOError("Taxonomic group `{0}` included in neither the group diversity file nor the official IUCN taxonomic group list.".format(tgroup))
-
+			
 			else:
 
 				raise IOError("Taxon `{0}` not included in taxonomic group assignment file.".format(taxon))
@@ -510,7 +512,7 @@ class InputData(object):
 
 	def reduceArea(self, shapefile):
 		"""
-		Reduce the spatial scope of the dataset by removing all points that lay outside a provided set of polygons.   
+		Reduce the spatial scope of the dataset by removing all points that lie outside a provided set of polygons.   
 		"""
 		self.points = shapes.filter_points(self.points, shapefile)
 		
@@ -578,9 +580,6 @@ class InputData(object):
 
 		- cellSize (int or float): Size of the cells making up the lattice. If
 		the grid is made up of squares, `cellSize` will be the side of the square.
-
-		- maxDist (float): Maximum distance (km) to consider two localities 
-		the same population.
 
 		"""
 		if cellSize > (self.maxLatitude - self.minLatitude) or cellSize > (self.maxLongitude - self.minLongitude):
@@ -654,7 +653,6 @@ class InputData(object):
 				tile.newThreatSubcriteriaA(sca)
 
 			if len(self.taxonGroups) > 0 and taxon in self.taxonGroups and self.taxonGroups[taxon]['range_size']:
-
 				tile.setRange(self.taxonGroups[taxon]['range_size'])
 		
 			for r in range(self.rows):

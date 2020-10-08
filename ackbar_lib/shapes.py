@@ -28,7 +28,7 @@ from fiona.crs import from_epsg
 from shapely.geometry import shape, Point, Polygon, mapping, MultiPoint
 from shapely.ops import unary_union, transform
 from functools import partial
-from ackbar_lib import fileio
+from ackbar_lib import fileio as fileio
 
 class KBA(object):
 	"""
@@ -89,8 +89,9 @@ class KBA(object):
 		Verify if new species could support previously delimited KBA.
 		"""
 
-		if type(distroData) == fileio.InputData:
+		if isinstance(distroData, fileio.InputData):
 			
+			#print("In inclusion")
 			#self.new_trigger_spp = {x:{} for x in range(len(self.polys))}
 
 			for k in self.polys:
@@ -107,6 +108,8 @@ class KBA(object):
 						if self.polys[k]['shape'].contains(tp):
 							pointsWithin.append(p)
 							popsize += distroData.points[spp][p]
+
+					#print(popsize)
 						
 					if distroData.iucn[spp]['category'] in ['CR', 'EN']:
 

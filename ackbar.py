@@ -350,17 +350,14 @@ else:
 
 		data = fileio.InputData(parameters["distribution_file"])
 
-		#
-		# Fix this
-		#
-		if parameters["pop_max_distance"] > 0:
-			data.mergePointsAllTaxa(parameters["pop_max_distance"])
-
 		if mem_tracking:
 			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 			deb_counter += 1
 
 		data.iucnFile(parameters["iucn_file"])
+
+		if parameters["pop_max_distance"] > 0:
+			data.mergePointsAllTaxa(parameters["pop_max_distance"])
 
 		if mem_tracking:
 			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
@@ -423,26 +420,31 @@ else:
 		if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
 
 			old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
-
+			print("Initialize shapes.KBA object")
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 				deb_counter += 1
 
 			old_kbas.spp_inclusion(data)
-
+			print("Filtered points.")
+			
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 				deb_counter += 1
 
 			old_kbas.new_spp_table(new_trigger_file)
-
+			print("Wrote trigger species table")
+			
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 				deb_counter += 1
 
 
-		tiles = data.getTiles(parameters["cell_size"], offsetLat = parameters["offset_lat"], 
-			offsetLon = parameters["offset_lon"], maxDist = parameters["pop_max_distance"])
+		tiles = data.getTiles(parameters["cell_size"], 
+			offsetLat = parameters["offset_lat"], 
+			offsetLon = parameters["offset_lon"]
+			)
+		print("Got tiles")
 
 		if mem_tracking:
 			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
@@ -455,9 +457,11 @@ else:
 			# Check if data.groupDict and data.spp2groupDict are appropriate dicts
 			#
 
-			mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
-				parameters["max_kba"], parameters["congruency_factor"], data.groupDict, 
-				data.spp2groupDict)
+			mysols = pydata.metasearchAlt(tiles,
+				parameters["eps"], parameters["iters"], 
+				parameters["max_kba"], parameters["congruency_factor"], 
+				data.groupDict, data.spp2groupDict)
+			print("Search done")
 
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
@@ -465,7 +469,9 @@ else:
 
 		else:
 
-			mysols = pydata.metasearchAlt(tiles, parameters["eps"], parameters["iters"], 
+			mysols = pydata.metasearchAlt(
+				tiles, 
+				parameters["eps"], parameters["iters"], 
 				parameters["max_kba"], parameters["congruency_factor"])
 
 			if mem_tracking:

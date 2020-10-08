@@ -210,21 +210,31 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 	- ndmWeight (float): Scaling factor of the NDM component for scoring solutions.
 	"""
 	
+	print("In metasearchAlt")
+
 	pout = []
 	cdef vector[Mesh*] ve
 	cdef vector[vesol] out
 	cdef cppmap[int, vector[int]] taxGroups
 	cdef cppmap[int, int] spp2groups
 
-	if type(taxGr) == dict and type(spp2gr) == dict:
-		taxGroups = taxGr
-		spp2groups = spp2gr
-
-	elif taxGr is None and spp2gr is None:
-		pass
-
+	if type(taxGr) == dict:
+		taxGroups = taxGr	
+	elif taxGr is None:
+		pass #taxGroups = {}
 	else:
-		raise ValueError("If parsed, parameters `taxGr` and `spp2gr` should be dictionaries.")
+		raise ValueError("taxGr is not a dictionary")
+
+	
+	if type(spp2gr) == dict:
+		spp2groups = spp2gr
+	elif spp2gr is None:
+		pass #spp2groups = {}
+	else:
+		raise ValueError("spp2gr is not a dictionary")
+
+
+	print("read group dicts")
 
 	for ob in obs:
 		obme = <Meshpy> ob
@@ -247,3 +257,42 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 
 	return pout
 #"""
+
+
+def metasearchAltDry(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):
+
+	print("In metasearchAlt")
+
+	pout = []
+	cdef vector[Mesh*] ve
+	cdef vector[vesol] out
+	cdef cppmap[int, vector[int]] taxGroups
+	cdef cppmap[int, int] spp2groups
+
+	if type(taxGr) == dict:
+		taxGroups = taxGr	
+	elif taxGr is None:
+		pass #taxGroups = {}
+	else:
+		raise ValueError("taxGr is not a dictionary")
+
+	
+	if type(spp2gr) == dict:
+		spp2groups = spp2gr
+	elif spp2gr is None:
+		pass #spp2groups = {}
+	else:
+		raise ValueError("spp2gr is not a dictionary")
+
+	print(len(taxGroups), len(spp2groups))
+
+	print("read group dicts")
+
+	for ob in obs:
+		obme = <Meshpy> ob
+		ve.push_back(obme.thismesh)
+	
+	print("Mesh objects extracted from pymesh objects.")
+
+
+	return pout
