@@ -207,13 +207,20 @@ else:
 			print("Configuration file error: taxonomic assignment file missing. If criterion B2 is sought to be assess, taxonomic assignments file is mandatory and taxonomic groups file optional.", file = sys.stderr)
 
 			sys.exit(1)
-
-		#
-		# Check taxonomic group pars are parsed together
-		#
-		
-		
+	
 		# Check parsed values are valid
+
+		if parameters["taxonomic_groups_file"] and not os.path.exists(parameters["taxonomic_groups_file"]):
+
+			print("Taxonomic group file could not be found ({0}).".format(parameters["taxonomic_groups_file"]), file = sys.stderr)
+
+			sys.exit(1)
+
+		if parameters["taxonomic_assignments_file"] and not os.path.exists(parameters["taxonomic_assignments_file"]):
+
+			print("Taxonomic group assignment file could not be found ({0}).".format(parameters["taxonomic_assignments_file"]), file = sys.stderr)
+
+			sys.exit(1)
 
 		for fpar in filter(lambda x: re.search(r'_file$', x), parameters.keys()):
 
@@ -382,9 +389,10 @@ else:
 				bufferLog += "\t{0}\n".format(sp)
 		
 
-		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
+		if parameters["taxonomic_assignments_file"]:
 
 			data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
+			data.groups2search()
 
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
@@ -420,20 +428,18 @@ else:
 		if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
 
 			old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
-			print("Initialize shapes.KBA object")
+
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 				deb_counter += 1
 
 			old_kbas.spp_inclusion(data)
-			print("Filtered points.")
 			
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 				deb_counter += 1
 
 			old_kbas.new_spp_table(new_trigger_file)
-			print("Wrote trigger species table")
 			
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
@@ -444,14 +450,14 @@ else:
 			offsetLat = parameters["offset_lat"], 
 			offsetLon = parameters["offset_lon"]
 			)
-		print("Got tiles")
 
 		if mem_tracking:
 			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 			deb_counter += 1
 
+		tiles = data.filter_nulls(tiles)
 
-		if parameters["taxonomic_groups_file"] and parameters["taxonomic_assignments_file"]:
+		if parameters["taxonomic_assignments_file"]:
 
 			#
 			# Check if data.groupDict and data.spp2groupDict are appropriate dicts
@@ -461,8 +467,7 @@ else:
 				parameters["eps"], parameters["iters"], 
 				parameters["max_kba"], parameters["congruency_factor"], 
 				data.groupDict, data.spp2groupDict)
-			print("Search done")
-
+			
 			if mem_tracking:
 				print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
 				deb_counter += 1

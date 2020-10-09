@@ -90,4 +90,4 @@ cdef extern from "search.hpp":
 
 	vector[vesol] metaAlt(vector[Mesh*] &observations, cppmap[int, vector[int]] &taxGroups, cppmap[int, int] &spp2groups, double clusterEps, int iters, int outSize, double ndmWeight)
 
-
+	cppmap[int, vector[int]] dbscan(vector[Mesh*] &observations, double eps)

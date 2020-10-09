@@ -23,7 +23,7 @@
 ###############################################################################
 
 
-from cython.operator cimport dereference
+from cython.operator cimport dereference, postincrement
 
 from pydata cimport Mesh
 from pydata cimport Solution 
@@ -190,7 +190,6 @@ cdef class Solutionpy:
 		return out
 
 
-#"""
 def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):
 	"""	
 	KBA search routine. Output is a 2-dimensional list of Solution objects. Lists
@@ -210,8 +209,6 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 	- ndmWeight (float): Scaling factor of the NDM component for scoring solutions.
 	"""
 	
-	print("In metasearchAlt")
-
 	pout = []
 	cdef vector[Mesh*] ve
 	cdef vector[vesol] out
@@ -224,7 +221,6 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 		pass #taxGroups = {}
 	else:
 		raise ValueError("taxGr is not a dictionary")
-
 	
 	if type(spp2gr) == dict:
 		spp2groups = spp2gr
@@ -233,13 +229,9 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 	else:
 		raise ValueError("spp2gr is not a dictionary")
 
-
-	print("read group dicts")
-
 	for ob in obs:
 		obme = <Meshpy> ob
 		ve.push_back(obme.thismesh)
-
 
 	out = metaAlt(ve, taxGroups, spp2groups, eps, iters, maxOutSize, ndmWeight)
 
@@ -256,11 +248,10 @@ def metasearchAlt(list obs, double eps, int iters, int maxOutSize, double ndmWei
 		pout.append(tmp)
 
 	return pout
-#"""
 
 
 def metasearchAltDry(list obs, double eps, int iters, int maxOutSize, double ndmWeight, taxGr = None, spp2gr = None):
-
+	"""Executes the search but does not converts C++ objects to Python objects."""
 	print("In metasearchAlt")
 
 	pout = []
@@ -294,5 +285,36 @@ def metasearchAltDry(list obs, double eps, int iters, int maxOutSize, double ndm
 	
 	print("Mesh objects extracted from pymesh objects.")
 
+	out = metaAlt(ve, taxGroups, spp2groups, eps, iters, maxOutSize, ndmWeight)
+
+	for i in range(out.size()):
+		for j in range(out[i].size()):
+			del out[i][j]
 
 	return pout
+
+
+def dbscancl(obs, double eps):
+	
+	pyout = {}
+	cdef vector[Mesh*] ve
+	cdef cppmap[int, vector[int]] out
+	cdef cppmap[int, vector[int]].iterator it
+
+	for ob in obs:
+		obme = <Meshpy> ob
+		ve.push_back(obme.thismesh)
+	
+	out = dbscan(ve, eps)
+	it = out.begin()
+
+	while(it != out.end()):
+		
+		pyout[dereference(it).first] = []
+		
+		for j in range(dereference(it).second.size()):
+			pyout[dereference(it).first].append(dereference(it).second[j])
+
+		postincrement(it)
+	
+	return pyout

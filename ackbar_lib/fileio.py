@@ -58,6 +58,8 @@ class InputData(object):
 		self.index_reg = {}
 		self.taxonGroups = {}
 		self.taxonGroupsInfo = {}
+		self.groupDict = {}
+		self.spp2groupDict = {}
 		self.csv_params = {}
 		lineCounter = 0
 		latCol = None
@@ -571,6 +573,38 @@ class InputData(object):
 		return d
 
 
+	def filter_nulls(self, tiles):
+		"""
+		Filters out tiles that are null and update the species-to-group dictionary.
+		Null tiles occur often after clearing data point container from localities
+		within previously delimited KBAs.
+
+		Arguments:
+
+		- tiles (list): Tiles output by `getlist` method.
+		"""
+
+		newlist = []
+		newdict = {}
+		counter = 0
+		
+		for it, ti in enumerate(tiles):
+			
+			if not ti.isNull():
+		
+				newlist.append(ti)
+
+				if len(self.spp2groupDict) > 0:
+					newdict[counter] = self.spp2groupDict[it]
+
+				counter +=1
+		
+		if len(self.spp2groupDict) > 0:
+			self.spp2groupDict = newdict
+
+		return newlist
+
+
 	def getTiles(self, cellSize, offsetLat = 0, offsetLon = 0):
 		"""
 		Create basic data structures required for the analysis from a collection
@@ -603,8 +637,7 @@ class InputData(object):
 
 		for taxon in self.points:
 
-			# this should be done previously
-			# totPops = self.mergePoints(taxon, maxDist)
+
 
 			grid = [[0 for x in range(totCols)] for x in range(totRows)]
 
