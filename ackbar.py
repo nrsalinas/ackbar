@@ -406,6 +406,11 @@ else:
 						breakout = True
 						break
 
+		if len(data.points) < 1:
+			
+			print("Analysis aborted. User-defined parameters values imply a null set of datapoints. Review the configuration file.", file=sys.stderr)
+			exit(1)
+
 		if parameters["taxonomic_assignments_file"]:
 
 			data.groupFiles(parameters["taxonomic_assignments_file"], parameters["taxonomic_groups_file"])
