@@ -517,6 +517,11 @@ class InputData(object):
 		Reduce the spatial scope of the dataset by removing all points that lie outside a provided set of polygons.   
 		"""
 		self.points = shapes.filter_points(self.points, shapefile)
+		oldTotPops = self.totPops
+		self.totPops = {}
+
+		for tax in self.points:
+			self.totPops[tax] = oldTotPops[tax]
 		
 
 	def dbscan(self, taxon, eps):
@@ -536,7 +541,7 @@ class InputData(object):
 
 		#########################################################################
 		#																		#
-		# 				I don't think the following loop is necessary			#
+		# 					Is the following loop necessary?					#
 		#																		#
 		#########################################################################
 
@@ -655,7 +660,8 @@ class InputData(object):
 					y += 1
 
 				#th = self.points[taxon][lon,lat] / totPops
-				th = self.points[taxon][lon,lat] / self.totPops[taxon]								
+				th = self.points[taxon][lon,lat]
+				th /= self.totPops[taxon]								
 				grid[y][x] += th
 				self.presence_grid[y][x] += th
 				

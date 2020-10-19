@@ -52,11 +52,11 @@ elif sys.platform.startswith('win32'):
 # Track memory usage durig execution
 mem_tracking = False 
 
-if mem_tracking:
-	if oper_sys == 'linux':
-		import resource
-	else:
-		mem_tracking = False
+if mem_tracking and oper_sys == 'linux':
+	import resource
+
+else:
+	mem_tracking = False
 
 version =  "0.1"
 logfile = ""
@@ -72,7 +72,8 @@ parameters = {
 	"kba_species_file" : None,
 	"kba_directory" : None,
 	"kba_index" : None,
-	"exclusion_directory" : None,
+	#"exclusion_directory" : None,
+	"focal_area_directory": None,
 	"outfile_root" : None,
 	"overwrite_output" : None,
 	"cell_size" : None,
@@ -363,8 +364,9 @@ else:
 
 		data.iucnFile(parameters["iucn_file"])
 
-		if parameters["pop_max_distance"] > 0:
-			data.mergePointsAllTaxa(parameters["pop_max_distance"])
+		data.mergePointsAllTaxa(parameters["pop_max_distance"])
+		#if parameters["pop_max_distance"] > 0:
+		#	data.mergePointsAllTaxa(parameters["pop_max_distance"])
 
 		if mem_tracking:
 			print("{0}: {1}".format(deb_counter,  resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
@@ -388,6 +390,21 @@ else:
 			for sp in no_iucn:
 				bufferLog += "\t{0}\n".format(sp)
 		
+		if parameters["focal_area_directory"]:
+			# points will be filtered with the first shapefile found in directory
+			breakout = False
+			for d, s, f in os.walk(parameters["focal_area_directory"]):
+				
+				if breakout:
+					break
+				
+				for file in f:
+
+					if file.endswith(".shp") and d == parameters["focal_area_directory"]:
+						
+						data.reduceArea(d + "/" + file)
+						breakout = True
+						break
 
 		if parameters["taxonomic_assignments_file"]:
 
@@ -424,7 +441,6 @@ else:
 				for y in miss_groups:
 					bufferLog += "\t{0}\n".format(y)
 		
-
 		if parameters["kba_species_file"] and parameters["kba_directory"] and parameters["kba_index"]:
 
 			old_kbas = shapes.KBA(parameters["kba_directory"], parameters["kba_index"])
