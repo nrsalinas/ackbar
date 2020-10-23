@@ -35,9 +35,6 @@ class KBA(object):
 	Shapefile reader.
 
 	- path (str): Path to folders containing shapefiles to read.
-
-	- type (str): Shapefile purpose, which could be to set previously delimited
-	KBAs (`kba`) or areas to exclude from the analyses for other reasons (`exclusion`). 
 	"""
 
 	def __init__(self, path, index_field, encoding = 'utf8'):
