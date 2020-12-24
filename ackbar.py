@@ -478,6 +478,15 @@ else:
 
 		tiles = data.filter_nulls(tiles)
 
+		eff_total = len(tiles)
+		eff_cr = len([x for x in filter(lambda x : x.getThreatStatus() == "CR", tiles)])
+		eff_en = len([x for x in filter(lambda x : x.getThreatStatus() == "EN", tiles)])
+		eff_vu = len([x for x in filter(lambda x : x.getThreatStatus() == "VU", tiles)])
+		eff_nt = len([x for x in filter(lambda x : x.getThreatStatus() == "NT", tiles)])
+		eff_lc = len([x for x in filter(lambda x : x.getThreatStatus() == "LC", tiles)])
+
+		bufferLog += "\nEffective number of species included in the delimitation of candidate areas:\n\tCR: {0}\n\tEN: {1}\n\tVU: {2}\n\tNT: {3}\n\tLC: {4}\n\tTotal: {5}\n".format(eff_cr, eff_en, eff_vu, eff_nt, eff_lc, eff_total)
+
 		if parameters["taxonomic_assignments_file"]:
 
 			#
