@@ -20,12 +20,14 @@
 #
 ###############################################################################
 
-# To execute test, from the package hoe directory:
+# To execute test, from the package home directory:
 # python -m unittest -v
 
 import unittest
 import os
-from ackbar_lib import fileio
+
+
+from ackbar_lib import fileio, shapes
 
 pydata_imported = False
 
@@ -82,17 +84,63 @@ class Test_fileio(unittest.TestCase):
 
 		self.assertIsInstance(thedata, fileio.InputData, "fileio.InputData could not be instantiated")
 
-		self.assertEqual(len(thedata.points), 10, "fileio.InputData could not read the information of all taxa.")
+		self.assertEqual(len(thedata.points), 11, "fileio.InputData could not read the information of all taxa.")
 
 		counter = 0
 		for tax in thedata.points:
 			counter += len(thedata.points[tax])
 
-		self.assertEqual(counter, 177, "fileio.InputData could not read all datapoints.")
+		self.assertEqual(counter, 178, "fileio.InputData could not read all datapoints.")
 
 	
-	def test_read_categorie_csv(self):
-		pass
+	def test_read_categories_csv(self):
+		root = os.getcwd().rstrip("test")
+		thecsv = root + "/data/plutarchia_occurrences.csv"
+		thecat = root + "/data/plutarchia_categories.csv"
+		thedata = fileio.InputData(thecsv)
+		thedata.iucnFile(thecat)
+
+		iucn_data = {'Plutarchia coronaria': {'category': 'VU', 'subcritA': []},
+			'Plutarchia dasyphylla': {'category': 'EN', 'subcritA': []},
+			'Plutarchia dichogama': {'category': 'EN', 'subcritA': []},
+			'Plutarchia dolos': {'category': 'LC', 'subcritA': []},
+			'Plutarchia falsa': {'category': 'EN', 'subcritA': [2]},
+			'Plutarchia guascensis': {'category': 'EN', 'subcritA': []},
+			'Plutarchia minor': {'category': 'EN', 'subcritA': []},
+			'Plutarchia miranda': {'category': 'NT', 'subcritA': []},
+			'Plutarchia monantha': {'category': 'VU', 'subcritA': []},
+			'Plutarchia pubiflora': {'category': 'EN', 'subcritA': []},
+			'Plutarchia rigida': {'category': 'VU', 'subcritA': []}}
+
+		self.assertEqual(thedata.iucn, iucn_data, "IUCN categories could not be processed.")
+
+
+	def test_groups(self):
+		root = os.getcwd().rstrip("test")
+		thecsv = root + "/data/plutarchia_occurrences.csv"
+		group_assign = root + "/data/plutarchia_groups.csv"
+		group_info = root + "/data/plutarchia_groups_info.csv"
+		thedata = fileio.InputData(thecsv)
+		thedata.groupFiles(group_assign, group_info)
+		thedata.groups2search()
+
+		intdictspp = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0}
+		intdictgr  = {0: (10000, 2)}
+
+		self.assertEqual(thedata.spp2groupDict, intdictspp, "Group membership file could not process correctly.")
+		self.assertEqual(thedata.groupDict, intdictgr, "Group information file could not process correctly.")
+
+
+class Test_shapes(unittest.TestCase):
+
+	def test_KBA_instance(self):
+
+		theshp = os.getcwd().rstrip("test")
+		theshp += "/data/col_center.shp"
+		mykba = shapes.KBA(theshp, "Index")
+
+		self.assertIsInstance(mykba, shapes.KBA, "shapes.KBA could not be instantiated.")
+		
 
 if __name__ == '__main__':
     unittest.main()

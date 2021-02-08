@@ -146,7 +146,7 @@ class InputData(object):
 
 					#############################################################
 					#															#
-					# 			Re project data if user wishes to				#
+					# 			Reproject data if user wishes to				#
 					#															#
 					#############################################################
 
@@ -177,7 +177,7 @@ class InputData(object):
 
 	def groupFiles(self, assignments_file, diversity_file):
 		"""
-		Process information from files and store it in data strectures.
+		Process information from files and store it in data structures.
 		Only stores data of taxa included in distribution file.
 		"""
 		log = '' # log buffer
@@ -682,12 +682,6 @@ class InputData(object):
 			cat = self.iucn[taxon]['category']
 			tile = pydata.Meshpy(act_size, taxon, cat)
 			
-			#####################################################################
-			#																	#
-			#		Review if A subcriteria are correctly processed				#
-			#																	#
-			#####################################################################
-
 			for sca in self.iucn[taxon]['subcritA']:
 				tile.newThreatSubcriteriaA(sca)
 
