@@ -5,7 +5,7 @@ with open("README.rst", "r") as fh:
 	long_descrip = fh.read()
 
 setup(name = 'Ackbar',
-	version = '0.1.1',
+	version = '0.1.3',
 	author = 'Nelson R. Salinas',
 	author_email = 'nsalinas@humboldt.org.co',
 	url = 'https://github.com/nrsalinas/ackbar',
