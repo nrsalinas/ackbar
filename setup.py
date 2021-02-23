@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 from distutils.core import Extension
 
-with open("README.rst", "r") as fh:
+with open("README.rst", "r", encoding = 'utf8') as fh:
 	long_descrip = fh.read()
 
 setup(name = 'Ackbar',
-	version = '0.1.3',
+	version = '0.1.4',
 	author = 'Nelson R. Salinas',
 	author_email = 'nsalinas@humboldt.org.co',
 	url = 'https://github.com/nrsalinas/ackbar',
