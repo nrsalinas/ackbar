@@ -1,5 +1,5 @@
 #############
-Ackbar v. 0.1
+Ackbar v. 0.2
 #############
 
 A Python program to assess Key Biodiversity Areas (KBA) delimitation.
