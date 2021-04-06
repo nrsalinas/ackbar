@@ -83,10 +83,7 @@ parameters = {
 	"eps" : None,
 	"iters" : None,
 	"max_kba" : None,
-	"congruency_factor" : None,
-	"delimiter" : None,
-	"lineterminator" : None,
-	"quotechar" : None
+	"congruency_factor" : None
 	}
 
 deb_counter = 0
@@ -104,19 +101,15 @@ Usage:
 or
 	ackbar.py [option]
 
-where `option` could be one of:
+where `option` could be:
 
     -i    Prints the list of taxonomic groups recommended by the
           IUCN for the application of criterion B.
 
-    -e    Saves in the current directory an exemplary set of all 
-          input files required for execution: configuration, 
-          distribution, IUCN categories, taxonomic group assignment,
-          and taxonomic group information.
-
 All parameters required for executing an analysis are set through the configuration
 file. The complete specification of the configuration file can be accessed at 
-https://github.com/nrsalinas/ackbar/wiki.
+https://github.com/nrsalinas/ackbar/wiki. Examples of input files can be accessed 
+and downloaded at https://github.com/nrsalinas/ackbar/tree/master/data. 
 
 '''.format(version)
 
@@ -141,21 +134,6 @@ else:
 				if not iucn_groups[group][k] is None:
 					print('\t{0}: {1}'.format(k, iucn_groups[group][k]))
 
-	if sys.argv[1] == '-e':
-		
-		import inspect
-		fileio_path = inspect.getfile(fileio)
-		data_path = re.sub(r"ackbar_lib.*$", "data", fileio_path)
-		target_path = os.getcwd()
-		
-		for directory, subdi, files in os.walk(data_path):
-		
-			for fi in files:
-				
-				sofi = "{0}/{1}".format(data_path, fi)
-				tafi = "{0}/{1}".format(target_path, fi)
-				shutil.copyfile(sofi, tafi)
-	
 	elif os.path.isfile(sys.argv[1]):
 
 		if mem_tracking:

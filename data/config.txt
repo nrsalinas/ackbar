@@ -1,9 +1,3 @@
-##################################################
-# Parameters to add:
-# - shape projection (KBA shapefiles)
-# - file encoding
-##################################################
-
 distribution_file = plutarchia_occurrences.csv
 iucn_file = plutarchia_categories.csv
 
@@ -27,9 +21,3 @@ eps = 0.2
 iters = 1000
 max_kba = 20
 congruency_factor = 1
-
-
-# csv files options
-delimiter = , # \t or ; are also popular
-lineterminator = \n # \r or \r\n  are the other valid options
-quotechar = " # ' or ` are also common
